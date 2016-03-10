@@ -45,9 +45,7 @@ The app needs the following inputs:
 
   * User/pass
 
-  * Github login
-
-  * Slack login(?)
+  * OAuth with Slack
 
   * Authentication via Galvanize
 
