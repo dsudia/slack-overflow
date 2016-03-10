@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DEV_DB
+    connection: 'postgres://localhost:5432/slack_overflow'
   },
 
   production: {
