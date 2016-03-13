@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('title');
     table.string('body', 3000);
+    table.integer('question_id').references('questions.id');
     table.integer('user_id').references('users.id');
     table.integer('score');
     table.boolean('flag_status').defaultTo('false');
