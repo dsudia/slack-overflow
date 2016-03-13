@@ -5,6 +5,6 @@ exports.seed = function(knex, Promise) {
     knex('assignments').del(),
 
     // Inserts seed entries
-    knex('assignments').insert({colName: 'Introduction to Knex'})
+    knex('assignments').insert({name: 'Introduction to Knex'})
   );
 };
