@@ -1,3 +1,7 @@
+.answer-header {
+  margin: 3rem;
+}
+
 .flex-container {
   display: flex;
   justify-content: flex-start;
@@ -12,7 +16,7 @@
   flex-grow: 3;
 }
 
-.question-box {
+.qa-box {
   border: 1px solid gray;
   margin: 3rem;
 }
@@ -26,8 +30,12 @@
   margin-bottom: 1rem;
 }
 
+.vote {
+  width: 3rem;
+  text-align: center;
+}
+
 .vote-count {
-  margin: 1rem;
   font-size: 3rem;
 }
 

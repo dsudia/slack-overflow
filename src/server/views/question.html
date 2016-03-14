@@ -5,10 +5,10 @@
 
 {% block content %}
 
-<article class='container-fluid question-box'>
+<article class='container-fluid qa-box'>
   <div class='row'>
-    <div class='col-md-10'>
-      <h3 class='question-title'>Not sure how to select all from a table with parameters...</h3>
+    <div class='col-md-12'>
+      <h3>Not sure how to select all from a table with parameters...</h3>
     </div>
     <div class='col-md-2'></div>
   </div>
@@ -32,8 +32,37 @@
     <div class='col-md-1'></div>
   </div>
 </article>
+<hr>
 
-<div>
+<h2 class='answer-header'>Answers</h2>
+
+<article class='container-fluid qa-box'>
+  <div class='row'>
+    <div class='col-md-12'>
+      <h3>Need to put the table name in</h3>
+    </div>
+    <div class='col-md-2'></div>
+  </div>
+  <div class='row'>
+    <div class='col-md-1'>
+      <div class='vote'>
+        <a class="vote-up" title="This question shows research effort; it is useful and clear"></a>
+        <span class="vote-count">0</span>
+        <a class="vote-down" title="This question does not show any research effort; it is unclear or not useful"></a>
+      </div>
+    </div>
+    <div class='col-md-11'>
+      <p>You need to do knex('tablename').select(). Without the table name it doesn't know what table to look at.</p>
+    </div>
+  </div>
+  <div class='row tag-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+      <div class='btn btn-sm btn-info'>knex</div>
+    </div>
+    <div class='col-md-1'></div>
+  </div>
+</article>
 
 
 {% endblock %}
