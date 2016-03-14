@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('last_name').notNullable();
     table.integer('auth_id').references('auth_levels.id').notNullable();
     table.string('username').unique().notNullable();
-    table.string('password').notNullable();
+    table.string('password');
     table.string('email').unique().notNullable();
     table.integer('score');
     table.string('slack_id');
