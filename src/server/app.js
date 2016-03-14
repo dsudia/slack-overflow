@@ -68,7 +68,7 @@ passport.use(new GitHubStrategy({
       .orWhere({ email: profile.email})
       .first()
       .then(function (user) {
-       
+
         if (!user) {
         console.log(profile.displayName);
         var names = profile.displayName.split(' ');
@@ -82,7 +82,7 @@ passport.use(new GitHubStrategy({
             auth_id: 3,
             first_name: firstname,
             last_name: lastname,
-            username: profile.username, 
+            username: profile.username,
             password: 'not_needed'}, 'id').then(function(id){
               return done(null, id[0]);
             });
@@ -93,35 +93,24 @@ passport.use(new GitHubStrategy({
 }));
 
 // *** configure passport *** //
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
+passport.serializeUser(function(userID, done) {
+  done(null, userID);
 });
 
-passport.deserializeUser(function(id, done) {
- 
-
-if (user) {
-    knex('users').where('id',user).select()
+passport.deserializeUser(function(userID, done) {
+if (userID) {
+    knex('users').where('id', userID).select()
       .then(function (user) {
         console.log(user[0]);
         ( !user ) ? done() : done(null, user[0]);
       })
       .catch(function (err) {
         done(err, null);
-      })  
+      });
   } else {
     done();
   }
 });
-
-  /*knex('users').where('id', id)
-    .then(function(data) {
-      return done(null, data[0]);
-    }).catch(function(err) {
-      return done(err, null);
-    });
-});
-*/
 
 
 // *** main routes *** //
