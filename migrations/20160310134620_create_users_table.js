@@ -5,7 +5,6 @@ exports.up = function(knex, Promise) {
     table.string('first_name').notNullable();
     table.string('last_name').notNullable();
     table.integer('auth_id').references('auth_levels.id').notNullable();
-    table.string('username').unique().notNullable();
     table.string('password');
     table.string('email').unique().notNullable();
     table.integer('score');
