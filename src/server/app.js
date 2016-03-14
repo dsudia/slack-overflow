@@ -12,8 +12,10 @@ var session = require('express-session');
 var Promise = require('bluebird');
 var passport = require('./lib/auth');
 var GitHubStrategy = require('passport-github').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var knex = require('../../db/knex');
 var cookieSession = require('cookie-session');
+var helpers = require('./lib/helpers');
 
 if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
@@ -64,16 +66,17 @@ passport.use(new GitHubStrategy({
   }, function(accessToken, refreshToken, profile, done) {
     console.log(profile);
     knex('users')
-      .where({ id: profile.id})
-      .orWhere({ email: profile.email})
+      .where({ github_id: profile.id })
+      .orWhere({ email: profile.email }) // change this line to fix it for emails
       .first()
       .then(function (user) {
        
         if (!user) {
-        console.log(profile.displayName);
-        var names = profile.displayName.split(' ');
-        var firstname = names[0];
-        var lastname = names[names.length-1];
+          console.log(profile.displayName);
+          var names = profile.displayName.split(' ');
+          var firstname = names[0];
+          var lastname = names[names.length-1];
+          
           return knex('users').insert({
             github_id: profile.id,
             github_login: profile.username,
@@ -85,34 +88,65 @@ passport.use(new GitHubStrategy({
             username: profile.username, 
             password: 'not_needed'}, 'id').then(function(id){
               return done(null, id[0]);
-            });
-          } else {
-        return done(null, user.id);
-      }
-    });
+          });
+        } else {
+          return done(null, user.id); // this comes from the db
+        }
+      });
 }));
+
+
+
+passport.use(new LocalStrategy({
+  usernameField: 'email'
+}, function(email, password, done) {
+    // does the email exist?
+    knex('users').where('email', email)
+    .then(function(data) {
+      // email does not exist. return error.
+      if (!data.length) { 
+        return done('Incorrect email.');
+      }
+
+      var user = data[0];
+      // email found but do the passwords match?
+      
+      if (helpers.comparePassword(password, user.password)) {
+        // passwords match! return user
+        console.log('id', user);
+        return done(null, user.id);
+      } else {
+        // passwords don't match! return error
+        return done('Incorrect password.');
+      }
+    })
+    .catch(function(err) {
+      // issue with SQL/nex query
+      return done('Incorrect email and/or password.');
+    });
+  }
+));
 
 // *** configure passport *** //
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser(function(id, done) {
  
-
-if (user) {
-    knex('users').where('id',user).select()
-      .then(function (user) {
-        console.log(user[0]);
-        ( !user ) ? done() : done(null, user[0]);
-      })
-      .catch(function (err) {
-        done(err, null);
-      })  
-  } else {
-    done();
-  }
-});
+  if (id) {
+      knex('users').where('id', id).select()
+        .then(function (user) {
+          console.log(user[0]);
+          ( !user ) ? done() : done(null, user[0]);
+        })
+        .catch(function (err) {
+          done(err, null);
+        })  
+    } else {
+      done();
+    }
+  });
 
   /*knex('users').where('id', id)
     .then(function(data) {
