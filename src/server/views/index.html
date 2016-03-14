@@ -5,11 +5,83 @@
 
 {% block content %}
 
-  <div class="container">
+  <div class="container-fluid">
+    <article>
+      <h1>Welcome to Slack Overflow for Galvanize!</h1>
+      <p>An archive for questions, answers, and resources posted here and in your Slack channel.</p>
+      <p>To get the most out of this site, sign up and authorize Slack acess.</p>
+    </article>
+  </div>
 
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-md-9'>
+        <main>
+          <div class='subheader'>
+            <h2>Top Questions</h2>
+          </div>
+          <article class='question-summary flex-container'>
+            <div class='flex-item-size-1'>
+              <h4>2</h4>
+              <p>rating</p>
+            </div>
+            <div class='flex-item-size-1'>
+              <h4>1</h4>
+              <p>answers</p>
+            </div>
+            <div class='flex-item-size-3'>
+              <h4>'Not sure how to select all from a table with parameters...'</h4>
+              <div class='tag-collection'>
+                <div class='btn btn-sm btn-info'>knex</div>
+              </div>
+            </div>
+          </article>
+        </main>
+      </div>
 
+      <div class='col-md-2'>
+        <aside>
+          <h3>Sort Questions</h3>
+            <!-- sort by tag -->
+            <form action='sort/tags' method='post'>
+              <div class='form-group'>
+                <input type='text' name='sort_tags'>
+                <input type='submit' class='btn btn-sm btn-primary' value='Search by Tag'>
+              </div>
+            </form>
+            <!-- sort by assignment -->
+            <form action='sort/assignment' method='post'>
+              <div class='form-group'>
+                <select name='sort_assignment'>
+                  <option value='1'>Intro to Knex</option>
+                </select>
+                <input type='submit' class='btn btn-sm btn-primary' value='Search by Assignment'>
+              </div>
+            </form>
+            <!-- sort by cohort -->
+            <form action='sort/group' method='post'>
+              <div class='form-group'>
+                <select name='sort_group'>
+                  <option value='1'>G19</option>
+                </select>
+                <input type='submit' class='btn btn-sm btn-primary' value='Search by Cohort'>
+              </div>
+            </form>
+            <!-- sort by unanswered -->
+            <form action='sort/unanswered' method='post'>
+              <div class='form-group'>
+                <input type=submit id='sort-unanswered' class='btn btn-sm btn-primary' value='See Unanswered Questions'>
+              </div>
+            </form>
+            <!-- sort by vote ranking -->
+            <form action='sort/ranking' method='post'>
+              <input type=submit id='sort-ranking' class='btn btn-sm btn-primary' value='Sort by Ranking'>
+            </form>
+        </aside>
+      </div>
+      <div class='col-md-1'>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
