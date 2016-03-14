@@ -11,11 +11,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/questions/1', function(req, res, next) {
-  res.render('question');
+  res.render('question', {title: 'Slack Overflow'});
 });
 
 router.get('/questions/new', function(req, res, next) {
-  res.render('newQuestion');
+  res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
 });
+
+
 
 module.exports = router;
