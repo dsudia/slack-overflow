@@ -1,3 +1,7 @@
+.answer-header {
+  margin: 3rem;
+}
+
 .flex-container {
   display: flex;
   justify-content: flex-start;
@@ -12,7 +16,43 @@
   flex-grow: 3;
 }
 
+.qa-box {
+  border: 1px solid gray;
+  margin: 3rem;
+}
+
 .question-summary {
   border: 1px solid gray;
   padding: .75rem;
+}
+
+.tag-row {
+  margin-bottom: 1rem;
+}
+
+.vote {
+  width: 3rem;
+  text-align: center;
+}
+
+.vote-count {
+  font-size: 3rem;
+}
+
+.vote-up {
+  width: 0;
+  height: 0;
+  border-left: 1.5rem solid transparent;
+  border-right: 1.5rem solid transparent;
+  border-bottom: 1.5rem solid orange;
+  display: block;
+}
+
+.vote-down {
+  width: 0;
+	height: 0;
+	border-left: 1.5rem solid transparent;
+	border-right: 1.5rem solid transparent;
+	border-top: 1.5rem solid orange;
+  display: block;
 }

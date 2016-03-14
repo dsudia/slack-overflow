@@ -10,4 +10,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Slack Overflow' });
 });
 
+router.get('/questions/1', function(req, res, next) {
+  res.render('question');
+});
+
 module.exports = router;
