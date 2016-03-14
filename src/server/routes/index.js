@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Slack Overflow' });
 });
 
 module.exports = router;

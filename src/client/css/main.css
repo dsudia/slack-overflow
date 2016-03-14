@@ -11,3 +11,8 @@
 .flex-item-size-3 {
   flex-grow: 3;
 }
+
+.question-summary {
+  border: 1px solid gray;
+  padding: .75rem;
+}
