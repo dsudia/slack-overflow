@@ -11,12 +11,16 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var Promise = require('bluebird');
 var passport = require('./lib/auth');
+var GitHubStrategy = require('passport-github').Strategy;
 var knex = require('../../db/knex');
 var cookieSession = require('cookie-session');
+
+if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
 
 // *** routes *** //
 var routes = require('./routes/index.js');
+var authRoutes  = require('./routes/auth.js');
 
 
 // *** express instance *** //
@@ -52,22 +56,77 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// *** passport middleware ***//
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.HOST + "/auth/github/callback"
+  }, function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    knex('users')
+      .where({ id: profile.id})
+      .orWhere({ email: profile.email})
+      .first()
+      .then(function (user) {
+       
+        if (!user) {
+        console.log(profile.displayName);
+        var names = profile.displayName.split(' ');
+        var firstname = names[0];
+        var lastname = names[names.length-1];
+          return knex('users').insert({
+            github_id: profile.id,
+            github_login: profile.username,
+            github_avatar: profile.photos[0].value,
+            email: profile.emails[0].value,
+            auth_id: 3,
+            first_name: firstname,
+            last_name: lastname,
+            username: profile.username, 
+            password: 'not_needed'}, 'id').then(function(id){
+              return done(null, id[0]);
+            });
+          } else {
+        return done(null, user.id);
+      }
+    });
+}));
+
 // *** configure passport *** //
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  knex('users').where('id', id)
+ 
+
+if (user) {
+    knex('users').where('id',user).select()
+      .then(function (user) {
+        console.log(user[0]);
+        ( !user ) ? done() : done(null, user[0]);
+      })
+      .catch(function (err) {
+        done(err, null);
+      })  
+  } else {
+    done();
+  }
+});
+
+  /*knex('users').where('id', id)
     .then(function(data) {
       return done(null, data[0]);
     }).catch(function(err) {
       return done(err, null);
     });
 });
+*/
+
 
 // *** main routes *** //
 app.use('/', routes);
+app.use('/auth', authRoutes);
 
 
 // catch 404 and forward to error handler
