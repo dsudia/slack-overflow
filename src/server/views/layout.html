@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
+  <div class="container">
+      {% if message.length %}
+        <div class="alert alert-{{message[0].status}}" role="alert">
+          <p>{{ message[0].message }}</p>
+        </div>
+      {% endif %}
+    </div>
+
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -25,11 +33,15 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/questions/new">Post a Question<span class="sr-only">(current)</span></a></li>
+        {% if user.github_id %}
         <li><a href="/auth/logout">Logout</a></li>
+        {% else %}
+          <li><a href="/logout">Logout</a></li>
+        {% endif %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/auth/local">Login w/ Password</a></li>
+            <li><a href="/login">Login w/ Password</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/auth/github">Login w/ Github</a></li>
           </ul>
