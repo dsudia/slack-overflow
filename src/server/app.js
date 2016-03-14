@@ -70,13 +70,13 @@ passport.use(new GitHubStrategy({
       .orWhere({ email: profile.email }) // change this line to fix it for emails
       .first()
       .then(function (user) {
-       
+
         if (!user) {
           console.log(profile.displayName);
           var names = profile.displayName.split(' ');
           var firstname = names[0];
           var lastname = names[names.length-1];
-          
+
           return knex('users').insert({
             github_id: profile.id,
             github_login: profile.username,
@@ -85,7 +85,7 @@ passport.use(new GitHubStrategy({
             auth_id: 3,
             first_name: firstname,
             last_name: lastname,
-            username: profile.username, 
+            username: profile.username,
             password: 'not_needed'}, 'id').then(function(id){
               return done(null, id[0]);
           });
@@ -104,13 +104,13 @@ passport.use(new LocalStrategy({
     knex('users').where('email', email)
     .then(function(data) {
       // email does not exist. return error.
-      if (!data.length) { 
+      if (!data.length) {
         return done('Incorrect email.');
       }
 
       var user = data[0];
       // email found but do the passwords match?
-      
+
       if (helpers.comparePassword(password, user.password)) {
         // passwords match! return user
         console.log('id', user);
@@ -128,34 +128,24 @@ passport.use(new LocalStrategy({
 ));
 
 // *** configure passport *** //
-passport.serializeUser(function(user, done) {
-  done(null, user);
+passport.serializeUser(function(userID, done) {
+  done(null, userID);
 });
 
-passport.deserializeUser(function(id, done) {
- 
-  if (id) {
-      knex('users').where('id', id).select()
-        .then(function (user) {
-          console.log(user[0]);
-          ( !user ) ? done() : done(null, user[0]);
-        })
-        .catch(function (err) {
-          done(err, null);
-        })  
-    } else {
-      done();
-    }
-  });
-
-  /*knex('users').where('id', id)
-    .then(function(data) {
-      return done(null, data[0]);
-    }).catch(function(err) {
-      return done(err, null);
-    });
+passport.deserializeUser(function(userID, done) {
+if (userID) {
+    knex('users').where('id', userID).select()
+      .then(function (user) {
+        console.log(user[0]);
+        ( !user ) ? done() : done(null, user[0]);
+      })
+      .catch(function (err) {
+        done(err, null);
+      });
+  } else {
+    done();
+  }
 });
-*/
 
 
 // *** main routes *** //
