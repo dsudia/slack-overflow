@@ -8,7 +8,7 @@
 <article class='container-fluid qa-box'>
   <div class='row'>
     <div class='col-md-12'>
-      <h3>Not sure how to select all from a table with parameters...</h3>
+      <h3>{{ question.title }}</h3>
     </div>
     <div class='col-md-2'></div>
   </div>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class='col-md-11'>
-      <p>Hey class. I'm trying to select all the entries from a table using a where statement, and I can't figure out how to do it. I've tried knex.select().where('name', Dave). It's not working. Help!</p>
+      <p>{{ question.body }}</p>
     </div>
   </div>
   <div class='row tag-row'>

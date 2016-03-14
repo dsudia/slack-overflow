@@ -12,10 +12,10 @@
 
       <div class='col-md-10'>
         <form method='post'>
-          <input type='number' id='user_id' class='form-hidden' value='{{ user.id }}' name='user_id' />
+          <input type='number' id='user_id' class='form-hidden' value='1' name='user_id' />
           <div class='form-group'>
             <label for='name'>Title</label>
-            <input type='text' name='name' class='form-control' maxlength='40' placeholder='Your question title' required/>
+            <input type='text' name='title' class='form-control' maxlength='40' placeholder='Your question title' required/>
           </div>
           <div class='form-group'>
             <label for='group'>Cohort</label><br />
@@ -33,9 +33,9 @@
           </div>
           <div class='form-group'>
             <label for='descrip'>What's your question?</label>
-            <textarea name='descrip' class='form-control' placeholder='Your question here...' rows='10' cols='30' required></textarea>
+            <textarea name='body' class='form-control' placeholder='Your question here...' rows='10' cols='30' required></textarea>
           </div>
-          <input formaction='/questions/new' type='submit' value='Submit' class='btn btn-lg btn-success'/>
+          <input formaction='/questions/add' type='submit' value='Submit' class='btn btn-lg btn-success'/>
           <a href='/' class='btn btn-lg btn-danger'>Cancel</a>
         </form>
       </div>
