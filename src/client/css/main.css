@@ -16,6 +16,10 @@
   flex-grow: 3;
 }
 
+.form-hidden {
+  display: none;
+}
+
 .qa-box {
   border: 1px solid gray;
   margin: 3rem;
