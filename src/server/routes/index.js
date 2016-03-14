@@ -10,19 +10,22 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Slack Overflow' });
 });
 
-router.get('/questions/1', function(req, res, next) {
-  res.render('question', {title: 'Slack Overflow'});
+router.get('/questions/:id', function(req, res, next) {
+  var qId = req.params.id;
+  if (qId === 'new') {
+    res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
+  } else if (qId !== 'new') {
+    knex('questions').where('id', qId).then(function(qData) {
+      console.log(qData);
+      res.render('question', {title: 'Slack Overflow - ' + qData.title, question: qData[0]});
+    });
+  }
 });
 
-router.get('/questions/new', function(req, res, next) {
-  res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
-});
 
-router.post('/questions/new', function(req, res, next) {
+router.post('/questions/add', function(req, res, next) {
   // store form info in a variable
   var qData = req.body;
-  console.log(req.body);
-  console.log(qData.title);
   // do table insert
   knex('questions').insert({title: qData.title,
     body: qData.body,
@@ -31,9 +34,8 @@ router.post('/questions/new', function(req, res, next) {
     score: 0,
     flag_status:false,
     assignment_id: qData.assignment_id}, 'id').then(function(data) {
-      console.log(data);
       //render question page
-      res.render('/questions/' + data[0]);
+      res.redirect('/questions/' + data[0]);
     });
 });
 
