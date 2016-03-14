@@ -1,7 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   return Promise.join(
-    // Deletes ALL existing entries
+    // Deletes ALL existing entrie  s
     knex('auth_levels').del(),
 
     // Inserts seed entries
