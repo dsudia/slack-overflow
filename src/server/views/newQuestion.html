@@ -1,0 +1,48 @@
+{% extends './layout.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  <div class="container-fluid">
+
+    <div class='row'>
+      <div class='col-md-1'></div>
+
+      <div class='col-md-10'>
+        <form method='post'>
+          <input type='number' id='user_id' class='form-hidden' value='{{ user.id }}' name='user_id' />
+          <div class='form-group'>
+            <label for='name'>Title</label>
+            <input type='text' name='name' class='form-control' maxlength='40' placeholder='Your question title' required/>
+          </div>
+          <div class='form-group'>
+            <label for='group'>Cohort</label><br />
+            <select name='group_id' class='form-control' placeholder='G19' required/>
+              <option value="" disabled selected>-- Cohorts --</option>
+              <option value='1'>G19</option>
+            </select>
+          </div>
+          <div class='form-group'>
+            <label for='assignment_id'>Assignment</label><br />
+            <select class="form-control" id="assignment" name="assignment_id" required>
+                <option value="" disabled selected>-- Assignments --</option>
+                <option value="1">Intro to Knex</option>
+            </select>
+          </div>
+          <div class='form-group'>
+            <label for='descrip'>What's your question?</label>
+            <textarea name='descrip' class='form-control' placeholder='Your question here...' rows='10' cols='30' required></textarea>
+          </div>
+          <input formaction='/questions/new' type='submit' value='Submit' class='btn btn-lg btn-success'/>
+          <a href='/' class='btn btn-lg btn-danger'>Cancel</a>
+        </form>
+      </div>
+
+      <div class='col-md-1'></div>
+    </div>
+
+  </div>
+
+{% endblock %}

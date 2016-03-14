@@ -14,4 +14,8 @@ router.get('/questions/1', function(req, res, next) {
   res.render('question');
 });
 
+router.get('/questions/new', function(req, res, next) {
+  res.render('newQuestion');
+});
+
 module.exports = router;
