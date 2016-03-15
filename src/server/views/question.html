@@ -73,7 +73,7 @@
         {% if user.auth_id === 2 %}
         <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/delete'><button class='btn btn-danger btn-sm'>Delete Answer</button></a>
           {% if answer.flag_status === true %}
-            <a class='answer-button' href='/questions/{{ question.id }}/unflag'><button class='btn btn-success button-warning'>Unflag Question</button></a>
+            <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/unflag'><button class='btn btn-success button-warning'>Unflag Question</button></a>
           {% endif %}
         {% endif %}
       </div>

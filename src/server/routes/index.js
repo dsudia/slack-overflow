@@ -322,7 +322,7 @@ router.post('/questions/:id/answer', function(req, res, next) {
   });
 });
 
-router.get('/questions/:id/delete', function(req, res, next) {
+router.get('/questions/:id/delete', helpers.ensureAdmin, function(req, res, next) {
   knex('question_tags').where('question_id', req.params.id).del()
     .then(function() {
       return knex('answers').where('question_id', req.params.id).del();
@@ -338,11 +338,25 @@ router.get('/questions/:id/delete', function(req, res, next) {
     });
 });
 
-router.get('/questions/:qid/answer/:aid/delete', function(req, res, next) {
+router.get('/questions/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
   console.log('route is firing');
   knex('answers').where('id', req.params.aid).del()
     .then(function() {
       res.redirect('/questions/' + req.params.qid);
+    });
+});
+
+router.get('/questions/:id/flag', function(req, res, next) {
+  return knex('questions').where('id', req.params.id).update('flag_status', true)
+    .then(function() {
+      res.redirect('/questions/' + req.params.id);
+    });
+});
+
+router.get('/questions/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
+  return knex('questions').where('id', req.params.id).update('flag_status', false)
+    .then(function() {
+      res.redirect('/questions/' + req.params.id);
     });
 });
 
