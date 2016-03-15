@@ -1,4 +1,3 @@
-require('dotenv').config();
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server/app');
