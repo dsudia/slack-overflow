@@ -360,4 +360,18 @@ router.get('/questions/:id/unflag', helpers.ensureAdmin, function(req, res, next
     });
 });
 
+router.get('/questions/:qid/answer/:aid/flag', function(req, res, next) {
+  return knex('answers').where('id', req.params.aid).update('flag_status', true)
+    .then(function() {
+        res.redirect('/questions/' + req.params.qid);
+    });
+});
+
+router.get('/questions/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
+  return knex('answers').where('id', req.params.aid).update('flag_status', false)
+    .then(function() {
+      res.redirect('/questions/' + req.params.qid);
+    });
+});
+
 module.exports = router;
