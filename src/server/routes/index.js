@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
@@ -167,6 +168,129 @@ router.post('/questions/add', function(req, res, next) {
       //render question page
       res.redirect('/questions/' + questionID);
   });
+});
+
+router.post('/slack/question', function(req, res, next) {
+  //parse object and store user_id, token, usernname, channel_id, text in variables
+  var token = req.body.token;
+  var userSlackId = req.body.user_id;
+  var userSlackName = req.body.user_name;
+  var message = req.body.text;
+  var group = req.body.channel_id;
+  var userId;
+  var groupId;
+
+  // confirm token
+  if (token !== process.env.SLACK_Q_TOKEN) {
+    res.status(401).send('Invalid token');
+  } else {
+    // parse text into title, body and question.id and store in variables
+    var messageArray = message.split('#');
+    messageArray.shift();
+    var title = messageArray[0];
+    var body = messageArray[1];
+    var tagList = messageArray[2];
+    tagList = tagList.replace(/ /g, '');
+    tagList = tagList.toLowerCase();
+    var tagArray = tagList.split(',');
+    var tagIds = [];
+    var questionID;
+
+    // look up group and store group_id
+    knex('groups').select('id').where('slack_channel', group)
+    .then(function(data) {
+      groupId = data[0].id;
+    })
+    .then(function() {
+        // look up user and store ii
+        return knex('users').select('id').where('slack_id', userSlackId)
+          .then(function(data) {
+            userId = data[0].id;
+          });
+    })
+    .then(function() {
+      // insert question data into questions table, get question's ID back
+      return knex('questions').insert({title: title,
+        body: body,
+        group_id: groupId,
+        user_id: userId,
+        score: 0,
+        flag_status:false
+      });
+    })
+    .then(function(id) {
+      // store question ID in variable for later usage
+      questionID = id;
+    })
+    .then(function() {
+      // put tags into tags table and store ids in an array
+      return tagArray.forEach(function(el, ind, arr) {
+        return knex('tags').insert({tag_name: el}, 'id').then(function(id) {
+          tagIds.push(id);
+        });
+      });
+    })
+    .then(function() {
+      // insert question/tag relationships into question_tags table
+      return tagIds.forEach(function(el, ind, arr) {
+        return knex('question_tags').insert({
+          question_id: questionId,
+          tag_id: el});
+      });
+    })
+    .then(function(data) {
+        //respond with text and question id
+      res.status(200).header('Content-Type', 'application/json').send({
+        'response_type': 'in_channel',
+        'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! To respond to this question, type /sflowa #title #body #' + questionID
+      });
+    });
+  }
+});
+
+
+router.post('/slack/answer', function(req, res, next) {
+  //parse object and store user_id, token, usernname, channel_id, text in variables
+  var token = req.body.token;
+  var userSlackId = req.body.user_id;
+  var userSlackName = req.body.user_name;
+  var message = req.body.text;
+  var group = req.body.channel_id;
+  var userId;
+
+  // confirm token
+  if (token !== process.env.SLACK_A_TOKEN) {
+    res.status(401).send('Invalid token');
+  }
+
+  // parse text into title, body and question.id and store in variables
+  var messageArray = message.split('#');
+  messageArray.shift();
+  var title = messageArray[0];
+  var body = messageArray[1];
+  var qId = messageArray[2];
+
+  // look up user and store id
+  knex('users').select('id').where('slack_id', userSlackId)
+  .then(function(data) {
+    userId = data[0];
+  })
+  .then(function() {
+    return knex('answers').insert({title: title,
+      body: body,
+      question_id: qId,
+      user_id: userId.id,
+      score: 0,
+      flag_status: false});
+  })
+  // post answer
+  .then(function(data) {
+    //respond with text and question id
+    res.status(200).header('Content-Type', 'application/json').send({
+      'response_type': 'in_channel',
+      'text': 'Thanks for posting an answer to question ' + qId + ' to Slack Overflow ' + userSlackName + '!'
+    });
+    });
 });
 
 

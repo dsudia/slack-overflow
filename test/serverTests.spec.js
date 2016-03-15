@@ -1,3 +1,4 @@
+require('dotenv').config();
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server/app');
@@ -8,24 +9,157 @@ var should = chai.should();
 chai.use(chaiHttp);
 
 
-// test for getting index.html
+describe('API Routes', function() {
 
-// test for logging in as a student user
+  beforeEach(function(done) {
+      knex.migrate.rollback().then(function() {
+          knex.migrate.latest()
+          .then(function() {
+              return knex.seed.run().then(function() {
+                  done();
+              });
+          });
+      });
+  });
 
-// test for viewing a question's page
-  // question should load
-  // answer should load
+  afterEach(function(done) {
+      knex.migrate.rollback().then(function() {
+          done();
+      });
+  });
 
-// test for registering as a student user
+  describe('Post Question to Slack', function() {
 
-// test for logging out a user
+    xit('should respond with a 200 and message if token is correct', function(done) {
+      chai.request(server)
+        .post('/slack/question')
+        .send({token: process.env.SLACK_Q_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.have.property('text');
+          res.body.text.should.contain('Dave Sudia');
+          done();
+        });
+    });
 
-// test that a user has all necessary info
+    xit('should respond with 401 and message if token is incorrect', function(done) {
+      chai.request(server)
+        .post('/slack/question')
+        .send({token: process.env.SLACK_A_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          res.should.have.status(401);
+          res.text.should.contain('Invalid token');
+          done();
+        });
+    });
 
-// test that questions sort correctly
+    xit('should insert a question into the database', function(done) {
+      chai.request(server)
+        .post('/slack/question')
+        .send({token: process.env.SLACK_Q_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          knex('questions').where('user_id', 1)
+            .then(function(data) {
+              console.log(data);
+              data[1].title.should.contain('I need help with passport!');
+            });
+          done();
+        });
+    });
+  });
 
-// test that questions have tags
+  describe('Post Answer to Slack', function() {
 
-// test that voting on a question works
+    xit('should respond with a 200 and message if token is correct', function(done) {
+      chai.request(server)
+        .post('/slack/answer')
+        .send({token: process.env.SLACK_A_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.have.property('text');
+          res.body.text.should.contain('Dave Sudia');
+          done();
+        });
+    });
 
-// test that only registered users can view certain pages
+    xit('should respond with 401 and message if token is incorrect', function(done) {
+      chai.request(server)
+        .post('/slack/answer')
+        .send({token: process.env.SLACK_Q_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          res.should.have.status(401);
+          res.text.should.contain('Invalid token');
+          done();
+        });
+    });
+
+    xit('should insert an answer into the database', function(done) {
+      chai.request(server)
+        .post('/slack/answer')
+        .send({token: process.env.SLACK_A_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          knex('answers').where('id', 2)
+            .then(function(data) {
+              data[0].title.should.contain('Re: knex');
+            });
+          done();
+        });
+    });
+  });
+});
