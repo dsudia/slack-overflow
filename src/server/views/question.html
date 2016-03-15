@@ -62,7 +62,7 @@
       <div class='col-md-11'>
         <p>{{ answer.body }}</p>
         {% if user.auth_id === 2 %}
-        <a href='questions/{{ questionId }}/answer/{{ answer.id }}/delete'><button class='btn btn-danger btn-sm'>Delete Answer</button></a>
+        <a href='/questions/{{ question.id }}/answer/{{ answer.id }}/delete'><button class='btn btn-danger btn-sm'>Delete Answer</button></a>
         {% endif %}
       </div>
     </div>

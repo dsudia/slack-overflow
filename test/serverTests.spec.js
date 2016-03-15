@@ -162,4 +162,33 @@ describe('API Routes', function() {
         });
     });
   });
+
+  describe('Delete Question', function() {
+
+    xit('should delete a question from the database', function(done) {
+      chai.request(server)
+        .get('/questions/1/delete')
+        .end(function(err, res) {
+          return knex('questions')
+            .then(function(data) {
+              data[0].title.should.not.contain('Not sure how to select all');
+              data[0].title.should.contain('Help!');
+            });
+        });
+        done();
+    });
+
+    it('should delete an answer from the database', function(done) {
+      chai.request(server)
+        .get('/questions/1/answer/1/delete')
+        .end(function(err, res) {
+          return knex('answers')
+            .then(function(data) {
+              console.log(data);
+              data.should.deep.equal([]);
+            });
+        });
+        done();
+    });
+  });
 });
