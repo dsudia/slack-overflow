@@ -18,8 +18,6 @@ var knex = require('../../db/knex');
 var cookieSession = require('cookie-session');
 var helpers = require('./lib/helpers');
 
-if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
-
 
 // *** routes *** //
 var routes = require('./routes/index.js');
@@ -122,7 +120,7 @@ passport.use(new SlackStrategy({
             return done(null, hasSlackId.id);
           }
       });
-}))
+}));
 
 
 

@@ -14,6 +14,18 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
+function ensureAdmin(req, res, next) {
+    // check if user is admin
+    if(req.user.auth_id === 1 || req.user.auth_id === 2) {
+      // if so call next()
+      return next();
+    } else {
+      // if not, redirect to login
+      req.flash('error', 'You are not logged in as an admin.');
+      return res.status(403).redirect('/login');
+    }
+  }
+
 
 function loginRedirect(req, res, next) {
   // check if user is authenticated
@@ -44,6 +56,7 @@ function comparePassword(password, hashedPassword) {
 
 
 module.exports = {
+  ensureAdmin: ensureAdmin,
   ensureAuthenticated: ensureAuthenticated,
   loginRedirect: loginRedirect,
   hashing: hashing,
