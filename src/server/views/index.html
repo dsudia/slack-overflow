@@ -21,22 +21,26 @@
           <div class='subheader'>
             <h2>Top Questions</h2>
           </div>
-          <article class='question-summary flex-container'>
-            <div class='flex-item-size-1'>
-              <h4>2</h4>
-              <p>rating</p>
-            </div>
-            <div class='flex-item-size-1'>
-              <h4>1</h4>
-              <p>answers</p>
-            </div>
-            <div class='flex-item-size-3'>
-              <a href='questions/1'><h4>Not sure how to select all from a table with parameters...</h4></a>
-              <div class='tag-collection'>
-                <div class='btn btn-sm btn-info'>knex</div>
+          {% for question in questions %}
+            <article class='question-summary flex-container'>
+              <div class='flex-item-size-1'>
+                <h4>{{ question.score }}</h4>
+                <p>rating</p>
               </div>
-            </div>
-          </article>
+              <div class='flex-item-size-1'>
+                <h4>1</h4>
+                <p>answers</p>
+              </div>
+              <div class='flex-item-size-3'>
+                <a href='questions/{{ question.id }}'><h4>{{ question.title }}</h4></a>
+                <div class='tag-collection'>
+                  {% for tag in tags %}
+                  <div class='btn btn-sm btn-info'></div>
+                  {% endfor %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
         </main>
       </div>
 
@@ -64,7 +68,7 @@
               <div class='form-group'>
                 <select name='sort_group'>
                   <option value='1'>G19</option>
-                </select>
+                </select><br>
                 <input type='submit' class='btn btn-sm btn-primary' value='Search by Cohort'>
               </div>
             </form>
