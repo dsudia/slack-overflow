@@ -15,21 +15,21 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   });
 });
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {message: req.flash('danger')});
 });
 
 
 router.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user) {
-    console.log('err', err);
-    console.log('user', user);
+  passport.authenticate('local', function(err, userId) {
     if (err) {
-
       return next(err);
     } else {
-      req.logIn(user, function(err) {
+      req.logIn(userId, function(err) {
         if (err) {
           return next(err);
         } else {

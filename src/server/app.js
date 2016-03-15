@@ -13,6 +13,7 @@ var Promise = require('bluebird');
 var passport = require('./lib/auth');
 var GitHubStrategy = require('passport-github').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+var SlackStrategy = require('passport-slack').Strategy;
 var knex = require('../../db/knex');
 var cookieSession = require('cookie-session');
 var helpers = require('./lib/helpers');
@@ -72,7 +73,6 @@ passport.use(new GitHubStrategy({
       .then(function (user) {
 
         if (!user) {
-          console.log(profile.displayName);
           var names = profile.displayName.split(' ');
           var firstname = names[0];
           var lastname = names[names.length-1];
@@ -94,6 +94,36 @@ passport.use(new GitHubStrategy({
         }
       });
 }));
+
+passport.use(new SlackStrategy({
+    clientID: process.env.SLACK_CLIENT_ID,
+    clientSecret: process.env.SLACK_CLIENT_SECRET,
+    callbackURL: process.env.HOST + "/auth/slack/callback",
+    scope: 'users:read '
+  },
+  function(accessToken, refreshToken, profile, done) {
+    //does the email exist?
+    var slackEmail = profile._json.info.user.profile.email;
+    var slackId = profile._json.info.user.id;
+     knex('users')
+      .where({ email: slackEmail })
+      .andWhere({ slack_id: slackId }) // change this line to fix it for emails
+      .first()
+      .then(function(hasSlackId) {
+        if(!hasSlackId) {
+          return knex('users')
+          .where({email: slackEmail})
+            .update({
+              slack_id: slackId
+            }, 'id').then(function(id){
+              return done(null, id[0]);
+            });
+          }else {
+            return done(null, hasSlackId.id);
+          }
+      });
+}))
+
 
 
 
@@ -136,8 +166,11 @@ passport.deserializeUser(function(userID, done) {
 if (userID) {
     knex('users').where('id', userID).select()
       .then(function (user) {
-        console.log(user);
-        ( !user ) ? done() : done(null, user);
+        if ( !user ) {
+          done();
+        } else {
+          done(null, user[0]);
+        }
       })
       .catch(function (err) {
         done(err, null);
