@@ -10,8 +10,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   res.render('index', { title: 'Slack Overflow',
                         user: req.user});
 });
-
-<<<<<<< HEAD
+  
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {message: req.flash('danger')});
 });
