@@ -18,7 +18,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
-  res.render('login', {message: req.flash('danger')});
+  res.render('login', {user: req.user, message: req.flash('danger')});
 });
 
 
@@ -40,7 +40,7 @@ router.post('/login', function(req, res, next) {
 
 
 router.get('/register', helpers.loginRedirect, function(req, res, next) {
-  res.render('register', {message: req.flash('danger')});
+  res.render('register', {user: req.user, message: req.flash('danger')});
 });
 
 
@@ -94,12 +94,13 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/questions/:id', function(req, res, next) {
+  console.log(req.user);
   var qId = req.params.id;
   var questionData;
   var tagList = [];
   var answerList = [];
   if (qId === 'new') {
-    res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
+    res.render('newQuestion', {user: req.user, title: 'Slack Overflow - Post a Question'});
   } else if (qId !== 'new') {
     return knex('questions').where('id', qId).then(function(data) {
       questionData = data;
@@ -121,7 +122,8 @@ router.get('/questions/:id', function(req, res, next) {
       res.render('question', {title: 'Slack Overflow - ' + questionData.title,
         question: questionData[0],
         tags: tagList,
-        answers: answerList});
+        answers: answerList,
+        user: req.user});
     });
   }
 });
@@ -320,6 +322,8 @@ router.post('/questions/:id/answer', function(req, res, next) {
   });
 });
 
+router.get('/questions/:id/delete', function(req, res, next) {
 
+});
 
 module.exports = router;

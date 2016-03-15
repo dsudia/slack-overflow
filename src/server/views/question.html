@@ -36,6 +36,9 @@
 </article>
 
 <a class='answer-button' href='{{ question.id }}/answer'><button class='btn btn-sucess btn-sm'>Answer This Question</button></a>
+{% if user.auth_id === 2 %}
+<a class='answer-button' href='{{question.id}}/delete'><button class='btn btn-danger btn-sm'>Delete Question</button></a>
+{% endif %}
 <hr>
 
 <h2 class='answer-header'>Answers</h2>
@@ -58,6 +61,9 @@
       </div>
       <div class='col-md-11'>
         <p>{{ answer.body }}</p>
+        {% if user.auth_id === 2 %}
+        <a href='/answer/{{ answer.id }}/delete'><button class='btn btn-danger btn-sm'>Delete Answer</button></a>
+        {% endif %}
       </div>
     </div>
   </article>
