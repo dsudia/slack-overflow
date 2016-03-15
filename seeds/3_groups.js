@@ -5,6 +5,7 @@ exports.seed = function(knex, Promise) {
     knex('groups').del(),
 
     // Inserts seed entries
-    knex('groups').insert({name: 'G19'})
+    knex('groups').insert({name: 'G19'}),
+    knex('groups').insert({name: 'G18'})
   );
 };

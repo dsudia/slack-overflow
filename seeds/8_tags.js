@@ -5,6 +5,8 @@ exports.seed = function(knex, Promise) {
     knex('tags').del(),
 
     // Inserts seed entries
-    knex('tags').insert({tag_name: 'knex'})
+    knex('tags').insert({tag_name: 'knex'}),
+    knex('tags').insert({tag_name: 'css'}),
+    knex('tags').insert({tag_name: 'positioning'})
   );
 };
