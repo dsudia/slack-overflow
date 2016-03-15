@@ -276,8 +276,6 @@ router.post('/slack/answer', function(req, res, next) {
     userId = data[0];
   })
   .then(function() {
-    console.log('qId', qId);
-    console.log('userId', userId);
     return knex('answers').insert({title: title,
       body: body,
       question_id: qId,
