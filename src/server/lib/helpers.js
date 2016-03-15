@@ -1,4 +1,7 @@
 var bcrypt = require('bcrypt');
+var Promise = require('bluebird');
+Promise.promisifyAll(bcrypt);
+
 
 function ensureAuthenticated(req, res, next) {
   // check if user is authenticated
@@ -11,6 +14,7 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
+
 function loginRedirect(req, res, next) {
   // check if user is authenticated
   if(req.user) {
@@ -22,6 +26,7 @@ function loginRedirect(req, res, next) {
   }
 }
 
+
 function hashing(password) {
   return bcrypt.hashSync(password, 10);
   // Add promises!!!
@@ -31,6 +36,7 @@ function hashing(password) {
   // });
   // return newPassword;
 }
+
 
 function comparePassword(password, hashedPassword) {
   return bcrypt.compareSync(password, hashedPassword);
