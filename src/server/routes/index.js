@@ -7,18 +7,17 @@ var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 
+
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   knex('questions').select().then(function(data) {
     res.render('index', { title: 'Slack Overflow',
-                          user: req.user, questions: data});
+                          user: req.user, questions: data, slack: req.user.slack_id});
     // need to find a way to pull tags for every question - talk to an instructor
     // need to find a way to count number of answers for each question - ^^^
   });
 });
 
 
-
-  
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {user: req.user, message: req.flash('danger')});
 });
