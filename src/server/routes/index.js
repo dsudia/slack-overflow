@@ -242,7 +242,7 @@ router.post('/slack/question', function(req, res, next) {
         //respond with text and question id
       res.status(200).header('Content-Type', 'application/json').send({
         'response_type': 'in_channel',
-        'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! To respond to this question, type /sflowa #title #body #' + questionID
+        'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at www.slackoverflow.com/question/' + questionID + '. To respond to this question, type /sflowa #title #body #' + questionID
       });
     });
   }
