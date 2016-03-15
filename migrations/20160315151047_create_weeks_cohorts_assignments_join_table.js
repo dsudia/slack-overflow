@@ -11,9 +11,9 @@ exports.up = function(knex, Promise) {
     table.integer('assign_id')
       .references('id')
       .inTable('assignments');
-  }); 
+  });
 };
 
 exports.down = function(knex, Promise) {
-   return knex.schema.dropTable('join_table');
+   return knex.schema.dropTable('class_info');
 };
