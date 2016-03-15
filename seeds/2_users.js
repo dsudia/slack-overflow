@@ -5,6 +5,14 @@ exports.seed = function(knex, Promise) {
     knex('users').del(),
 
     // Inserts seed entries
+    knex('users').insert({first_name: 'David',
+      last_name: 'Sudia',
+      auth_id: knex.select('id').from('auth_levels').where('level', 'student'),
+      username: 'dsudia',
+      password: '$2a$10$Dx98AoY3XU7E5EPfAXIU5uzhGPjIg1wlXWqL1lnDpnKGeJZCmRbfa',
+      email: 'dsudia@gmail.com',
+      score: 0,
+      slack_id: 'U2147483697'}),
     knex('users').insert({first_name: 'Michael',
       last_name: 'Herman',
       auth_id: knex.select('id').from('auth_levels').where('level', 'instructor'),
