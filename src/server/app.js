@@ -16,7 +16,6 @@ var SlackStrategy = require('passport-slack').Strategy;
 var knex = require('../../db/knex');
 var cookieSession = require('cookie-session');
 var helpers = require('./lib/helpers');
-if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
 
 // *** routes *** //
