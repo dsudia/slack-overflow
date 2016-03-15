@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('join_table', function(table) {
+  return knex.schema.createTable('class_info', function(table) {
     table.increments();
     table.integer('week_id')
       .references('id')
