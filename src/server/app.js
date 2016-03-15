@@ -122,7 +122,7 @@ passport.use(new SlackStrategy({
             return done(null, hasSlackId.id);
           }
       });
-}))
+}));
 
 
 

@@ -16,10 +16,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   });
 });
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {message: req.flash('danger')});
 });
@@ -291,6 +288,36 @@ router.post('/slack/answer', function(req, res, next) {
       'text': 'Thanks for posting an answer to question ' + qId + ' to Slack Overflow ' + userSlackName + '!'
     });
     });
+});
+
+
+router.get('/questions/:id/answer', function(req, res, next) {
+  var qId = req.params.id;
+  var questionData;
+
+  knex('questions').where('id', qId)
+  .then(function(data) {
+    questionData = data[0];
+    console.log(questionData);
+    res.render('newAnswer', {user: req.user.id, questionId: req.params.id, question: questionData});
+  });
+});
+
+
+router.post('/questions/:id/answer', function(req, res, next) {
+  var aData = req.body;
+  userId = req.user.id;
+
+  knex('answers').insert({title: aData.title,
+    body: aData.body,
+    question_id: req.params.id,
+    user_id: userId,
+    score: 0,
+    flag_status: false
+  })
+  .then(function() {
+    res.redirect('/questions/' + req.params.id);
+  });
 });
 
 
