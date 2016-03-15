@@ -18,7 +18,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 
-
+  
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {user: req.user, message: req.flash('danger')});
 });
