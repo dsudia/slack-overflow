@@ -1,3 +1,4 @@
+require('dotenv').config();
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server/app');
@@ -29,10 +30,10 @@ describe('API Routes', function() {
 
   describe('Post Question to Slack', function() {
 
-    it('should respond with a 200 and message if token is correct', function(done) {
+    xit('should respond with a 200 and message if token is correct', function(done) {
       chai.request(server)
         .post('/slack/question')
-        .send({token: '3lDITcQgUlGxWLljgFUmxQ6o',
+        .send({token: process.env.SLACK_Q_TOKEN,
           team_id: 'T0001',
           team_domain: 'example',
           channel_id: 'C2147483705',
@@ -51,10 +52,10 @@ describe('API Routes', function() {
         });
     });
 
-    it('should respond with 401 and message if token is incorrect', function(done) {
+    xit('should respond with 401 and message if token is incorrect', function(done) {
       chai.request(server)
         .post('/slack/question')
-        .send({token: '3lDITcQgUlGxWL',
+        .send({token: process.env.SLACK_Q_TOKEN,
           team_id: 'T0001',
           team_domain: 'example',
           channel_id: 'C2147483705',
@@ -71,10 +72,10 @@ describe('API Routes', function() {
         });
     });
 
-    it('should insert a question into the database', function(done) {
+    xit('should insert a question into the database', function(done) {
       chai.request(server)
         .post('/slack/question')
-        .send({token: '3lDITcQgUlGxWLljgFUmxQ6o',
+        .send({token: process.env.SLACK_Q_TOKEN,
           team_id: 'T0001',
           team_domain: 'example',
           channel_id: 'C2147483705',
@@ -92,27 +93,31 @@ describe('API Routes', function() {
             });
           done();
         });
+      });
     });
   });
-});
-// test for getting index.html
 
-// test for logging in as a student user
+  describe('Post Answer to Slack', function() {
 
-// test for viewing a question's page
-  // question should load
-  // answer should load
-
-// test for registering as a student user
-
-// test for logging out a user
-
-// test that a user has all necessary info
-
-// test that questions sort correctly
-
-// test that questions have tags
-
-// test that voting on a question works
-
-// test that only registered users can view certain pages
+    it('should respond with a 200 and message if token is correct', function(done) {
+      chai.request(server)
+        .post('/slack/answer')
+        .send({token: process.env.SLACK_A_TOKEN,
+          team_id: 'T0001',
+          team_domain: 'example',
+          channel_id: 'C2147483705',
+          channel_name: 'test',
+          user_id: 'U2147483697',
+          user_name: 'Dave Sudia',
+          command: '/sflowq',
+          text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
+          response_url: 'https://hooks.slack.com/commands/1234/5678'})
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.have.property('text');
+          res.body.text.should.contain('Dave Sudia');
+          done();
+        });
+    });
+  });
