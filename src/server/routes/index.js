@@ -323,7 +323,17 @@ router.post('/questions/:id/answer', function(req, res, next) {
 });
 
 router.get('/questions/:id/delete', function(req, res, next) {
+  knex('questions').where('id', req.params.id).del()
+    .then(function() {
+      res.redirect('/');
+    });
+});
 
+router.get('/questions/:qid/answer/:aid/delete', function(req, res, next) {
+  knex('answers').where('id', req.params.aid).del()
+    .then(function() {
+      res.redirect('/questions/' + req.params.qid);
+    });
 });
 
 module.exports = router;
