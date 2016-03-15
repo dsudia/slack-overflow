@@ -14,6 +14,17 @@ router.get('/github/callback',
   });
 
 
+router.get('/slack', passport.authenticate('slack'));
+
+router.get('/slack/callback', 
+  passport.authenticate('slack', { failureRedirect: '/login'}),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
+
 router.get('/logout', function(req, res, next) {
   req.session = null;
   res.redirect('/');
