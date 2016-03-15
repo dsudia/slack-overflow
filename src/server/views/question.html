@@ -35,7 +35,16 @@
   </div>
 </article>
 
-<a class='answer-button' href='{{ question.id }}/answer'><button class='btn btn-sucess btn-sm'>Answer This Question</button></a>
+<a class='answer-button' href='/questions/{{ question.id }}/answer'><button class='btn btn-sucess btn-sm'>Answer This Question</button></a>
+{% if question.flag_status === false %}
+  <a class='answer-button' href='/questions/{{ question.id }}/flag'><button class='btn btn-success button-warning'>Flag as Inappropriate</button></a>
+{% endif %}
+{% if user.auth_id === 2 %}
+  <a class='answer-button' href='/questions/{{question.id}}/delete'><button class='btn btn-danger btn-sm'>Delete Question</button></a>
+  {% if question.flag_status === true %}
+    <a class='answer-button' href='/questions/{{ question.id }}/unflag'><button class='btn btn-success button-warning'>Unflag Question</button></a>
+  {% endif %}
+{% endif %}
 <hr>
 
 <h2 class='answer-header'>Answers</h2>
@@ -58,6 +67,15 @@
       </div>
       <div class='col-md-11'>
         <p>{{ answer.body }}</p>
+        {% if answer.flag_status === false %}
+        <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/flag'><button class='btn btn-success button-warning'>Flag as Inappropriate</button></a>
+        {% endif %}
+        {% if user.auth_id === 2 %}
+        <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/delete'><button class='btn btn-danger btn-sm'>Delete Answer</button></a>
+          {% if answer.flag_status === true %}
+            <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/unflag'><button class='btn btn-success button-warning'>Unflag Question</button></a>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
   </article>
