@@ -2,6 +2,10 @@
   margin: 3rem;
 }
 
+.answer-button {
+  margin: 3rem;
+}
+
 .flex-container {
   display: flex;
   justify-content: flex-start;
@@ -21,13 +25,17 @@
 }
 
 .qa-box {
-  border: 1px solid gray;
+  border: .2rem solid gray;
   margin: 3rem;
+  border-radius: 1rem;
+  padding-bottom: 1rem;
 }
 
 .question-summary {
-  border: 1px solid gray;
+  border: .2rem solid gray;
   padding: .75rem;
+  margin: 3rem;
+  border-radius: 1rem;
 }
 
 .tag-row {

@@ -32,11 +32,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        {% if user %}
         <li><a href="/questions/new">Post a Question<span class="sr-only">(current)</span></a></li>
+        {% endif %}
+        {% if user %}
         {% if user.github_id %}
         <li><a href="/auth/logout">Logout</a></li>
         {% else %}
           <li><a href="/logout">Logout</a></li>
+        {% endif %}
         {% endif %}
         {% if !user%}
         <li class="dropdown">

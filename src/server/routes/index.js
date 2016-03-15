@@ -7,6 +7,7 @@ var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 
+
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   knex('questions').select().then(function(data) {
     res.render('index', { title: 'Slack Overflow',
@@ -16,8 +17,9 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   });
 });
 
+
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
-  res.render('login', {message: req.flash('danger')});
+  res.render('login', {user: req.user, message: req.flash('danger')});
 });
 
 
@@ -39,7 +41,7 @@ router.post('/login', function(req, res, next) {
 
 
 router.get('/register', helpers.loginRedirect, function(req, res, next) {
-  res.render('register', {message: req.flash('danger')});
+  res.render('register', {user: req.user, message: req.flash('danger')});
 });
 
 
@@ -93,12 +95,13 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/questions/:id', function(req, res, next) {
+  console.log(req.user);
   var qId = req.params.id;
   var questionData;
   var tagList = [];
   var answerList = [];
   if (qId === 'new') {
-    res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
+    res.render('newQuestion', {user: req.user, title: 'Slack Overflow - Post a Question'});
   } else if (qId !== 'new') {
     return knex('questions').where('id', qId).then(function(data) {
       questionData = data;
@@ -120,7 +123,8 @@ router.get('/questions/:id', function(req, res, next) {
       res.render('question', {title: 'Slack Overflow - ' + questionData.title,
         question: questionData[0],
         tags: tagList,
-        answers: answerList});
+        answers: answerList,
+        user: req.user});
     });
   }
 });
@@ -290,5 +294,85 @@ router.post('/slack/answer', function(req, res, next) {
 });
 
 
+router.get('/questions/:id/answer', function(req, res, next) {
+  var qId = req.params.id;
+  var questionData;
+
+  knex('questions').where('id', qId)
+  .then(function(data) {
+    questionData = data[0];
+    console.log(questionData);
+    res.render('newAnswer', {user: req.user.id, questionId: req.params.id, question: questionData});
+  });
+});
+
+
+router.post('/questions/:id/answer', function(req, res, next) {
+  var aData = req.body;
+  userId = req.user.id;
+
+  knex('answers').insert({title: aData.title,
+    body: aData.body,
+    question_id: req.params.id,
+    user_id: userId,
+    score: 0,
+    flag_status: false
+  })
+  .then(function() {
+    res.redirect('/questions/' + req.params.id);
+  });
+});
+
+router.get('/questions/:id/delete', helpers.ensureAdmin, function(req, res, next) {
+  knex('question_tags').where('question_id', req.params.id).del()
+    .then(function() {
+      return knex('answers').where('question_id', req.params.id).del();
+    })
+    .then(function() {
+      return knex('subscriptions').where('question_id', req.params.id).del();
+    })
+    .then(function() {
+      return knex('questions').where('id', req.params.id).del();
+    })
+    .then(function() {
+      res.redirect('/');
+    });
+});
+
+router.get('/questions/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
+  console.log('route is firing');
+  knex('answers').where('id', req.params.aid).del()
+    .then(function() {
+      res.redirect('/questions/' + req.params.qid);
+    });
+});
+
+router.get('/questions/:id/flag', function(req, res, next) {
+  return knex('questions').where('id', req.params.id).update('flag_status', true)
+    .then(function() {
+      res.redirect('/questions/' + req.params.id);
+    });
+});
+
+router.get('/questions/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
+  return knex('questions').where('id', req.params.id).update('flag_status', false)
+    .then(function() {
+      res.redirect('/questions/' + req.params.id);
+    });
+});
+
+router.get('/questions/:qid/answer/:aid/flag', function(req, res, next) {
+  return knex('answers').where('id', req.params.aid).update('flag_status', true)
+    .then(function() {
+        res.redirect('/questions/' + req.params.qid);
+    });
+});
+
+router.get('/questions/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
+  return knex('answers').where('id', req.params.aid).update('flag_status', false)
+    .then(function() {
+      res.redirect('/questions/' + req.params.qid);
+    });
+});
 
 module.exports = router;
