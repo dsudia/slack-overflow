@@ -27,7 +27,9 @@
   <div class='row tag-row'>
     <div class='col-md-1'></div>
     <div class='col-md-10'>
-      <div class='btn btn-sm btn-info'>knex</div>
+      {% for tag in tags %}
+      <div class='btn btn-sm btn-info'>{{ tag }}</div>
+      {% endfor %}
     </div>
     <div class='col-md-1'></div>
   </div>
