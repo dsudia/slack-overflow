@@ -7,8 +7,12 @@ var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  res.render('index', { title: 'Slack Overflow',
-                        user: req.user});
+  knex('questions').select().then(function(data) {
+    res.render('index', { title: 'Slack Overflow',
+                          user: req.user, questions: data});
+    // need to find a way to pull tags for every question - talk to an instructor
+    // need to find a way to count number of answers for each question - ^^^
+  });
 });
 
 
@@ -95,6 +99,7 @@ router.get('/questions/:id', function(req, res, next) {
   var qId = req.params.id;
   var questionData;
   var tagList = [];
+  var answerList = [];
   if (qId === 'new') {
     res.render('newQuestion', {title: 'Slack Overflow - Post a Question'});
   } else if (qId !== 'new') {
@@ -109,9 +114,16 @@ router.get('/questions/:id', function(req, res, next) {
         return tagList.push(el.tag_name);
       });
     }).then(function() {
-      console.log(tagList);
-      console.log(questionData);
-      res.render('question', {title: 'Slack Overflow - ' + questionData.title, question: questionData[0], tags: tagList});
+      return knex('answers').select().where('question_id', qId);
+    }).then(function(answers) {
+      answers.forEach(function(el, ind, arr) {
+        return answerList.push(el);
+      });
+    }).then(function() {
+      res.render('question', {title: 'Slack Overflow - ' + questionData.title,
+        question: questionData[0],
+        tags: tagList,
+        answers: answerList});
     });
   }
 });
