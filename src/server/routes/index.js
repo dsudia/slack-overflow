@@ -40,6 +40,7 @@ router.post('/questions/add', function(req, res, next) {
   var qData = req.body;
   var tagList = req.body.tags;
   tagList = tagList.replace(/ /g, '');
+  tagList = tagList.toLowerCase();
   var tagArray = tagList.split(',');
   var tagIds = [];
   var questionID;
