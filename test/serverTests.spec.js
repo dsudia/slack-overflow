@@ -88,7 +88,7 @@ describe('API Routes', function() {
           knex('questions').where('user_id', 1)
             .then(function(data) {
               console.log(data);
-              data.should.contain('I need help with passport!');
+              data[1].title.should.contain('I need help with passport!');
             });
           done();
         });

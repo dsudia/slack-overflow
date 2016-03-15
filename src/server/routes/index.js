@@ -190,30 +190,27 @@ router.post('/slack/question', function(req, res, next) {
     var title = messageArray[0];
     var body = messageArray[1];
     var tagList = messageArray[2];
+    tagList = tagList.replace(/ /g, '');
+    tagList = tagList.toLowerCase();
+    var tagArray = tagList.split(',');
+    var tagIds = [];
+    var questionID;
 
     // look up group and store group_id
     knex('groups').select('id').where('slack_channel', group)
     .then(function(data) {
-        groupId = data[0];
+      return groupId = data[0].id;
     })
     .then(function() {
         // look up user and store ii
-        knex('users').select('id').where('slack_id', userSlackId)
+        return knex('users').select('id').where('slack_id', userSlackId)
           .then(function(data) {
-          userId = data[0];
-        });
-    })
-    .then(function() {
-        //store form info into variables
-        tagList = tagList.replace(/ /g, '');
-        tagList = tagList.toLowerCase();
-        var tagArray = tagList.split(',');
-        var tagIds = [];
-        var questionID;
+            userId = data[0].id;
+          });
     })
     .then(function() {
       // insert question data into questions table, get question's ID back
-      knex('questions').insert({title: title,
+      return knex('questions').insert({title: title,
         body: body,
         group_id: groupId,
         user_id: userId,
@@ -223,11 +220,11 @@ router.post('/slack/question', function(req, res, next) {
     })
     .then(function(id) {
       // store question ID in variable for later usage
-      questionID = id;
+      return questionID = id;
     })
     .then(function() {
       // put tags into tags table and store ids in an array
-      tagArray.forEach(function(el, ind, arr) {
+      return tagArray.forEach(function(el, ind, arr) {
         return knex('tags').insert({tag_name: el}, 'id').then(function(id) {
           tagIds.push(id);
         });
@@ -235,7 +232,7 @@ router.post('/slack/question', function(req, res, next) {
     })
     .then(function() {
       // insert question/tag relationships into question_tags table
-      tagIds.forEach(function(el, ind, arr) {
+      return tagIds.forEach(function(el, ind, arr) {
         return knex('question_tags').insert({
           question_id: questionId,
           tag_id: el});
