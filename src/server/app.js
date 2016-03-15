@@ -136,8 +136,8 @@ passport.deserializeUser(function(userID, done) {
 if (userID) {
     knex('users').where('id', userID).select()
       .then(function (user) {
-        console.log(user[0]);
-        ( !user ) ? done() : done(null, user[0]);
+        console.log(user);
+        ( !user ) ? done() : done(null, user);
       })
       .catch(function (err) {
         done(err, null);
