@@ -24,7 +24,7 @@ if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 //create RTM client
 var RtmClient = require('@slack/client').RtmClient;
 var token = process.env.SLACK_BOT_TOKEN || '';
-var rtm = new RtmClient(token, {logLevel: 'debug'});
+var rtm = new RtmClient(token);
 rtm.start();
 
 // capture rtm.start payload

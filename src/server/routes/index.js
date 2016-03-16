@@ -5,6 +5,7 @@ var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
+var markdown = require('markdown').markdown;
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -115,6 +116,7 @@ router.get('/questions/:id', function(req, res, next) {
     }).then(function() {
       return knex('answers').select().where('question_id', qId);
     }).then(function(answers) {
+      console.log(answers);
       answers.forEach(function(el, ind, arr) {
         return answerList.push(el);
       });
@@ -138,10 +140,11 @@ router.post('/questions/add', function(req, res, next) {
   var tagArray = tagList.split(',');
   var tagIds = [];
   var questionID;
+  var body = markdown.toHTML(qData.body);
 
   // insert question data into questions table, get question's ID back
   knex('questions').insert({title: qData.title,
-    body: qData.body,
+    body: body,
     group_id: qData.group_id,
     user_id: qData.user_id,
     score: 0,
@@ -188,6 +191,7 @@ router.post('/slack/question', function(req, res, next) {
     messageArray.shift();
     var title = messageArray[0];
     var body = messageArray[1];
+    body = markdown.toHTML(body);
     var tagList = messageArray[2];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
@@ -267,6 +271,7 @@ router.post('/slack/answer', function(req, res, next) {
   messageArray.shift();
   var title = messageArray[0];
   var body = messageArray[1];
+  body = markdown.toHTML('body');
   var qId = messageArray[2];
 
   // look up user and store id
@@ -309,6 +314,8 @@ router.get('/questions/:id/answer', function(req, res, next) {
 router.post('/questions/:id/answer', function(req, res, next) {
   var aData = req.body;
   userId = req.user.id;
+  var body = markdown.toHTML(aData.body);
+  console.log(body);
 
   knex('answers').insert({title: aData.title,
     body: aData.body,
