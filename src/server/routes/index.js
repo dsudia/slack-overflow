@@ -485,4 +485,20 @@ router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, 
     });
 });
 
+router.post('/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+  user = req.user.id;
+  return knex('subscriptions').insert({'user_id': user, 'question_id': req.params.id})
+    .then(function() {
+      res.status(200).send('You are subscribed!');
+    });
+});
+
+router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+  user = req.user.id;
+  return knex('subscriptions').where({'user_id': user, 'question_id': req.params.id}).del()
+    .then(function() {
+      res.status(200).send('You have unsubscribed!');
+    });
+});
+
 module.exports = router;
