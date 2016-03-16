@@ -18,6 +18,8 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 
+
+
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {user: req.user, message: req.flash('danger')});
 });
@@ -91,6 +93,17 @@ router.post('/register', function(req, res, next) {
 router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
   req.logout();
   res.redirect('/');
+});
+
+
+
+router.get('/assignments', helpers.ensureAuthenticated, function(req, res, next) {
+  knex('class_info').select('assignment.name').then(function(data) {
+    res.render('index', { title: 'Slack Overflow',
+                          user: req.user, questions: data, slack: req.user.slack_id});
+    // need to find a way to pull tags for every question - talk to an instructor
+    // need to find a way to count number of answers for each question - ^^^
+  });
 });
 
 

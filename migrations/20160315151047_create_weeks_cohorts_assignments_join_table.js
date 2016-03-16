@@ -1,4 +1,4 @@
-
+  
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('class_info', function(table) {
     table.increments();
