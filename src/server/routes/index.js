@@ -5,11 +5,8 @@ var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
-<<<<<<< HEAD
 var markdown = require('markdown').markdown;
-=======
 var request = require('request-promise');
->>>>>>> master
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
