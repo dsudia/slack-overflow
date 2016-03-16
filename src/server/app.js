@@ -158,7 +158,6 @@ passport.use(new SlackStrategy({
     scope: 'users:read im:write chat:write:bot'
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(accessToken, refreshToken, profile);
     //does the email exist?
     var slackEmail = profile._json.info.user.profile.email;
     var slackId = profile._json.info.user.id;
@@ -171,7 +170,8 @@ passport.use(new SlackStrategy({
           return knex('users')
           .where({email: slackEmail})
             .update({
-              slack_id: slackId
+              slack_id: slackId,
+              slack_access_token: accessToken
             }, 'id').then(function(id){
               return done(null, id[0]);
             });

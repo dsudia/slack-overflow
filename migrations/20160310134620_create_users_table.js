@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
     table.string('email').unique().notNullable();
     table.integer('score');
     table.string('slack_id');
+    table.string('slack_access_token');
   });
 };
 

@@ -285,14 +285,15 @@ router.post('/slack/answer', function(req, res, next) {
   .then(function() {
     // look through subscriptions table for this question id
     // look up slack user_ids for all users associated with this question
-    return knex('users').select('slack_id')
+    return knex('users').select('slack_id', 'slack_access_token')
       .join('subscriptions', {'users.id': 'subscriptions.user_id'})
       .where('subscriptions.question_id', req.params.id);
   })
   .then(function(users) {
     console.log('users', users);
     for (i = 0; i < users.length; i++) {
-      return request('https://slack.com/api/im.open?token=' + process.env.SUDIA_TOKEN + '&user=' + users[i].slack_id, function(err, res, body) {
+
+      return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
       })
       .then(function(response) {
         console.log('response', response);
@@ -349,14 +350,14 @@ router.post('/questions/:id/answer', function(req, res, next) {
   .then(function() {
     // look through subscriptions table for this question id
     // look up slack user_ids for all users associated with this question
-    return knex('users').select('slack_id')
+    return knex('users').select('slack_id', 'slack_access_token')
       .join('subscriptions', {'users.id': 'subscriptions.user_id'})
       .where('subscriptions.question_id', req.params.id);
   })
   .then(function(users) {
     console.log('users', users);
     for (i = 0; i < users.length; i++) {
-      return request('https://slack.com/api/im.open?token=' + process.env.SUDIA_TOKEN + '&user=' + users[i].slack_id, function(err, res, body) {
+      return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
       })
       .then(function(response) {
         console.log('response', response);
