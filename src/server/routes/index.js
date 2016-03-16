@@ -282,6 +282,35 @@ router.post('/slack/answer', function(req, res, next) {
       score: 0,
       flag_status: false});
   })
+  .then(function() {
+    // look through subscriptions table for this question id
+    // look up slack user_ids for all users associated with this question
+    return knex('users').select('slack_id')
+      .join('subscriptions', {'users.id': 'subscriptions.user_id'})
+      .where('subscriptions.question_id', req.params.id);
+  })
+  .then(function(users) {
+    console.log('users', users);
+    for (i = 0; i < users.length; i++) {
+      return request('https://slack.com/api/im.open?token=' + process.env.SUDIA_TOKEN + '&user=' + users[i].slack_id, function(err, res, body) {
+      })
+      .then(function(response) {
+        console.log('response', response);
+        var resBody = JSON.parse(response);
+        return channelArray.push(resBody.channel.id);
+      });
+    }
+  })
+  .then(function() {
+    console.log('passed to final instruction');
+    // post a message in each channel
+    for (i = 0; i < channelArray.length; i++) {
+      return request('https://slack.com/api/chat.postMessage?token=' + process.env.SUDIA_TOKEN + '&channel=' + channelArray[i] + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+        function(err, res, body) {
+          console.log('posted a message to channel: ', channelArray[0]);
+        });
+    }
+  })
   // post answer
   .then(function(data) {
     //respond with text and question id
