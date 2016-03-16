@@ -119,8 +119,11 @@ router.get('/questions/:id', function(req, res, next) {
         return tagList.push(el.tag_name);
       });
     }).then(function() {
-      return knex('answers').select().where('question_id', qId);
+      return knex('answers').select('answers.title', 'answers.body', 'users.username')
+      .join('users', {'answers.user_id': 'users.id'})
+      .where('question_id', qId);
     }).then(function(answers) {
+      console.log(answers);
       answers.forEach(function(el, ind, arr) {
         return answerList.push(el);
       });
