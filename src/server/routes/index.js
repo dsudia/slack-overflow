@@ -291,22 +291,21 @@ router.post('/slack/answer', function(req, res, next) {
   })
   .then(function(users) {
     console.log('users', users);
+    // open a channel with all subscribed users
     for (i = 0; i < users.length; i++) {
-
       return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
       })
       .then(function(response) {
         console.log('response', response);
         var resBody = JSON.parse(response);
-        return channelArray.push(resBody.channel.id);
+        return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
       });
     }
   })
   .then(function() {
-    console.log('passed to final instruction');
     // post a message in each channel
     for (i = 0; i < channelArray.length; i++) {
-      return request('https://slack.com/api/chat.postMessage?token=' + process.env.SUDIA_TOKEN + '&channel=' + channelArray[i] + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+      return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
         function(err, res, body) {
           console.log('posted a message to channel: ', channelArray[0]);
         });
@@ -339,6 +338,7 @@ router.post('/questions/:id/answer', function(req, res, next) {
   var aData = req.body;
   userId = req.user.id;
   var channelArray = [];
+  var userArray = [];
 
   return knex('answers').insert({title: aData.title,
     body: aData.body,
@@ -356,21 +356,21 @@ router.post('/questions/:id/answer', function(req, res, next) {
   })
   .then(function(users) {
     console.log('users', users);
+    // open a channel with all subscribed users
     for (i = 0; i < users.length; i++) {
       return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
       })
       .then(function(response) {
         console.log('response', response);
         var resBody = JSON.parse(response);
-        return channelArray.push(resBody.channel.id);
+        return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
       });
     }
   })
   .then(function() {
-    console.log('passed to final instruction');
     // post a message in each channel
     for (i = 0; i < channelArray.length; i++) {
-      return request('https://slack.com/api/chat.postMessage?token=' + process.env.SUDIA_TOKEN + '&channel=' + channelArray[i] + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+      return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
         function(err, res, body) {
           console.log('posted a message to channel: ', channelArray[0]);
         });
