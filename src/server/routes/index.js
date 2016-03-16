@@ -10,12 +10,14 @@ var helpers = require('../lib/helpers');
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   knex('questions').select().then(function(data) {
-    res.render('findex', { title: 'Slack Overflow',
+    res.render('index', { title: 'Slack Overflow',
                           user: req.user, questions: data, slack: req.user.slack_id});
     // need to find a way to pull tags for every question - talk to an instructor
     // need to find a way to count number of answers for each question - ^^^
   });
 });
+
+
 
 
 
@@ -97,14 +99,7 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 
-router.get('/assignments', helpers.ensureAuthenticated, function(req, res, next) {
-  knex('class_info').select('assignment.name').then(function(data) {
-    res.render('index', { title: 'Slack Overflow',
-                          user: req.user, questions: data, slack: req.user.slack_id});
-    // need to find a way to pull tags for every question - talk to an instructor
-    // need to find a way to count number of answers for each question - ^^^
-  });
-});
+  
 
 
 router.get('/questions/:id', function(req, res, next) {

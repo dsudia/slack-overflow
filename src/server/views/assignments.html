@@ -1,3 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" href="/css/assignments.css">
 <div class="container" style="margin-top: 35px">
   <div class="page-header page-heading">
     <h1 class="pull-left">Forums</h1>
@@ -13,32 +20,29 @@
       <tr>
         <th class="cell-stat"></th>
         <th>
-          <h3>Important</h3>
+          <h3>Assignments For Week {{week}}</h3>
         </th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">View Posts By Your Cohort</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">View Posts By Galvanize Community</th>
         <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
         <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
         <th class="cell-stat-2x hidden-xs hidden-sm">Last Post</th>
       </tr>
     </thead>
+    {% for x in assignments%}
     <tbody>
       <tr>
         <td class="text-center"><i class="fa fa-question fa-2x text-primary"></i></td>
         <td>
-          <h4><a href="#">Frequently Asked Questions</a><br><small>Some description</small></h4>
+          <h4>{{x.name}}<br><small>Some description</small></h4>
         </td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">9 542</a></td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">89 897</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">Test</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">Test</a></td>
+        <td class="text-center hidden-xs hidden-sm">9542</td>
+        <td class="text-center hidden-xs hidden-sm">89897</td>
         <td class="hidden-xs hidden-sm">by <a href="#">John Doe</a><br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
       </tr>
-      <tr>
-        <td class="text-center"><i class="fa fa-exclamation fa-2x text-danger"></i></td>
-        <td>
-          <h4><a href="#">Important changes</a><br><small>Category description</small></h4>
-        </td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">6532</a></td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">152123</a></td>
-        <td class="hidden-xs hidden-sm">by <a href="#">Jane Doe</a><br><small><i class="fa fa-clock-o"></i> 1 years ago</small></td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
   <table class="table forum table-striped">
@@ -95,3 +99,5 @@
   </table>
 </div>
 </div>
+
+{% endblock %}

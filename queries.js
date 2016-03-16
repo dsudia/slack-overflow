@@ -9,7 +9,7 @@ var users = function(){
 };
 
 var assignments = function(){
-    return knex('assignments');
+  
 };
 
 var questions = function() {
@@ -42,10 +42,11 @@ var class_info = function() {
 module.exports = {
 
    getAssignments: function(groupsID, weeksID){
-        return class_info('assignments.name')
+          return knex.select('assignments.name').from('class_info')
         .innerJoin('groups', 'groups.id', 'class_info.cohort_id')
         .innerJoin('assignments', 'assignments.id', 'class_info.assign_id')
-        .where('groups.id', groupsID)
-        .andWhere('weeks.id', weeksID);;
+        .innerJoin('weeks', 'weeks.id', 'class_info.week_id')
+        .where('groups.id', 1)
+        .andWhere('weeks.id', 10);;
     }
 };
