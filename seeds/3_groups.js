@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
     knex('groups').del(),
 
     // Inserts seed entries
-    knex('groups').insert({name: 'G19', slack_channel: 'C2147483705'}),
+    knex('groups').insert({name: 'G19', slack_channel: 'C0SLTFLRZ'}),
     knex('groups').insert({name: 'G20'})
   );
 };

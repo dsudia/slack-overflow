@@ -5,7 +5,11 @@ var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
+<<<<<<< HEAD
 var markdown = require('markdown').markdown;
+=======
+var request = require('request-promise');
+>>>>>>> master
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -95,7 +99,6 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/questions/:id', function(req, res, next) {
-  console.log(req.user);
   var qId = req.params.id;
   var questionData;
   var tagList = [];
@@ -205,7 +208,7 @@ router.post('/slack/question', function(req, res, next) {
       groupId = data[0].id;
     })
     .then(function() {
-        // look up user and store ii
+        // look up user and store id
         return knex('users').select('id').where('slack_id', userSlackId)
           .then(function(data) {
             userId = data[0].id;
@@ -219,7 +222,7 @@ router.post('/slack/question', function(req, res, next) {
         user_id: userId,
         score: 0,
         flag_status:false
-      });
+      }, 'id');
     })
     .then(function(id) {
       // store question ID in variable for later usage
@@ -305,7 +308,6 @@ router.get('/questions/:id/answer', function(req, res, next) {
   knex('questions').where('id', qId)
   .then(function(data) {
     questionData = data[0];
-    console.log(questionData);
     res.render('newAnswer', {user: req.user.id, questionId: req.params.id, question: questionData});
   });
 });
@@ -315,9 +317,9 @@ router.post('/questions/:id/answer', function(req, res, next) {
   var aData = req.body;
   userId = req.user.id;
   var body = markdown.toHTML(aData.body);
-  console.log(body);
+  var channelArray = [];
 
-  knex('answers').insert({title: aData.title,
+  return knex('answers').insert({title: aData.title,
     body: aData.body,
     question_id: req.params.id,
     user_id: userId,
@@ -325,8 +327,38 @@ router.post('/questions/:id/answer', function(req, res, next) {
     flag_status: false
   })
   .then(function() {
+    // look through subscriptions table for this question id
+    // look up slack user_ids for all users associated with this question
+    return knex('users').select('slack_id')
+      .join('subscriptions', {'users.id': 'subscriptions.user_id'})
+      .where('subscriptions.question_id', req.params.id);
+  })
+  .then(function(users) {
+    console.log('users', users);
+    for (i = 0; i < users.length; i++) {
+      return request('https://slack.com/api/im.open?token=' + process.env.SUDIA_TOKEN + '&user=' + users[i].slack_id, function(err, res, body) {
+      })
+      .then(function(response) {
+        console.log('response', response);
+        var resBody = JSON.parse(response);
+        return channelArray.push(resBody.channel.id);
+      });
+    }
+  })
+  .then(function() {
+    console.log('passed to final instruction');
+    // post a message in each channel
+    for (i = 0; i < channelArray.length; i++) {
+      return request('https://slack.com/api/chat.postMessage?token=' + process.env.SUDIA_TOKEN + '&channel=' + channelArray[i] + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+        function(err, res, body) {
+          console.log('posted a message to channel: ', channelArray[0]);
+        });
+    }
+  })
+  .then(function() {
     res.redirect('/questions/' + req.params.id);
   });
+
 });
 
 router.get('/questions/:id/delete', helpers.ensureAdmin, function(req, res, next) {
@@ -346,7 +378,6 @@ router.get('/questions/:id/delete', helpers.ensureAdmin, function(req, res, next
 });
 
 router.get('/questions/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
-  console.log('route is firing');
   knex('answers').where('id', req.params.aid).del()
     .then(function() {
       res.redirect('/questions/' + req.params.qid);
