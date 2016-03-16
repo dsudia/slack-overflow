@@ -5,6 +5,10 @@ var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
+var RtmClient = require('@slack/client').RtmClient;
+var token = process.env.SLACK_API_TOKEN || '';
+var rtm = RtmClient(token, {logLevl: 'debug'});
+rtm.start();
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
