@@ -1,5 +1,11 @@
 // add scripts
-
-$(document).on('ready', function() {
-  console.log('sanity check!');
+$(document).on('click', '.vote-up', function(e) {
+  var count = $(this).next();
+  var currentCount = $(count[0]).html();
+  var countUp = (Number(currentCount) + 1);
+  $(count[0]).html(countUp);
+  // $.ajax({
+  //   url: 'http://slackoverflowapp.herokuapp.com/question/voteup',
+  //   method: 'post',
+  // });
 });
