@@ -215,7 +215,7 @@ router.post('/slack/question', function(req, res, next) {
         user_id: userId,
         score: 0,
         flag_status:false
-      });
+      }, 'id');
     })
     .then(function(id) {
       // store question ID in variable for later usage
