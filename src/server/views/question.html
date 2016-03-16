@@ -27,6 +27,8 @@
   <div class='row tag-row'>
     <div class='col-md-1'></div>
     <div class='col-md-10'>
+      <button id='subscribe' class='btn btn-sm btn-warning'>Subscribe</button>
+      <button id='unsubscribe' class='btn btn-sm btn-warning form-hidden'>Unsubscribe</button>
       {% for tag in tags %}
       <div class='btn btn-sm btn-info'>{{ tag }}</div>
       {% endfor %}

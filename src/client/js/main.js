@@ -77,3 +77,37 @@ $(document).on('click', '.vote-down-a', function(e) {
     }
   });
 });
+
+// allow users to subscribe, hide subscribe button, show unsubscribe button
+$('#subscribe').on('click', function() {
+  $(this).toggleClass('form-hidden');
+  $('#unsubscribe').toggleClass('form-hidden');
+  var location = window.location.href;
+  var locArray = location.split('/');
+  var idIndex = (Number(locArray.indexOf('questions')) + 1);
+  var id = locArray[idIndex];
+  $.ajax({
+    url: '/subscribe/' + id,
+    method: 'post',
+    success: function(result) {
+      console.log(result);
+    }
+  });
+});
+
+// allow users to unsubscribe, hide unsubscribe button, show subscribe button
+$('#subscribe').on('click', function() {
+  $(this).toggleClass('form-hidden');
+  $('#subscribe').toggleClass('form-hidden');
+  var location = window.location.href;
+  var locArray = location.split('/');
+  var idIndex = (Number(locArray.indexOf('questions')) + 1);
+  var id = locArray[idIndex];
+  $.ajax({
+    url: '/unsubscribe/' + id,
+    method: 'post',
+    success: function(result) {
+      console.log(result);
+    }
+  });
+});
