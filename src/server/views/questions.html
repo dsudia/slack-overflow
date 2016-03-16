@@ -20,27 +20,23 @@
       <tr>
         <th class="cell-stat"></th>
         <th>
-          <h3>Assignments For Week {{week}}</h3>
+          <h3>Questions For Assignments {{week}}</h3>
         </th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">View Posts By Your Cohort</th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">View Posts By Galvanize Community</th>
         <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
         <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
         <th class="cell-stat-2x hidden-xs hidden-sm">Last Post</th>
       </tr>
     </thead>
-    {% for x in assignments%}
+    {% for x in questions%}
     <tbody>
       <tr>
         <td class="text-center"><i class="fa fa-question fa-2x text-primary"></i></td>
         <td>
-          <h4>{{x.name}}<br><small>Some description</small></h4>
+          <h4>{{x.title}}<br><small>{{x.body}}</small></h4>
         </td>
-        <td class="text-center hidden-xs hidden-sm"><a href="/questions/?assignment={{x.id}}&scope={{groupID}}">View</a></td>
-        <td class="text-center hidden-xs hidden-sm"><a href="/questions/?assignment={{x.id}}&scope=0">View</a></td>
         <td class="text-center hidden-xs hidden-sm">9542</td>
         <td class="text-center hidden-xs hidden-sm">89897</td>
-        <td class="hidden-xs hidden-sm">by <a href="#">John Doe</a><br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
+        <td class="hidden-xs hidden-sm">by John Doe<br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
       </tr>
       {% endfor %}
     </tbody>

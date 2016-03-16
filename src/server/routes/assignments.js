@@ -7,12 +7,12 @@ var helpers = require('../lib/helpers');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  console.log(req.query);
   var weekID = req.query.week;
   var groupID = req.query.group;
-  queries.getAssignments(weekID,groupID).then(function(assignments){
+  queries.getAssignments(groupID, weekID).then(function(assignments){
     console.log(assignments);
     res.render('assignments', {week: weekID,
+                              groupID: groupID,
                               assignments: assignments})
   })
   .catch(function(err) {

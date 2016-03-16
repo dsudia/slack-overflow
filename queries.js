@@ -42,11 +42,27 @@ var class_info = function() {
 module.exports = {
 
    getAssignments: function(groupsID, weeksID){
-          return knex.select('assignments.name').from('class_info')
+
+        return knex.select('assignments.name', 'assignments.id').from('class_info')
         .innerJoin('groups', 'groups.id', 'class_info.cohort_id')
         .innerJoin('assignments', 'assignments.id', 'class_info.assign_id')
         .innerJoin('weeks', 'weeks.id', 'class_info.week_id')
-        .where('groups.id', 1)
-        .andWhere('weeks.id', 10);;
+        .where('groups.id', +groupsID)
+        .andWhere('weeks.id', +weeksID);;
+    },
+
+
+    getQuestions: function(assignmentID, scope){
+        scope = +scope;
+        if(scope===0){
+            return questions().where('assignment_id', +assignmentID);
+
+        }else{
+            return questions().where('assignment_id', +assignmentID).andWhere('group_id', +scope);
+         }
+    },
+
+    getAnswers: function(assignmentID, scope){
+
     }
 };
