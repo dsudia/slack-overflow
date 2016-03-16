@@ -28,6 +28,8 @@
     "passport-local": "^1.0.0",
     "passport-slack": "0.0.4",
     "pg": "^4.5.1",
+    "request": "^2.69.0",
+    "request-promise": "^2.0.1",
     "serve-favicon": "~2.3.0",
     "swig": "^1.4.2"
   },

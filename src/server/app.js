@@ -24,7 +24,7 @@ if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 //create RTM client
 var RtmClient = require('@slack/client').RtmClient;
 var token = process.env.SLACK_BOT_TOKEN || '';
-var rtm = new RtmClient(token, {logLevel: 'debug'});
+var rtm = new RtmClient(token);
 rtm.start();
 
 // capture rtm.start payload
@@ -155,9 +155,10 @@ passport.use(new SlackStrategy({
     clientID: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     callbackURL: process.env.HOST + "/auth/slack/callback",
-    scope: 'users:read '
+    scope: 'users:read im:write chat:write:bot'
   },
   function(accessToken, refreshToken, profile, done) {
+    console.log(accessToken, refreshToken, profile);
     //does the email exist?
     var slackEmail = profile._json.info.user.profile.email;
     var slackId = profile._json.info.user.id;
