@@ -51,7 +51,8 @@
   font-size: 3rem;
 }
 
-.vote-up {
+.vote-up-q,
+.vote-up-a {
   width: 0;
   height: 0;
   border-left: 1.5rem solid transparent;
@@ -60,7 +61,8 @@
   display: block;
 }
 
-.vote-down {
+.vote-down-q,
+.vote-down-a {
   width: 0;
 	height: 0;
 	border-left: 1.5rem solid transparent;
