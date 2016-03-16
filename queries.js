@@ -41,6 +41,11 @@ var class_info = function() {
 
 module.exports = {
 
-   getQuestions: function(){
-        return restaurants().select();
-    },
+   getAssignments: function(groupsID, weeksID){
+        return class_info('assignments.name')
+        .innerJoin('groups', 'groups.id', 'class_info.cohort_id')
+        .innerJoin('assignments', 'assignments.id', 'class_info.assign_id')
+        .where('groups.id', groupsID)
+        .andWhere('weeks.id', weeksID);;
+    }
+};
