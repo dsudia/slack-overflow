@@ -78,6 +78,7 @@ $(document).on('click', '.vote-down-a', function(e) {
   });
 });
 
+
 // allow users to subscribe, hide subscribe button, show unsubscribe button
 $('#subscribe').on('click', function() {
   $(this).toggleClass('form-hidden');
@@ -110,4 +111,19 @@ $('#subscribe').on('click', function() {
       console.log(result);
     }
   });
+});
+
+
+var converter = new showdown.Converter();
+// convert question and answer body text to markdown on render
+$(document).ready(function () {
+  var markdownText = document.getElementsByClassName('markdown-text');
+  console.log(markdownText);
+  for (i = 0; i < markdownText.length; i++) {
+    console.log(i);
+    var currentHTML = $(markdownText[i]).html();
+    var markedText = converter.makeHtml(currentHTML);
+    $(markdownText[i]).html(markedText);
+  }
+
 });

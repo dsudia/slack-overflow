@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class='col-md-11'>
-      <p>{{ question.body }}</p>
+      <div class='markdown-text'>{{ question.body }}</div>
     </div>
   </div>
   <div class='row tag-row'>
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class='col-md-11'>
-        <p>{{ answer.body }}</p>
+        <div class='markdown-text'>{{ answer.body }}</div>
         {% if answer.flag_status === false %}
         <a class='answer-button' href='/questions/{{ question.id }}/answer/{{ answer.id }}/flag'><button class='btn btn-success button-warning'>Flag as Inappropriate</button></a>
         {% endif %}
