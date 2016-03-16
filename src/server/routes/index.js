@@ -10,7 +10,9 @@ var request = require('request-promise');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  knex('questions').select().then(function(data) {
+  knex('questions').select('questions.title', 'questions.body', 'questions.score', 'users.username')
+  .join('users', {'questions.user_id': 'users.id'})
+  .then(function(data) {
     res.render('index', { title: 'Slack Overflow',
                           user: req.user, questions: data, slack: req.user.slack_id});
     // need to find a way to pull tags for every question - talk to an instructor
