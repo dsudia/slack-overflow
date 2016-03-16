@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
       password: '$2a$10$Dx98AoY3XU7E5EPfAXIU5uzhGPjIg1wlXWqL1lnDpnKGeJZCmRbfa',
       email: 'dsudia@gmail.com',
       score: 0,
-      slack_id: 'U2147483697'}),
+      slack_id: 'U0SSBTTH8'}),
     knex('users').insert({first_name: 'Michael',
       last_name: 'Herman',
       auth_id: knex.select('id').from('auth_levels').where('level', 'instructor'),
