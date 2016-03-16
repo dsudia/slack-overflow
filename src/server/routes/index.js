@@ -171,17 +171,11 @@ router.post('/questions/add', function(req, res, next) {
 
 router.post('/slack/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
-  console.log(req.body);
   var token = req.body.token;
-  console.log('token', token);
   var userSlackId = req.body.user_id;
-  console.log('slack id', userSlackId);
   var userSlackName = req.body.user_name;
-  console.log('slack name', userSlackName);
   var message = req.body.text;
-  console.log('message', message);
   var group = req.body.channel_id;
-  console.log('group', group);
   var userId;
   var groupId;
 
@@ -244,6 +238,7 @@ router.post('/slack/question', function(req, res, next) {
       });
     })
     .then(function(data) {
+      console.log('question ID is ', questionID)
         //respond with text and question id
       res.status(200).header('Content-Type', 'application/json').send({
         'response_type': 'in_channel',
