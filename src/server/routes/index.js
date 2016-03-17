@@ -6,7 +6,6 @@ var passport = require('../lib/auth');
 var queries = require("../../../queries");
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
-var markdown = require('markdown').markdown;
 var request = require('request-promise');
 
 
