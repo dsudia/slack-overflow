@@ -12,8 +12,12 @@ var Promise = require('bluebird');
 var passport = require('./lib/passport');
 var knex = require('../../db/knex');
 var helpers = require('./lib/helpers');
+var bot = require('./bot');
 if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
+
+//start bot
+bot();
 
 
 // *** routes *** //
@@ -26,6 +30,7 @@ var loginRoutes = require('./routes/login');
 var registerRoutes = require('./routes/register');
 var logoutRoute = require('./routes/logout');
 var answerRoutes = require('./routes/answers');
+
 
 // *** express instance *** //
 var app = express();

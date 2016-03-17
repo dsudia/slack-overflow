@@ -27,13 +27,14 @@
                 <p>rating</p>
               </div>
               <div class='flex-item-size-1'>
-                {% for index in answerCount %}
-                  {% if question.id === index.question_id %}
-                    <h4>{{ index.count }}</h4>
-                  {% else %}
-                    <h4>0</h4>
-                  {% endif %}
-                {% endfor %}
+              {% for index in answerCount %}
+                {% if question.id === index.question_id %}
+                  {% set count = index.count %}
+                {% else %}
+                  {% set count = 0 %}
+                {% endif %}
+              {% endfor %}
+              <h4>{{ count }}</h4>
                 <p>answers</p>
               </div>
               <div class='flex-item-size-3'>

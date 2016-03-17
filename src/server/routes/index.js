@@ -22,7 +22,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
       return knex('answers').select('question_id').count().groupBy('question_id');
     })
     .then(function(data) {
-      console.log('answer counts', data);
       answerCountArray = data;
     })
     .then(function() {
