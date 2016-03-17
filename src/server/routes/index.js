@@ -314,6 +314,8 @@ router.post('/slack/answer', function(req, res, next) {
   var body = messageArray[1];
   body = markdown.toHTML('body');
   var qId = messageArray[2];
+  var channelArray = [];
+  var userArray = [];
 
   // look up user and store id
   knex('users').select('id').where('slack_id', userSlackId)
