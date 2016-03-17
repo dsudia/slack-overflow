@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = {
 
   subscribe: function(req, res, next) {

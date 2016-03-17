@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = {
 
   flag: function(req, res, next) {

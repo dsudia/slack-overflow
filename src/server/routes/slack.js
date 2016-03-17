@@ -1,3 +1,7 @@
+var express = require('express');
+var router = express.Router();
+var knex = require('../../../db/knex');
+
 router.post('/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
   var token = req.body.token;
@@ -164,3 +168,5 @@ router.post('/answer', function(req, res, next) {
       });
     });
 });
+
+module.exports = router;

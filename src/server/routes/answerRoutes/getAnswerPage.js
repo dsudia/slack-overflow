@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = function(req, res, next) {
   var qId = req.params.id;
   var questionData;

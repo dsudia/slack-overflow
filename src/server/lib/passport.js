@@ -2,6 +2,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var knex = require('../../../db/knex');
 var helpers = require('./helpers');
+var GitHubStrategy = require('passport-github').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
+var SlackStrategy = require('passport-slack').Strategy;
+if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
 /// *** passport middleware ***//
 passport.use(new GitHubStrategy({

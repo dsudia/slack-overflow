@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = function(req, res, next) {
   // store form info in a variable
   var user = req.user;

@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = function(req, res, next) {
   knex('answers').where('id', req.params.aid).del()
     .then(function() {

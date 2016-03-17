@@ -1,3 +1,7 @@
+var express = require('express');
+var router = express.Router();
+var helpers = require('../lib/helpers');
+
 router.get('/', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {
     user: req.user,
@@ -20,3 +24,5 @@ router.post('/', function(req, res, next) {
     }
   })(req, res, next);
 });
+
+module.exports = router;

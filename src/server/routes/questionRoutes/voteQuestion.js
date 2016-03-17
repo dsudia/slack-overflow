@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = {
 
   voteUp: function(req, res, next) {

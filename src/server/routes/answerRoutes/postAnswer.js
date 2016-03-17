@@ -1,3 +1,5 @@
+var knex = require('../../../../db/knex');
+
 module.exports = function(req, res, next) {
   var aData = req.body;
   userId = req.user.id;

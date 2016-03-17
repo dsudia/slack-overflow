@@ -1,3 +1,8 @@
+var express = require('express');
+var router = express.Router();
+var helpers = require('../lib/helpers');
+var knex = require('../../../db/knex');
+
 router.get('/', helpers.loginRedirect, function(req, res, next) {
   res.render('register', {
     user: req.user,
@@ -46,3 +51,5 @@ router.post('/', function(req, res, next) {
       return next(err);
     });
 });
+
+module.exports = router;

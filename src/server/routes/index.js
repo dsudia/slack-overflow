@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 var knex = require('../../../db/knex');
-var passport = require('../lib/auth');
+var passport = require('../lib/passport');
 var queries = require("../../../queries");
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
@@ -39,14 +39,11 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 // question information, username, for questions about assignments that are for that user's group
-
-knex('questions')
-  .select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
-  .join('users', {'questions.user_id': 'users.id'})
-  .join('user_groups', {'users.id': 'user_groups.user_id'})
-  .join('groups', {'groups.id': 'user_groups.group_id'})
-  .join('class_info', {'class_info.group_id': 'groups.id'})
-  .join('assignments', {'class_info.assignment_id': 'assignments.id'});
+// 
+// knex('questions')
+//   .join('users', {'questions.user_id': 'users.id'})
+//   .select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+//   .where({'questions.assignment_id': +assignmentId, 'questions.group_id': +scope});
 
 
 
