@@ -84,16 +84,16 @@ router.post('/:id/voteup', helpers.ensureAuthenticated, function(req, res, next)
   voteQuestion.voteUp();
 });
 
-router.post('/questions/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
+router.post('/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
   voteQuestion.voteDown();
 });
 
-router.post('/answers/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
-  voteAnswer.voteUp();
+router.post('/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+  subscribe.subscribe();
 });
 
-router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
-  voteAnswer.voteDown();
+router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+  subscribe.unsubscribe();
 });
 
 module.exports = router;

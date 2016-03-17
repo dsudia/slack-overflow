@@ -100,38 +100,4 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
 });
 
 
-
-
-
-
-router.post('/answers/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
-  voteAnswer.voteUp();
-});
-
-router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
-  voteAnswer.voteDown();
-});
-
-router.post('/questions/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
-  user = req.user.id;
-  return knex('subscriptions').insert({
-      'user_id': user,
-      'question_id': req.params.id
-    })
-    .then(function() {
-      res.status(200).send('You are subscribed!');
-    });
-});
-
-router.post('/questions/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
-  user = req.user.id;
-  return knex('subscriptions').where({
-      'user_id': user,
-      'question_id': req.params.id
-    }).del()
-    .then(function() {
-      res.status(200).send('You have unsubscribed!');
-    });
-});
-
 module.exports = router;
