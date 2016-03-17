@@ -29,9 +29,11 @@
               <div class='flex-item-size-1'>
                 {% for index in answerCount %}
                   {% if question.id === index.question_id %}
-                    <h4>{{ index.count }}</h4>
-                  {% else %}
-                    <h4>0</h4>
+                    {% if index.count !== 0}
+                      <h4>{{ index.count }}</h4>
+                    {% else %}
+                      <h4>0</h4>
+                    {% endif %}
                   {% endif %}
                 {% endfor %}
                 <p>answers</p>
