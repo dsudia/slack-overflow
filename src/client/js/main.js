@@ -55,7 +55,7 @@ function modSubscrip (action, reverseAction) {
   var idIndex = (Number(locArray.indexOf('questions')) + 1);
   var id = locArray[idIndex];
   $.ajax({
-    url: '/' + action + '/' + id,
+    url: action + '/' + id,
     method: 'post',
     success: function(result) {
       console.log(result);
