@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var helpers = require('../lib/helpers');
+var passport = require('../lib/passport');
 
 router.get('/', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {

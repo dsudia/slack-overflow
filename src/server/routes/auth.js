@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
+var passport = require('../lib/passport');
 
 
 router.get('/github',
   passport.authenticate('github'));
 
-router.get('/github/callback', 
+router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login'}),
   function(req, res) {
     // Successful authentication, redirect home.
@@ -16,7 +16,7 @@ router.get('/github/callback',
 
 router.get('/slack', passport.authenticate('slack'));
 
-router.get('/slack/callback', 
+router.get('/slack/callback',
   passport.authenticate('slack', { failureRedirect: '/login'}),
   function(req, res) {
     // Successful authentication, redirect home.
