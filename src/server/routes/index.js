@@ -100,87 +100,8 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
 });
 
 
-router.post('/questions/:id/answer', function(req, res, next) {
-  var aData = req.body;
-  userId = req.user.id;
-  var body = aData.body;
-  var channelArray = [];
-  var userArray = [];
-
-  return knex('answers').insert({
-      title: aData.title,
-      body: aData.body,
-      question_id: req.params.id,
-      user_id: userId,
-      score: 0,
-      flag_status: false
-    })
-    .then(function() {
-      // look through subscriptions table for this question id
-      // look up slack user_ids for all users associated with this question
-      return knex('users').select('slack_id', 'slack_access_token')
-        .join('subscriptions', {
-          'users.id': 'subscriptions.user_id'
-        })
-        .where('subscriptions.question_id', req.params.id);
-    })
-    .then(function(users) {
-      console.log('users', users);
-      // if there are subscribed users, open a channel with all subscribed users
-      if (users[0] !== undefined) {
-        for (i = 0; i < users.length; i++) {
-          return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {})
-            .then(function(response) {
-              console.log('response', response);
-              var resBody = JSON.parse(response);
-              return channelArray.push({
-                channel: resBody.channel.id,
-                userToken: users[i].slack_access_token
-              });
-            });
-        }
-      }
-
-    })
-    .then(function() {
-      // post a message in each channel
-      if (channelArray[0] !== undefined) {
-        for (i = 0; i < channelArray.length; i++) {
-          return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
-            function(err, res, body) {
-              console.log('posted a message to channel: ', channelArray[0]);
-            });
-        }
-      }
-
-    })
-    .then(function() {
-      res.redirect('/questions/' + req.params.id);
-    });
-
-});
-
-router.get('/questions/:id/delete', helpers.ensureAdmin, function(req, res, next) {
-  knex('question_tags').where('question_id', req.params.id).del()
-    .then(function() {
-      return knex('answers').where('question_id', req.params.id).del();
-    })
-    .then(function() {
-      return knex('subscriptions').where('question_id', req.params.id).del();
-    })
-    .then(function() {
-      return knex('questions').where('id', req.params.id).del();
-    })
-    .then(function() {
-      res.redirect('/');
-    });
-});
-
 router.get('/questions/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
-  knex('answers').where('id', req.params.aid).del()
-    .then(function() {
-      res.redirect('/questions/' + req.params.qid);
-    });
+  deleteAnswer();
 });
 
 router.get('/questions/:id/flag', function(req, res, next) {

@@ -5,9 +5,12 @@ var knex = require('../../../db/knex.js');
 var passport = require('passport');
 var helpers = require('../lib/helpers');
 var addQuestion = require('./questionRoutes/addQuestion');
-var getAnswerPage = require('/answerRoutes/getAnswerPage');
-var postQuestion = require('/answerRoutes/postAnswer');
-
+var getAnswerPage = require('./answerRoutes/getAnswerPage');
+var postQuestion = require('./answerRoutes/postAnswer');
+var deleteQuestion = require('./questionRoutes/deleteQuestion');
+var deleteAnswer = require('./answerRoutes/deleteAnswer');
+var flagQuestion = require('./questionRoutes/flagQuestion');
+var flagAnswer = require('./answerRoutes/flagAnswer');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -44,12 +47,36 @@ router.post('/add', helpers.ensureAuthenticated, function(req, res, next) {
   addQuestion(res, res, next);
 });
 
-router.get('/:id/answer', function(req, res, next) {
+router.get('/:id/answer', helpers.ensureAuthenticated, function(req, res, next) {
   getAnswerPage(req, res, next);
 });
 
-router.post('/:id/answer', function(req, res, next) {
+router.post('/:id/answer', helpers.ensureAuthenticated, function(req, res, next) {
   postAnswer(req, res, next);
+});
+
+router.get('/:id/delete', helpers.ensureAdmin, function(req, res, next) {
+  deleteQuestion();
+});
+
+router.get('/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
+  deleteAnswer();
+});
+
+router.get('/:id/flag', helpers.ensureAuthenticated, function(req, res, next) {
+  flagQuestion.flag();
+});
+
+router.get('/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
+  flagQuestion.unflag();
+});
+
+router.get('/questions/:qid/answer/:aid/flag', function(req, res, next) {
+  flagAnswer.flag();
+});
+
+router.get('/questions/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
+  flagAnswer.flag();
 });
 
 module.exports = router;
