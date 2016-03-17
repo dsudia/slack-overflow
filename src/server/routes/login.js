@@ -1,11 +1,11 @@
-router.get('/login', helpers.loginRedirect, function(req, res, next) {
+router.get('/', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {
     user: req.user,
     message: req.flash('danger')
   });
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/', function(req, res, next) {
   passport.authenticate('local', function(err, userId) {
     if (err) {
       return next(err);

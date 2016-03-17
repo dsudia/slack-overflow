@@ -1,11 +1,11 @@
-router.get('/register', helpers.loginRedirect, function(req, res, next) {
+router.get('/', helpers.loginRedirect, function(req, res, next) {
   res.render('register', {
     user: req.user,
     message: req.flash('danger')
   });
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/', function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
   var first_name = req.body.first_name;

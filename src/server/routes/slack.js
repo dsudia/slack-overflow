@@ -1,4 +1,4 @@
-router.post('/slack/question', function(req, res, next) {
+router.post('/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
   var token = req.body.token;
   var userSlackId = req.body.user_id;
