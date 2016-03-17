@@ -29,21 +29,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
    });
 });
 
-router.get('/:questionID', helpers.ensureAuthenticated, function(req, res, next) {
-  var questionID = req.params.questionID;;
-  var scope = req.query.scope;
-  queries.getQuestions(assignmentID, scope)
-  .then(function(question){
-      queries.getAnswers(questionID,scope)
-  })
-  .then(function(answers){
-      res.render('question', {question:question,
-                              answers: answers})
-  })
-  .catch(function(err) {
-    console.log(err);
-   });
-});
 
 router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
   getQuestion();
