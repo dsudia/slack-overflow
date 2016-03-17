@@ -7,11 +7,12 @@ var queries = require("../../../queries");
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 var request = require('request-promise');
-
+var bluebird = require('bluebird');
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   var questionData;
   var answerCountArray;
+  var tagArray;
   knex('questions').select('questions.title', 'questions.id', 'questions.body', 'questions.score', 'users.username')
     .join('users', {
       'questions.user_id': 'users.id'
@@ -25,6 +26,13 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
     .then(function(data) {
       console.log('answer counts', data);
       answerCountArray = data;
+    }).
+    then(function() {
+      return knex('tags').select('tags.tag_name', 'question_tags.question_id')
+        .join('question_tags', {'question_tags.tag_id': 'tags.id'});
+    })
+    .then(function(data) {
+      tagArray = data;
     })
     .then(function() {
       console.log(answerCountArray);
@@ -33,11 +41,10 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
         user: req.user,
         questions: questionData,
         slack: req.user.slack_id,
-        answerCount: answerCountArray
+        answerCount: answerCountArray,
+        tags: tagArray
       });
       // need to find a way to pull tags for every question - talk to an instructor
-      // need to find a way to count number of answers for each question - ^^^
-      // need to show author's name
     });
 });
 
@@ -203,11 +210,11 @@ router.post('/questions/add', helpers.ensureAuthenticated, function(req, res, ne
   tagList = tagList.toLowerCase();
   var tagArray = tagList.split(',');
   var tagIds = [];
-  var questionID;
-  var body = markdown.toHTML(qData.body);
+  var questionId;
+  var body = qData.body;
 
   // insert question data into questions table, get question's ID back
-  knex('questions').insert({
+  return knex('questions').insert({
     title: qData.title,
     body: body,
     group_id: qData.group_id,
@@ -215,29 +222,48 @@ router.post('/questions/add', helpers.ensureAuthenticated, function(req, res, ne
     score: 0,
     flag_status: false,
     assignment_id: qData.assignment_id
-  }, 'id').then(function(id) {
+  }, 'id')
+  .then(function(id) {
     // store question ID in variable for later usage
-    questionID = id;
+    questionId = id;
+    questionId = Number(questionId);
   }).then(function() {
     // put tags into tags table and store ids in an array
-    tagArray.forEach(function(el, ind, arr) {
-      return knex('tags').insert({
-        tag_name: el
-      }, 'id').then(function(id) {
-        tagIds.push(id);
+    var promisesArray = tagArray.map(function(el, ind, arr) {
+      // see if tag is already in table
+      return knex('tags').select('id').where('tag_name', el)
+      .then(function(data) {
+        console.log('search returns', data);
+        // if not, insert it and then put id into tagIds array
+        if(data[0] === undefined) {
+          console.log('into the undefined part of loop');
+          return knex('tags').insert({
+            tag_name: el
+          }, 'id').then(function(id) {
+            return tagIds.push(id);
+          });
+        // if so, put the id into the array.
+        } else {
+          console.log('into tag exists part of loop');
+          return tagIds.push(data[0].id);
+        }
       });
     });
+    return Promise.all(promisesArray);
   }).then(function() {
+    console.log('tagIds right before forEach on the array', tagIds);
     // insert question/tag relationships into question_tags table
-    tagIds.forEach(function(el, ind, arr) {
-      knex('question_tags').insert({
+    var promisesArray = tagIds.map(function(el, ind, arr) {
+      return knex('question_tags').insert({
         question_id: questionId,
         tag_id: el
       });
     });
-  }).then(function(data) {
+    return Promise.all(promisesArray);
+  })
+  .then(function(data) {
     //render question page
-    res.redirect('/questions/' + questionID);
+    res.redirect('/questions/' + questionId);
   });
 });
 
@@ -265,7 +291,7 @@ router.post('/slack/question', function(req, res, next) {
     tagList = tagList.toLowerCase();
     var tagArray = tagList.split(',');
     var tagIds = [];
-    var questionID;
+    var questionId;
 
     // look up group and store group_id
     knex('groups').select('id').where('slack_channel', group)
@@ -292,32 +318,47 @@ router.post('/slack/question', function(req, res, next) {
       })
       .then(function(id) {
         // store question ID in variable for later usage
-        questionID = id;
-      })
-      .then(function() {
+        questionId = id;
+        questionId = Number(questionId);
+      }).then(function() {
         // put tags into tags table and store ids in an array
-        return tagArray.forEach(function(el, ind, arr) {
-          return knex('tags').insert({
-            tag_name: el
-          }, 'id').then(function(id) {
-            tagIds.push(id);
+        var promisesArray = tagArray.map(function(el, ind, arr) {
+          // see if tag is already in table
+          return knex('tags').select('id').where('tag_name', el)
+          .then(function(data) {
+            console.log('search returns', data);
+            // if not, insert it and then put id into tagIds array
+            if(data[0] === undefined) {
+              console.log('into the undefined part of loop');
+              return knex('tags').insert({
+                tag_name: el
+              }, 'id').then(function(id) {
+                return tagIds.push(id);
+              });
+            // if so, put the id into the array.
+            } else {
+              console.log('into tag exists part of loop');
+              return tagIds.push(data[0].id);
+            }
           });
         });
-      })
-      .then(function() {
+        return Promise.all(promisesArray);
+      }).then(function() {
+        console.log('tagIds right before forEach on the array', tagIds);
         // insert question/tag relationships into question_tags table
-        return tagIds.forEach(function(el, ind, arr) {
+        var promisesArray = tagIds.map(function(el, ind, arr) {
           return knex('question_tags').insert({
             question_id: questionId,
             tag_id: el
           });
         });
+        return Promise.all(promisesArray);
       })
       .then(function(data) {
         //respond with text and question id
         res.status(200).header('Content-Type', 'application/json').send({
           'response_type': 'in_channel',
-          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/question/' + questionID + '. To respond to this question, type /sflowa #title #body #' + questionID
+          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/question/' + questionId + '. To respond to this question, type /sflowa #title #body #' + questionId
         });
       });
   }
