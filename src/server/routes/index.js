@@ -541,7 +541,7 @@ router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, 
     });
 });
 
-router.post('/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+router.post('/questions/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
   user = req.user.id;
   return knex('subscriptions').insert({'user_id': user, 'question_id': req.params.id})
     .then(function() {
@@ -549,7 +549,7 @@ router.post('/subscribe/:id', helpers.ensureAuthenticated, function(req, res, ne
     });
 });
 
-router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
+router.post('/questions/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
   user = req.user.id;
   return knex('subscriptions').where({'user_id': user, 'question_id': req.params.id}).del()
     .then(function() {
