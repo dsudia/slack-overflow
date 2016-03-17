@@ -172,6 +172,7 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
 
 router.post('/questions/add', helpers.ensureAuthenticated, function(req, res, next) {
   // store form info in a variable
+  var user = req.user;
   var qData = req.body;
   console.log(qData.user_id);
   var tagList = req.body.tags;
@@ -186,7 +187,7 @@ router.post('/questions/add', helpers.ensureAuthenticated, function(req, res, ne
   knex('questions').insert({title: qData.title,
     body: body,
     group_id: qData.group_id,
-    user_id: qData.user_id,
+    user_id: req.user.id,
     score: 0,
     flag_status:false,
     assignment_id: qData.assignment_id}, 'id').then(function(id) {
