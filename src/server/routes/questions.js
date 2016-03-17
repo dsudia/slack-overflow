@@ -13,6 +13,7 @@ var flagQuestion = require('./questionRoutes/flagQuestion');
 var flagAnswer = require('./answerRoutes/flagAnswer');
 var voteQuestion = require('./questionRoutes/voteQuestion');
 var subscribe = require('./questionRoutes/subscribe');
+var getQuestion = require('./questionRoutes/getQuestion');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -42,6 +43,10 @@ router.get('/:questionID', helpers.ensureAuthenticated, function(req, res, next)
   .catch(function(err) {
     console.log(err);
    });
+});
+
+router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
+  getQuestion();
 });
 
 

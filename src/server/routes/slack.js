@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../../../db/knex');
 var request = require('request-promise');
+var Promise = require('bluebird');
 
 router.post('/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
@@ -27,7 +28,7 @@ router.post('/question', function(req, res, next) {
     tagList = tagList.toLowerCase();
     var tagArray = tagList.split(',');
     var tagIds = [];
-    var questionID;
+    var questionId;
 
     // look up group and store group_id
     knex('groups').select('id').where('slack_channel', group)
@@ -54,32 +55,48 @@ router.post('/question', function(req, res, next) {
       })
       .then(function(id) {
         // store question ID in variable for later usage
-        questionID = id;
+        questionId = id;
+        questionId = Number(questionId);
       })
       .then(function() {
         // put tags into tags table and store ids in an array
-        return tagArray.forEach(function(el, ind, arr) {
-          return knex('tags').insert({
-            tag_name: el
-          }, 'id').then(function(id) {
-            tagIds.push(id);
+        var promisesArray = tagArray.map(function(el, ind, arr) {
+          // see if tag is already in table
+          return knex('tags').select('id').where('tag_name', el)
+          .then(function(data) {
+            console.log('search returns', data);
+            // if not, insert it and then put id into tagIds array
+            if(data[0] === undefined) {
+              console.log('into the undefined part of loop');
+              return knex('tags').insert({
+                tag_name: el
+              }, 'id').then(function(id) {
+                return tagIds.push(id);
+              });
+            // if so, put the id into the array.
+            } else {
+              console.log('into tag exists part of loop');
+              return tagIds.push(data[0].id);
+            }
           });
         });
+        return Promise.all(promisesArray);
       })
       .then(function() {
         // insert question/tag relationships into question_tags table
-        return tagIds.forEach(function(el, ind, arr) {
+        var promisesArray = tagIds.map(function(el, ind, arr) {
           return knex('question_tags').insert({
             question_id: questionId,
             tag_id: el
           });
         });
+        return Promise.all(promisesArray);
       })
       .then(function(data) {
         //respond with text and question id
         res.status(200).header('Content-Type', 'application/json').send({
           'response_type': 'in_channel',
-          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/question/' + questionID + '. To respond to this question, type /sflowa #title #body #' + questionID
+          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/question/' + questionId + '. To respond to this question, type /sflowa #title #body #' + questionId
         });
       });
   }
