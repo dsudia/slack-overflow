@@ -62,7 +62,12 @@ module.exports = {
          }
     },
 
-    getAnswers: function(assignmentID, scope){
-
+    getAnswers: function(questionID, scope){
+        questionID = +questionid;
+        if(scope===0){
+            return answers().where('question_id', +questionID);
+        }else{
+            return answers().where('question_id', +questionID).andWhere('group_ID', +scope);
+        }
     }
 };

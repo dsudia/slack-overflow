@@ -12,11 +12,29 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   var scope = req.query.scope;
   queries.getQuestions(assignmentID, scope)
   .then(function(questions){
-      res.render('questions', {questions:questions})
+      res.render('questions', {questions:questions,
+                              scope: scope})
   })
   .catch(function(err) {
     console.log(err);
    });
 });
 
+
+
+router.get('/:questionID', helpers.ensureAuthenticated, function(req, res, next) {
+  var questionID = req.params.questionID;;
+  var scope = req.query.scope;
+  queries.getQuestions(assignmentID, scope)
+  .then(function(question){
+      queries.getAnswers(questionID,scope)
+  })
+  .then(function(answers){
+      res.render('question', {question:question,
+                              answers: answers})
+  })
+  .catch(function(err) {
+    console.log(err);
+   });
+});
 module.exports = router;
