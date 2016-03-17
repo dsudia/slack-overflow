@@ -1,4 +1,5 @@
 var knex = require('../../../../db/knex');
+var request = require('request-promise');
 
 module.exports = function(req, res, next) {
   var aData = req.body;

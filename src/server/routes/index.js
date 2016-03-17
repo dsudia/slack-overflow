@@ -2,11 +2,8 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 var knex = require('../../../db/knex');
-var passport = require('../lib/passport');
 var queries = require("../../../queries");
-var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
-var request = require('request-promise');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -39,7 +36,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 // question information, username, for questions about assignments that are for that user's group
-// 
+//
 // knex('questions')
 //   .join('users', {'questions.user_id': 'users.id'})
 //   .select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
