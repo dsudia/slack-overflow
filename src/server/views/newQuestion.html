@@ -21,14 +21,55 @@
             <label for='group'>Cohort</label><br />
             <select name='group_id' class='form-control' placeholder='G19' required/>
               <option value="" disabled selected>-- Cohorts --</option>
-              <option value='1'>G19</option>
+              {% for x in cohorts %}
+              <option value='{{x.id}}'>{{x.name}} </option>
+              {% endfor%}
+            </select>
+          </div>
+           <div class='form-group'>
+            <label for='week_id'>Week</label><br />
+            <select class="form-control" id="weeks" name="weeks_id" required>
+                <option value="" disabled selected>-- Week --</option>
+                  <option label= "">--</option>
+                  <option value='1'>week 1</option>
+                  <option value='2'>week 2</option>
+                  <option value='3'>week 3</option>
+                  <option value='4'>week 4</option>
+                  <option value='5'>week 5</option>
+                  <option value='6'>week 6</option>
+                  <option value='7'>week 7</option>
+                  <option value='8'>week 8</option>
+                  <option value='9'>week 9</option>
+                  <option value='10'>week 10</option>
+                  <option value='11'>week 11</option>
+                  <option value='12'>week 12</option>
+                  <option value='13'>week 13</option>
+                  <option value='14'>week 14</option>
+                  <option value='15'>week 15</option>
+                  <option value='16'>week 16</option>
+                  <option value='17'>week 17</option>
+                  <option value='18'>week 18</option>
+                  <option value='19'>week 19</option>
+                  <option value='20'>week 20</option>
+                  <option value='21'>week 21</option>
+                  <option value='22'>week 22</option>
+                  <option value='23'>week 23</option>
+                  <option value='24'>week 24</option>
+                </select>
+
             </select>
           </div>
           <div class='form-group'>
             <label for='assignment_id'>Assignment</label><br />
             <select class="form-control" id="assignment" name="assignment_id" required>
                 <option value="" disabled selected>-- Assignments --</option>
-                <option value="1">Intro to Knex</option>
+                <option value='1'>intro-to-commandline</option>
+                <option value='2'>pixel-art-maker</option>
+                <option value='3'>form-based-authentication</option>
+                <option value='4'>express-middleware-practice</option>
+                <option value='5'>express-basic-auth</option>
+                <option value='6'>node-passport-local</option>
+                <option value='7'>linkedin-oauth-with-passport</option>
             </select>
           </div>
           <div class='form-group'>

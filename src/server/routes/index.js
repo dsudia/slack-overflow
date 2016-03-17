@@ -3,6 +3,8 @@ var router = express.Router();
 var pg = require('pg');
 var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
+var queries = require("../../../queries");
+
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 var markdown = require('markdown').markdown;
@@ -122,7 +124,7 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 
-router.get('/questions/:id', function(req, res, next) {
+router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
   // need to show author's name
   var userId = req.user.id;
   var qId = req.params.id;
@@ -130,7 +132,12 @@ router.get('/questions/:id', function(req, res, next) {
   var tagList = [];
   var answerList = [];
   if (qId === 'new') {
-    res.render('newQuestion', {user: req.user, title: 'Slack Overflow - Post a Question'});
+    return knex('groups')
+    .then(function(cohorts){
+          res.render('newQuestion', {user: req.user,  
+                                    cohorts: cohorts,
+                                    title: 'Slack Overflow - Post a Question'});
+    })
   } else if (qId !== 'new') {
     return knex('questions').select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
     .join('users', {'questions.user_id': 'users.id'})
@@ -164,9 +171,10 @@ router.get('/questions/:id', function(req, res, next) {
 });
 
 
-router.post('/questions/add', function(req, res, next) {
+router.post('/questions/add', helpers.ensureAuthenticated, function(req, res, next) {
   // store form info in a variable
   var qData = req.body;
+  console.log(qData.user_id);
   var tagList = req.body.tags;
   tagList = tagList.replace(/ /g, '');
   tagList = tagList.toLowerCase();
