@@ -69,7 +69,7 @@ $('#subscribe').on('click', function() {
 });
 
 // allow users to unsubscribe, hide unsubscribe button, show subscribe button
-$('#subscribe').on('click', function() {
+$('#unsubscribe').on('click', function() {
   modSubscrip('unsubscribe', 'subscribe');
 });
 
