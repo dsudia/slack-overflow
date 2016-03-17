@@ -119,7 +119,7 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 
-  
+
 
 
 router.get('/questions/:id', function(req, res, next) {
@@ -330,23 +330,27 @@ router.post('/slack/answer', function(req, res, next) {
   .then(function(users) {
     console.log('users', users);
     // open a channel with all subscribed users
-    for (i = 0; i < users.length; i++) {
-      return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
-      })
-      .then(function(response) {
-        console.log('response', response);
-        var resBody = JSON.parse(response);
-        return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
-      });
+    if (users[0] !== undefined) {
+      for (i = 0; i < users.length; i++) {
+        return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
+        })
+        .then(function(response) {
+          console.log('response', response);
+          var resBody = JSON.parse(response);
+          return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
+        });
+      }
     }
   })
   .then(function() {
     // post a message in each channel
-    for (i = 0; i < channelArray.length; i++) {
-      return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
-        function(err, res, body) {
-          console.log('posted a message to channel: ', channelArray[0]);
-        });
+    if (channelArray[0] !== undefined) {
+      for (i = 0; i < channelArray.length; i++) {
+        return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+          function(err, res, body) {
+            console.log('posted a message to channel: ', channelArray[0]);
+          });
+      }
     }
   })
   // post answer
@@ -395,25 +399,31 @@ router.post('/questions/:id/answer', function(req, res, next) {
   })
   .then(function(users) {
     console.log('users', users);
-    // open a channel with all subscribed users
-    for (i = 0; i < users.length; i++) {
-      return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
-      })
-      .then(function(response) {
-        console.log('response', response);
-        var resBody = JSON.parse(response);
-        return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
-      });
+    // if there are subscribed users, open a channel with all subscribed users
+    if (users[0] !== undefined) {
+      for (i = 0; i < users.length; i++) {
+        return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {
+        })
+        .then(function(response) {
+          console.log('response', response);
+          var resBody = JSON.parse(response);
+          return channelArray.push({channel: resBody.channel.id, userToken: users[i].slack_access_token});
+        });
+      }
     }
+
   })
   .then(function() {
     // post a message in each channel
-    for (i = 0; i < channelArray.length; i++) {
-      return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
-        function(err, res, body) {
-          console.log('posted a message to channel: ', channelArray[0]);
-        });
+    if (channelArray[0] !== undefined) {
+      for (i = 0; i < channelArray.length; i++) {
+        return request('https://slack.com/api/chat.postMessage?token=' + channelArray[i].userToken + '&channel=' + channelArray[i].channel + '&text=Question%20' + req.params.id + '%20was%20just%20answered!',
+          function(err, res, body) {
+            console.log('posted a message to channel: ', channelArray[0]);
+          });
+      }
     }
+
   })
   .then(function() {
     res.redirect('/questions/' + req.params.id);
