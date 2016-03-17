@@ -11,6 +11,7 @@ var deleteQuestion = require('./questionRoutes/deleteQuestion');
 var deleteAnswer = require('./answerRoutes/deleteAnswer');
 var flagQuestion = require('./questionRoutes/flagQuestion');
 var flagAnswer = require('./answerRoutes/flagAnswer');
+var voteQuestion = require('./questionRoutes/voteQuestion');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -71,12 +72,28 @@ router.get('/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
   flagQuestion.unflag();
 });
 
-router.get('/questions/:qid/answer/:aid/flag', function(req, res, next) {
+router.get('/:qid/answer/:aid/flag', function(req, res, next) {
   flagAnswer.flag();
 });
 
-router.get('/questions/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
+router.get('/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
   flagAnswer.flag();
+});
+
+router.post('/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
+  voteQuestion.voteUp();
+});
+
+router.post('/questions/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
+  voteQuestion.voteDown();
+});
+
+router.post('/answers/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
+  voteAnswer.voteUp();
+});
+
+router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
+  voteAnswer.voteDown();
 });
 
 module.exports = router;

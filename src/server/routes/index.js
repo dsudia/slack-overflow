@@ -100,88 +100,16 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
 });
 
 
-router.get('/questions/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
-  deleteAnswer();
-});
 
-router.get('/questions/:id/flag', function(req, res, next) {
-  return knex('questions').where('id', req.params.id).update('flag_status', true)
-    .then(function() {
-      res.redirect('/questions/' + req.params.id);
-    });
-});
 
-router.get('/questions/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
-  return knex('questions').where('id', req.params.id).update('flag_status', false)
-    .then(function() {
-      res.redirect('/questions/' + req.params.id);
-    });
-});
 
-router.get('/questions/:qid/answer/:aid/flag', function(req, res, next) {
-  return knex('answers').where('id', req.params.aid).update('flag_status', true)
-    .then(function() {
-      res.redirect('/questions/' + req.params.qid);
-    });
-});
-
-router.get('/questions/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
-  return knex('answers').where('id', req.params.aid).update('flag_status', false)
-    .then(function() {
-      res.redirect('/questions/' + req.params.qid);
-    });
-});
-
-router.post('/questions/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
-  return knex('questions').select('score').where('id', req.params.id)
-    .then(function(data) {
-      return (Number(data[0].score) + 1);
-    })
-    .then(function(newScore) {
-      return knex('questions').where('id', req.params.id).update('score', newScore);
-    })
-    .then(function(data) {
-      res.status(200).send('score updated correctly');
-    });
-});
-
-router.post('/questions/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
-  return knex('questions').select('score').where('id', req.params.id)
-    .then(function(data) {
-      return (Number(data[0].score) - 1);
-    })
-    .then(function(newScore) {
-      return knex('questions').where('id', req.params.id).update('score', newScore);
-    })
-    .then(function(data) {
-      res.status(200).send('score updated correctly');
-    });
-});
 
 router.post('/answers/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
-  return knex('answers').select('score').where('id', req.params.id)
-    .then(function(data) {
-      return (Number(data[0].score) + 1);
-    })
-    .then(function(newScore) {
-      return knex('answers').where('id', req.params.id).update('score', newScore);
-    })
-    .then(function(data) {
-      res.status(200).send('score updated correctly');
-    });
+  voteAnswer.voteUp();
 });
 
 router.post('/answers/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
-  return knex('answers').select('score').where('id', req.params.id)
-    .then(function(data) {
-      return (Number(data[0].score) - 1);
-    })
-    .then(function(newScore) {
-      return knex('answers').where('id', req.params.id).update('score', newScore);
-    })
-    .then(function(data) {
-      res.status(200).send('score updated correctly');
-    });
+  voteAnswer.voteDown();
 });
 
 router.post('/questions/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
