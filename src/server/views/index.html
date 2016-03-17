@@ -27,11 +27,16 @@
                 <p>rating</p>
               </div>
               <div class='flex-item-size-1'>
-                <h4>1</h4>
+                {% for index in answerCount %}
+                  {% if question.id === index.question_id %}
+                    <h4>{{ index.count }}</h4>
+                  {% endif %}
+                {% endfor %}
                 <p>answers</p>
               </div>
               <div class='flex-item-size-3'>
                 <a href='questions/{{ question.id }}'><h4>{{ question.title }}</h4></a>
+                <h5>Posted by {{ question.username }}</h5>
                 <div class='tag-collection'>
                   {% for tag in tags %}
                   <div class='btn btn-sm btn-info'></div>

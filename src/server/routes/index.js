@@ -10,11 +10,30 @@ var request = require('request-promise');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  knex('questions').select().then(function(data) {
+  var questionData;
+  var answerCountArray;
+  knex('questions').select('questions.title', 'questions.id', 'questions.body', 'questions.score', 'users.username')
+  .join('users', {'questions.user_id': 'users.id'})
+  .then(function(data) {
+    questionData = data;
+  })
+  .then(function() {
+    return knex('answers').select('question_id').count().groupBy('question_id');
+  })
+  .then(function(data) {
+    console.log('answer counts', data);
+    answerCountArray = data;
+  })
+  .then(function() {
+    console.log(answerCountArray);
     res.render('index', { title: 'Slack Overflow',
-                          user: req.user, questions: data, slack: req.user.slack_id});
+                          user: req.user,
+                          questions: questionData,
+                          slack: req.user.slack_id,
+                          answerCount: answerCountArray});
     // need to find a way to pull tags for every question - talk to an instructor
     // need to find a way to count number of answers for each question - ^^^
+    // need to show author's name
   });
 });
 
@@ -104,6 +123,8 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/questions/:id', function(req, res, next) {
+  // need to show author's name
+  var userId = req.user.id;
   var qId = req.params.id;
   var questionData;
   var tagList = [];
@@ -111,7 +132,9 @@ router.get('/questions/:id', function(req, res, next) {
   if (qId === 'new') {
     res.render('newQuestion', {user: req.user, title: 'Slack Overflow - Post a Question'});
   } else if (qId !== 'new') {
-    return knex('questions').where('id', qId).then(function(data) {
+    return knex('questions').select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+    .join('users', {'questions.user_id': 'users.id'})
+    .where({'questions.id': qId}).then(function(data) {
       questionData = data;
     }).then(function() {
       return knex('tags').select('tag_name').where('questions.id', qId)
@@ -122,7 +145,9 @@ router.get('/questions/:id', function(req, res, next) {
         return tagList.push(el.tag_name);
       });
     }).then(function() {
-      return knex('answers').select().where('question_id', qId);
+      return knex('answers').select('answers.title', 'answers.body', 'users.username')
+      .join('users', {'answers.user_id': 'users.id'})
+      .where('question_id', qId);
     }).then(function(answers) {
       console.log(answers);
       answers.forEach(function(el, ind, arr) {

@@ -38,6 +38,10 @@
   border-radius: 1rem;
 }
 
+.right-float {
+  float: right;
+}
+
 .tag-row {
   margin-bottom: 1rem;
 }
