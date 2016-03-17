@@ -1,116 +1,76 @@
 // increment question score on page and in db on arrow click
-$(document).on('click', '.vote-up-q', function(e) {
+
+function changeCount (qOrA, dOrU) {
   // target vote number
   var count = $(this).next();
   // get id of current question
-  var questionId = count.attr('id');
+  var id = count.attr('id');
   // update count on page
   var currentCount = $(count[0]).html();
-  var countUp = (Number(currentCount) + 1);
-  $(count[0]).html(countUp);
+  var countChange;
+  var urlPath;
+  if (dOrU === 'up') {
+    countChange = (Number(currentCount) + 1);
+    urlPath = '/' + qOrA +'/' + id + '/voteup';
+  } else if (dOrU === 'down') {
+    countChange = (Number(currentCount) - 1);
+    urlPath = '/' + qOrA +'/' + id + '/votedown';
+  }
+  $(count[0]).html(countChange);
   // send request to update database for question's vote count
   $.ajax({
-    url: '/questions/' + questionId + '/voteup',
+    url: urlPath,
     method: 'post',
     success: function(result) {
       console.log(result);
     }
   });
+}
+
+$(document).on('click', '.vote-up-q', function(e) {
+  changeCount('questions', 'up');
 });
 
 // decrement question score on page and in db on arrow click
 $(document).on('click', '.vote-down-q', function(e) {
-  // target vote number
-  var count = $(this).prev();
-  // get id of current question
-  var questionId = count.attr('id');
-  // update count on page
-  var currentCount = $(count[0]).html();
-  var countDown = (Number(currentCount) - 1);
-  $(count[0]).html(countDown);
-  // send request to update database for question's vote count
-  $.ajax({
-    url: '/questions/' + questionId + '/votedown',
-    method: 'post',
-    success: function(result) {
-      console.log(result);
-    }
-  });
+  changeCount('questions', 'down');
 });
 
 //increment answer score on page and in db on arrow click
 $(document).on('click', '.vote-up-a', function(e) {
-  // target vote number
-  var count = $(this).next();
-  // get id of current question
-  var answerId = count.attr('id');
-  // update count on page
-  var currentCount = $(count[0]).html();
-  var countUp = (Number(currentCount) + 1);
-  $(count[0]).html(countUp);
-  // send request to update database for question's vote count
-  $.ajax({
-    url: '/answers/' + answerId + '/voteup',
-    method: 'post',
-    success: function(result) {
-      console.log(result);
-    }
-  });
+  changeCount('answers', 'up');
 });
 
 // decrement question score on page and in db on arrow click
 $(document).on('click', '.vote-down-a', function(e) {
-  // target vote number
-  var count = $(this).prev();
-  // get id of current question
-  var answerId = count.attr('id');
-  // update count on page
-  var currentCount = $(count[0]).html();
-  var countDown = (Number(currentCount) - 1);
-  $(count[0]).html(countDown);
-  // send request to update database for question's vote count
-  $.ajax({
-    url: '/answers/' + answerId + '/votedown',
-    method: 'post',
-    success: function(result) {
-      console.log(result);
-    }
-  });
+  changeCount('answers', 'down');
 });
 
-
-// allow users to subscribe, hide subscribe button, show unsubscribe button
-$('#subscribe').on('click', function() {
-  $(this).toggleClass('form-hidden');
-  $('#unsubscribe').toggleClass('form-hidden');
+// function to modify subscription status
+function modSubscrip (action, reverseAction) {
+  $('#' + action).toggleClass('form-hidden');
+  $('#' + reverseAction).toggleClass('form-hidden');
   var location = window.location.href;
   var locArray = location.split('/');
   var idIndex = (Number(locArray.indexOf('questions')) + 1);
   var id = locArray[idIndex];
   $.ajax({
-    url: '/subscribe/' + id,
+    url: '/' + action + '/' + id,
     method: 'post',
     success: function(result) {
       console.log(result);
     }
   });
+}
+
+// allow users to subscribe, hide subscribe button, show unsubscribe button
+$('#subscribe').on('click', function() {
+  modSubscrip('subscribe', 'unsubscribe');
 });
 
 // allow users to unsubscribe, hide unsubscribe button, show subscribe button
 $('#subscribe').on('click', function() {
-  $(this).toggleClass('form-hidden');
-  $('#subscribe').toggleClass('form-hidden');
-  var location = window.location.href;
-  var locArray = location.split('/');
-  var idIndex = (Number(locArray.indexOf('questions')) + 1);
-  var id = locArray[idIndex];
-  $.ajax({
-    url: '/unsubscribe/' + id,
-    method: 'post',
-    success: function(result) {
-      console.log(result);
-    }
-  });
+  modSubscrip('unsubscribe', 'subscribe');
 });
 
 
