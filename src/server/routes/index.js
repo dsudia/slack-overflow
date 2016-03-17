@@ -232,7 +232,6 @@ router.post('/slack/question', function(req, res, next) {
     messageArray.shift();
     var title = messageArray[0];
     var body = messageArray[1];
-    body = markdown.toHTML(body);
     var tagList = messageArray[2];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
@@ -312,7 +311,6 @@ router.post('/slack/answer', function(req, res, next) {
   messageArray.shift();
   var title = messageArray[0];
   var body = messageArray[1];
-  body = markdown.toHTML('body');
   var qId = messageArray[2];
   var channelArray = [];
   var userArray = [];
@@ -389,7 +387,7 @@ router.get('/questions/:id/answer', function(req, res, next) {
 router.post('/questions/:id/answer', function(req, res, next) {
   var aData = req.body;
   userId = req.user.id;
-  var body = markdown.toHTML(aData.body);
+  var body = aData.body;
   var channelArray = [];
   var userArray = [];
 
