@@ -39,12 +39,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 
-router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
-  req.logout();
-  res.redirect('/');
-});
-
-
 router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
   // need to show author's name
   var userId = req.user.id;

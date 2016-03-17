@@ -85,6 +85,7 @@ var questionRoutes = require('./routes/questions');
 var slackRoutes = require('./routes/slack');
 var loginRoutes = require('./routes/login');
 var registerRoutes = require('./routes/register');
+var logoutRoute = require('./routes/logout');
 
 // *** express instance *** //
 var app = express();
@@ -247,6 +248,10 @@ app.use('/', routes);
 app.use('/auth', authRoutes);
 app.use('/assignments', assignmentRoutes);
 app.use('/questions', questionRoutes);
+app.use('/slack', slackRoutes);
+app.use('/login', loginRoutes);
+app.use('/register', registerRoutes);
+app.use('/logout', logoutRoute);
 
 
 // catch 404 and forward to error handler
