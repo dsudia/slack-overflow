@@ -4,7 +4,6 @@ var pg = require('pg');
 var knex = require('../../../db/knex');
 var passport = require('../lib/auth');
 var queries = require("../../../queries");
-
 var bcrypt = require('bcrypt');
 var helpers = require('../lib/helpers');
 var markdown = require('markdown').markdown;
@@ -134,10 +133,10 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
   if (qId === 'new') {
     return knex('groups')
     .then(function(cohorts){
-          res.render('newQuestion', {user: req.user,  
+          res.render('newQuestion', {user: req.user,
                                     cohorts: cohorts,
                                     title: 'Slack Overflow - Post a Question'});
-    })
+    });
   } else if (qId !== 'new') {
     return knex('questions').select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
     .join('users', {'questions.user_id': 'users.id'})

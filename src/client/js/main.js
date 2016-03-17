@@ -128,8 +128,6 @@ $(document).ready(function () {
 
 $("#weeks option:selected", function() {
   var cool = $("#mySelectBox option:selected").text();
-  console.log(cool);
- });
-
-
+    console.log(cool);
+  });
 });
