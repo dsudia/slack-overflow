@@ -2,7 +2,12 @@
 
 function changeCount (el, qOrA, dOrU) {
   // target vote number
-  var count = el;
+  var count;
+  if (dOrU === 'up') {
+    count = el.next();
+  } else if (dOrU === 'down') {
+    count = el.prev();
+  }
   // get id of current question
   var id = count.attr('id');
   // update count on page

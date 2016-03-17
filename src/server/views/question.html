@@ -17,7 +17,7 @@
     <div class='col-md-1'>
       <div class='vote'>
         <a class="vote-up-q" title="This question shows research effort; it is useful and clear"></a>
-        <span id='{{ question.id }}' class="vote-count">{{ question.score }}</span>
+        <span id='{{ question.id }}' class="vote-count">{% if question.score %}{{ question.score }}{% else %} 0 {% endif %}</span>
         <a class="vote-down-q" title="This question does not show any research effort; it is unclear or not useful"></a>
       </div>
     </div>
@@ -65,7 +65,7 @@
       <div class='col-md-1'>
         <div class='vote'>
           <a class="vote-up-a" title="This question shows research effort; it is useful and clear"></a>
-          <span id='{{ answer.id }}' class="vote-count">{{ answer.score }}</span>
+          <span id='{{ answer.id }}' class="vote-count">{% if answer.score %}{{ answer.score }}{% else %} 0 {% endif %}</span>
           <a class="vote-down-a" title="This question does not show any research effort; it is unclear or not useful"></a>
         </div>
       </div>
