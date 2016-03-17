@@ -12,6 +12,7 @@ var deleteAnswer = require('./answerRoutes/deleteAnswer');
 var flagQuestion = require('./questionRoutes/flagQuestion');
 var flagAnswer = require('./answerRoutes/flagAnswer');
 var voteQuestion = require('./questionRoutes/voteQuestion');
+var subscribe = require('./questionRoutes/subscribe');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
