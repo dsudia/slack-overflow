@@ -53,34 +53,52 @@
                 <input type='submit' class='btn btn-sm btn-primary' value='Search by Tag'>
               </div>
             </form>
-            <!-- sort by assignment -->
-            <form action='sort/assignment' method='post'>
+              
+            <!-- sort by week -->
+              <form action='assignments' method='GET'>
               <div class='form-group'>
-                <select name='sort_assignment'>
-                  <option value='1'>Intro to Knex</option>
-                </select>
-                <input type='submit' class='btn btn-sm btn-primary' value='Search by Assignment'>
-              </div>
-            </form>
-            <!-- sort by cohort -->
-            <form action='sort/group' method='post'>
-              <div class='form-group'>
-                <select name='sort_group'>
-                  <option value='1'>G19</option>
+               <p>Select Week</p>
+                <select name='week' required>
+                  <option label= "">--</option>
+                  <option value='1'>week 1</option>
+                  <option value='2'>week 2</option>
+                  <option value='3'>week 3</option>
+                  <option value='4'>week 4</option>
+                  <option value='5'>week 5</option>
+                  <option value='6'>week 6</option>
+                  <option value='7'>week 7</option>
+                  <option value='8'>week 8</option>
+                  <option value='9'>week 9</option>
+                  <option value='10'>week 10</option>
+                  <option value='11'>week 11</option>
+                  <option value='12'>week 12</option>
+                  <option value='13'>week 13</option>
+                  <option value='14'>week 14</option>
+                  <option value='15'>week 15</option>
+                  <option value='16'>week 16</option>
+                  <option value='17'>week 17</option>
+                  <option value='18'>week 18</option>
+                  <option value='19'>week 19</option>
+                  <option value='20'>week 20</option>
+                  <option value='21'>week 21</option>
+                  <option value='22'>week 22</option>
+                  <option value='23'>week 23</option>
+                  <option value='24'>week 24</option>
                 </select><br>
-                <input type='submit' class='btn btn-sm btn-primary' value='Search by Cohort'>
               </div>
-            </form>
-            <!-- sort by unanswered -->
-            <form action='sort/unanswered' method='post'>
+       
+             <!-- sort by cohort -->
               <div class='form-group'>
-                <input type=submit id='sort-unanswered' class='btn btn-sm btn-primary' value='See Unanswered Questions'>
+               <p>Select Cohort</p>
+                <select name='group'>
+                  <option value='1'>G19</option>
+                  <option value='2'>G20</option>
+                </select><br><br>
+               <input type=submit id='sort-unanswered' class='btn btn-sm btn-primary' value='Load Assignments'>
               </div>
-            </form>
-            <!-- sort by vote ranking -->
-            <form action='sort/ranking' method='post'>
-              <input type=submit id='sort-ranking' class='btn btn-sm btn-primary' value='Sort by Ranking'>
-            </form>
+           </form>
+        
+            
         </aside>
       </div>
       <div class='col-md-1'>

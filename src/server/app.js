@@ -80,7 +80,8 @@ var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
 // *** routes *** //
 var routes = require('./routes/index.js');
 var authRoutes  = require('./routes/auth.js');
-
+var assignmentRoutes = require('./routes/assignments.js');
+var questionRoutes = require('./routes/questions.js')
 
 // *** express instance *** //
 var app = express();
@@ -241,6 +242,8 @@ if (userID) {
 // *** main routes *** //
 app.use('/', routes);
 app.use('/auth', authRoutes);
+app.use('/assignments', assignmentRoutes);
+app.use('/questions', questionRoutes);
 
 
 // catch 404 and forward to error handler

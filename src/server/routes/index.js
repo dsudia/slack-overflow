@@ -19,6 +19,10 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 
+
+
+
+
 router.get('/login', helpers.loginRedirect, function(req, res, next) {
   res.render('login', {user: req.user, message: req.flash('danger')});
 });
@@ -93,6 +97,10 @@ router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
   req.logout();
   res.redirect('/');
 });
+
+
+
+  
 
 
 router.get('/questions/:id', function(req, res, next) {
