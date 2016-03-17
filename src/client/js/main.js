@@ -1,8 +1,8 @@
 // increment question score on page and in db on arrow click
 
-function changeCount (qOrA, dOrU) {
+function changeCount (el, qOrA, dOrU) {
   // target vote number
-  var count = $(this).next();
+  var count = el;
   // get id of current question
   var id = count.attr('id');
   // update count on page
@@ -28,22 +28,26 @@ function changeCount (qOrA, dOrU) {
 }
 
 $(document).on('click', '.vote-up-q', function(e) {
-  changeCount('questions', 'up');
+  var thisEl = $(this);
+  changeCount(thisEl, 'questions', 'up');
 });
 
 // decrement question score on page and in db on arrow click
 $(document).on('click', '.vote-down-q', function(e) {
-  changeCount('questions', 'down');
+  var thisEl = $(this);
+  changeCount(thisEl, 'questions', 'down');
 });
 
 //increment answer score on page and in db on arrow click
 $(document).on('click', '.vote-up-a', function(e) {
-  changeCount('answers', 'up');
+  var thisEl = $(this);
+  changeCount(thisEl, 'answers', 'up');
 });
 
 // decrement question score on page and in db on arrow click
 $(document).on('click', '.vote-down-a', function(e) {
-  changeCount('answers', 'down');
+  var thisEl = $(this);
+  changeCount(thisEl, 'answers', 'down');
 });
 
 // function to modify subscription status
