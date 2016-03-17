@@ -81,8 +81,9 @@ var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
 var routes = require('./routes/index');
 var authRoutes  = require('./routes/auth');
 var assignmentRoutes = require('./routes/assignments');
-var questionRoutes = require('./routes/questions')
+var questionRoutes = require('./routes/questions');
 var slackRoutes = require('./routes/slack');
+var loginRoutes = require('./routes/login');
 
 // *** express instance *** //
 var app = express();
