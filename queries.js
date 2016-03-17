@@ -48,7 +48,15 @@ module.exports = {
         .innerJoin('assignments', 'assignments.id', 'class_info.assign_id')
         .innerJoin('weeks', 'weeks.id', 'class_info.week_id')
         .where('groups.id', +groupsID)
-        .andWhere('weeks.id', +weeksID);;
+        .andWhere('weeks.id', +weeksID);
+    },
+
+    getAllAssignments: function(){
+
+        return knex.select('assignments.name', 'assignments.id').from('class_info')
+        .innerJoin('groups', 'groups.id', 'class_info.cohort_id')
+        .innerJoin('assignments', 'assignments.id', 'class_info.assign_id')
+        .innerJoin('weeks', 'weeks.id', 'class_info.week_id');
     },
 
 
