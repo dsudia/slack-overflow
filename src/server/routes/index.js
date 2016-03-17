@@ -39,94 +39,10 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 
-
-
-
-
-router.get('/login', helpers.loginRedirect, function(req, res, next) {
-  res.render('login', {
-    user: req.user,
-    message: req.flash('danger')
-  });
-});
-
-
-router.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, userId) {
-    if (err) {
-      return next(err);
-    } else {
-      req.logIn(userId, function(err) {
-        if (err) {
-          return next(err);
-        } else {
-          return res.redirect('/');
-        }
-      });
-    }
-  })(req, res, next);
-});
-
-
-router.get('/register', helpers.loginRedirect, function(req, res, next) {
-  res.render('register', {
-    user: req.user,
-    message: req.flash('danger')
-  });
-});
-
-
-router.post('/register', function(req, res, next) {
-  var email = req.body.email;
-  var password = req.body.password;
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
-  var username = req.body.username;
-  // check if email is unique
-  knex('users').where('email', email)
-    .then(function(data) {
-      // if email is in the database send an error
-      if (data.length) {
-        req.flash('danger', 'Email already exists.!');
-        return res.redirect('/register');
-      } else {
-        // hash and salt the password
-        var hashedPassword = helpers.hashing(password);
-        // if email is not in the database insert it
-        knex('users').insert({
-            email: email,
-            password: hashedPassword,
-            first_name: first_name,
-            last_name: last_name,
-            username: username,
-            auth_id: 3
-          })
-          .then(function(data) {
-            req.flash('message', {
-              status: 'success',
-              message: 'Welcome!'
-            });
-            return res.redirect('/login');
-          })
-          .catch(function(err) {
-            return res.send(err);
-          });
-      }
-    })
-    .catch(function(err) {
-      return next(err);
-    });
-});
-
-
 router.get('/logout', helpers.ensureAuthenticated, function(req, res, next) {
   req.logout();
   res.redirect('/');
 });
-
-
-
-
 
 
 router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {

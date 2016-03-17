@@ -84,6 +84,7 @@ var assignmentRoutes = require('./routes/assignments');
 var questionRoutes = require('./routes/questions');
 var slackRoutes = require('./routes/slack');
 var loginRoutes = require('./routes/login');
+var registerRoutes = require('./routes/register');
 
 // *** express instance *** //
 var app = express();

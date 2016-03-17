@@ -20,8 +20,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
    });
 });
 
-
-
 router.get('/:questionID', helpers.ensureAuthenticated, function(req, res, next) {
   var questionID = req.params.questionID;;
   var scope = req.query.scope;
