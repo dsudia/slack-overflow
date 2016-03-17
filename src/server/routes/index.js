@@ -38,6 +38,17 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
     });
 });
 
+// question information, username, for questions about assignments that are for that user's group
+
+knex('questions')
+  .select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+  .join('users', {'questions.user_id': 'users.id'})
+  .join('user_groups', {'users.id': 'user_groups.user_id'})
+  .join('groups', {'groups.id': 'user_groups.group_id'})
+  .join('class_info', {'class_info.group_id': 'groups.id'})
+  .join('assignments', {'class_info.assignment_id': 'assignments.id'});
+
+
 
 router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
   // need to show author's name
