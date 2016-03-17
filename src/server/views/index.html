@@ -30,6 +30,8 @@
                 {% for index in answerCount %}
                   {% if question.id === index.question_id %}
                     <h4>{{ index.count }}</h4>
+                  {% else %}
+                    <h4>0</h4>
                   {% endif %}
                 {% endfor %}
                 <p>answers</p>
@@ -58,7 +60,7 @@
                 <input type='submit' class='btn btn-sm btn-primary' value='Search by Tag'>
               </div>
             </form>
-              
+
             <!-- sort by week -->
               <form action='assignments' method='GET'>
               <div class='form-group'>
@@ -91,7 +93,7 @@
                   <option value='24'>week 24</option>
                 </select><br>
               </div>
-       
+
              <!-- sort by cohort -->
               <div class='form-group'>
                <p>Select Cohort</p>
@@ -102,8 +104,8 @@
                <input type=submit id='sort-unanswered' class='btn btn-sm btn-primary' value='Load Assignments'>
               </div>
            </form>
-        
-            
+
+
         </aside>
       </div>
       <div class='col-md-1'>
