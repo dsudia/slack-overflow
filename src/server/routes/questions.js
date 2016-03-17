@@ -4,6 +4,9 @@ var queries = require("../../../queries");
 var knex = require('../../../db/knex.js');
 var passport = require('passport');
 var helpers = require('../lib/helpers');
+var addQuestion = require('./questionRoutes/addQuestion');
+var getAnswerPage = require('/answerRoutes/getAnswerPage');
+var postQuestion = require('/answerRoutes/postAnswer');
 
 
 
@@ -35,4 +38,18 @@ router.get('/:questionID', helpers.ensureAuthenticated, function(req, res, next)
     console.log(err);
    });
 });
+
+
+router.post('/add', helpers.ensureAuthenticated, function(req, res, next) {
+  addQuestion(res, res, next);
+});
+
+router.get('/:id/answer', function(req, res, next) {
+  getAnswerPage(req, res, next);
+});
+
+router.post('/:id/answer', function(req, res, next) {
+  postAnswer(req, res, next);
+});
+
 module.exports = router;
