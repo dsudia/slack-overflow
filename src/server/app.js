@@ -14,7 +14,6 @@ var GitHubStrategy = require('passport-github').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var SlackStrategy = require('passport-slack').Strategy;
 var knex = require('../../db/knex');
-var cookieSession = require('cookie-session');
 var helpers = require('./lib/helpers');
 if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
@@ -106,10 +105,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cookieSession({
-  name: 'change_me',
-  keys: [process.env.KEY1, process.env.KEY2, process.env.KEY3]
-}));
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(session({
   secret: process.env.SECRET_KEY || 'change_me',
