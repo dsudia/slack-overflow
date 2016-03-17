@@ -150,7 +150,7 @@ router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, nex
         return tagList.push(el.tag_name);
       });
     }).then(function() {
-      return knex('answers').select('answers.title', 'answers.body', 'users.username')
+      return knex('answers').select('answers.id', 'answers.title', 'answers.body', 'users.username')
       .join('users', {'answers.user_id': 'users.id'})
       .where('question_id', qId);
     }).then(function(answers) {
