@@ -29,12 +29,12 @@ module.exports = {
                     flag_status: flag_status
                     });
   },
-  selectAnswerScore: function(answerID) {
+  selectScore: function(answerID) {
     return answers()
           .select('score')
           .where('id', answerID);
   },
-  updateAnswer: function(newScore, answerID){
+  updateScore: function(answerID, newScore){
     return answers()
           .select('score')
           .where('id', req.params.id)

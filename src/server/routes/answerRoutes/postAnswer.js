@@ -1,4 +1,5 @@
 var knex = require('../../../../db/knex');
+var answerQueries = require('../../../../queries/answers');
 var request = require('request-promise');
 
 module.exports = function(req, res, next) {
@@ -8,14 +9,13 @@ module.exports = function(req, res, next) {
   var channelArray = [];
   var userArray = [];
 
-  return knex('answers').insert({
-      title: aData.title,
-      body: aData.body,
-      question_id: req.params.id,
-      user_id: userId,
-      score: 0,
-      flag_status: false
-    })
+  answerQueries.postAnswer(aData.title, 
+                           aData.body, 
+                           req.params.id,
+                           userId,
+                           0,
+                           false
+                           )
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
