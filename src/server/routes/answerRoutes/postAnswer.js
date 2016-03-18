@@ -1,5 +1,6 @@
 var knex = require('../../../../db/knex');
 var answerQueries = require('../../../../queries/answers');
+var userQueries = require('../../../../queries/users');
 var request = require('request-promise');
 
 module.exports = function(req, res, next) {
@@ -9,7 +10,7 @@ module.exports = function(req, res, next) {
   var channelArray = [];
   var userArray = [];
 
-  return answerQueries.postAnswer(aData.title, 
+  return answerQueries.postAnswer(aData.title,
                            aData.body,
                            req.params.id,
                            userId,
@@ -19,11 +20,7 @@ module.exports = function(req, res, next) {
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
-      return knex('users').select('slack_id', 'slack_access_token')
-        .join('subscriptions', {
-          'users.id': 'subscriptions.user_id'
-        })
-        .where('subscriptions.question_id', req.params.id);
+      userQueries.getSlackInfo(req.params.id);
     })
     .then(function(users) {
       console.log('users', users);
