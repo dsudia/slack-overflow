@@ -9,8 +9,8 @@ module.exports = function(req, res, next) {
   var channelArray = [];
   var userArray = [];
 
-  answerQueries.postAnswer(aData.title, 
-                           aData.body, 
+  return answerQueries.postAnswer(aData.title, 
+                           aData.body,
                            req.params.id,
                            userId,
                            0,
