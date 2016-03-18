@@ -34,11 +34,20 @@ module.exports = {
           .select('score')
           .where('id', answerID);
   },
+
   updateScore: function(answerID, newScore){
     return answers()
           .select('score')
           .where('id', req.params.id)
           .update('score', newScore);
+  },
+
+  getAnswers: function(id) {
+    return answers().select('answers.id', 'answers.title', 'answers.body', 'users.username')
+      .join('users', {
+        'answers.user_id': 'users.id'
+      })
+      .where('question_id', id);
   }
 
 };

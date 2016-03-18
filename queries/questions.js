@@ -32,6 +32,16 @@ module.exports = {
 
   changeFlag: function(id, bool) {
     return knex('questions').where('id', id).update('flag_status', bool);
+  },
+
+  getQuestionAndUser: function(id) {
+    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+      .join('users', {
+        'questions.user_id': 'users.id'
+      })
+      .where({
+        'questions.id': id
+      });
   }
 
 };

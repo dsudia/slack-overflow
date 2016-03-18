@@ -20,6 +20,16 @@ module.exports = {
       question_id: qId,
       tag_id: tId
     });
+  },
+
+  getQuestionTags: function(id) {
+    return tags().select('tag_name').where('questions.id', id)
+      .join('question_tags', {
+        'tags.id': 'question_tags.tag_id'
+      })
+      .join('questions', {
+        'questions.id': 'question_tags.question_id'
+      });
   }
 
 };
