@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
   var body = qData.body;
 
   // insert question data into questions table, get question's ID back
-  quesQueries.addQuestion(
+  return quesQueries.addQuestion(
       qData.title,
       body,
       qData.group_id,

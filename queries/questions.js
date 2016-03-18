@@ -18,7 +18,7 @@ module.exports = {
   },
 
   delQuestion: function(id) {
-    knex('question_tags').where('question_id', id).del()
+    return knex('question_tags').where('question_id', id).del()
       .then(function() {
         return knex('answers').where('question_id', id).del();
       })
@@ -26,15 +26,12 @@ module.exports = {
         return knex('subscriptions').where('question_id', id).del();
       })
       .then(function() {
-        questions().where('id', id).del();
+        return questions().where('id', id).del();
       });
   },
 
   changeFlag: function(id, bool) {
-    return knex('questions').where('id', req.params.id).update('flag_status', bool)
-      .then(function() {
-        res.redirect('/questions/' + req.params.id);
-      });
+    return knex('questions').where('id', id).update('flag_status', bool);
   }
 
 };
