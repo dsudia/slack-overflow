@@ -28,6 +28,13 @@ module.exports = {
       .then(function() {
         questions().where('id', id).del();
       });
+  },
+
+  changeFlag: function(id, bool) {
+    return knex('questions').where('id', req.params.id).update('flag_status', bool)
+      .then(function() {
+        res.redirect('/questions/' + req.params.id);
+      });
   }
 
 };
