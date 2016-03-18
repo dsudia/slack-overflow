@@ -30,7 +30,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 });
 
 
-router.get('/questions/:id', helpers.ensureAuthenticated, function(req, res, next) {
+router.get('/:id', helpers.ensureAuthenticated, function(req, res, next) {
   getQuestion();
 });
 
