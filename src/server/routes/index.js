@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 var knex = require('../../../db/knex');
-var queries = require("../../../queries");
+var quesQueries = require("../../../queries/questions");
+var answerQueries = require('../../../queries/answers');
+var tagQueries = require('../../../queries/tags');
 var helpers = require('../lib/helpers');
 var Promise = require('bluebird');
 
@@ -11,22 +13,18 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   var questionData;
   var answerCountArray;
   var tagArray;
-  knex('questions').select('questions.title', 'questions.id', 'questions.body', 'questions.score', 'users.username')
-    .join('users', {
-      'questions.user_id': 'users.id'
-    })
+  return quesQueries.getAllQuestionsAndUsers()
     .then(function(data) {
       questionData = data;
     })
     .then(function() {
-      return knex('answers').select('question_id').count().groupBy('question_id');
+      return answerQueries.getAnswerCount();
     })
     .then(function(data) {
       answerCountArray = data;
     })
     .then(function() {
-      return knex('tags').select('tags.tag_name', 'question_tags.question_id')
-        .join('question_tags', {'question_tags.tag_id': 'tags.id'});
+      return tagQueries.getAllQuestionTags();
     })
     .then(function(data) {
       tagArray = data;

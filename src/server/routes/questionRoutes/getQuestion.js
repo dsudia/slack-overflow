@@ -1,3 +1,8 @@
+var knex = require('../../../../db/knex');
+var quesQueries = require('../../../../queries/questions');
+var tagQueries = require('../../../../queries/tags');
+var answerQueries = require('../../../../queries/answers');
+
 module.exports = function(req, res, next) {
   var userId = req.user.id;
   var qId = req.params.id;
@@ -14,32 +19,17 @@ module.exports = function(req, res, next) {
         });
       });
   } else if (qId !== 'new') {
-    return knex('questions').select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
-      .join('users', {
-        'questions.user_id': 'users.id'
-      })
-      .where({
-        'questions.id': qId
-      }).then(function(data) {
+    return quesQueries.getQuestionAndUser(qId)
+    .then(function(data) {
         questionData = data;
       }).then(function() {
-        return knex('tags').select('tag_name').where('questions.id', qId)
-          .join('question_tags', {
-            'tags.id': 'question_tags.tag_id'
-          })
-          .join('questions', {
-            'questions.id': 'question_tags.question_id'
-          });
+        return tagsQueries.getQuestionTags(id);
       }).then(function(tagData) {
         tagData.forEach(function(el, ind, arr) {
           return tagList.push(el.tag_name);
         });
       }).then(function() {
-        return knex('answers').select('answers.id', 'answers.title', 'answers.body', 'users.username')
-          .join('users', {
-            'answers.user_id': 'users.id'
-          })
-          .where('question_id', qId);
+        return answerQueries.getAnswers(qId);
       }).then(function(answers) {
         console.log(answers);
         answers.forEach(function(el, ind, arr) {
