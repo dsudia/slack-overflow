@@ -52,7 +52,7 @@ router.get('/:id/delete', helpers.ensureAdmin, function(req, res, next) {
 });
 
 router.get('/:qid/answer/:aid/delete', helpers.ensureAdmin, function(req, res, next) {
-  deleteAnswer();
+  deleteAnswer(req, res, next);
 });
 
 router.get('/:id/flag', helpers.ensureAuthenticated, function(req, res, next) {
@@ -64,11 +64,11 @@ router.get('/:id/unflag', helpers.ensureAdmin, function(req, res, next) {
 });
 
 router.get('/:qid/answer/:aid/flag', function(req, res, next) {
-  flagAnswer.flag();
+  flagAnswer.flag(req, res, next);
 });
 
 router.get('/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, next) {
-  flagAnswer.flag();
+  flagAnswer.flag(req, res, next);
 });
 
 router.post('/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
