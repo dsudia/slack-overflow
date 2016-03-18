@@ -5,6 +5,8 @@ var request = require('request-promise');
 var Promise = require('bluebird');
 var quesQueries = require('../../../queries/questions');
 var tagQueries = require('../../../queries/tags');
+var userQueries = require('../../../queries/users');
+var groupQueries = require('../../../queries/groups');
 
 router.post('/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
@@ -33,13 +35,13 @@ router.post('/question', function(req, res, next) {
     var questionId;
 
     // look up group and store group_id
-    knex('groups').select('id').where('slack_channel', group)
+    return groupQueries.getGroupBySlackChannel(group)
       .then(function(data) {
         groupId = data[0].id;
       })
       .then(function() {
         // look up user and store id
-        return knex('users').select('id').where('slack_id', userSlackId)
+        return userQueries.getUserBySlackId(userSlackId)
           .then(function(data) {
             userId = data[0].id;
           });
@@ -124,7 +126,7 @@ router.post('/answer', function(req, res, next) {
   var userArray = [];
 
   // look up user and store id
-  knex('users').select('id').where('slack_id', userSlackId)
+  return userQueries.getUserBySlackId(userSlackId)
     .then(function(data) {
       userId = data[0];
     })

@@ -11,6 +11,10 @@ module.exports = {
         'users.id': 'subscriptions.user_id'
       })
       .where('subscriptions.question_id', id);
+  },
+
+  getUserBySlackId: function(id) {
+    return knex('users').select('id').where('slack_id', id);
   }
 
 };
