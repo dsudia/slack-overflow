@@ -15,6 +15,19 @@ module.exports = {
       flag_status: false,
       assignment_id: qData.assignment_id
     }, 'id');
+  },
+
+  delQuestion: function(id) {
+    knex('question_tags').where('question_id', id).del()
+      .then(function() {
+        return knex('answers').where('question_id', id).del();
+      })
+      .then(function() {
+        return knex('subscriptions').where('question_id', id).del();
+      })
+      .then(function() {
+        questions().where('id', id).del();
+      });
   }
 
 };
