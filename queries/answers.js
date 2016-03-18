@@ -1,7 +1,7 @@
 var knex = require('../db/knex');
 var answers = function(){
   return knex('answers');
-}
+};
 
 module.exports = {
   deleteAnswer: function(answerID) {
@@ -48,6 +48,10 @@ module.exports = {
         'answers.user_id': 'users.id'
       })
       .where('question_id', id);
+  },
+
+  getAnswerCount: function() {
+    return answers().select('question_id').count().groupBy('question_id');
   }
 
 };

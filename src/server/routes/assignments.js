@@ -13,7 +13,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
     console.log(assignments);
     res.render('assignments', {week: weekID,
                               groupID: groupID,
-                              assignments: assignments})
+                              assignments: assignments});
   })
   .catch(function(err) {
     console.log(err);

@@ -34,14 +34,18 @@ module.exports = {
     return knex('questions').where('id', id).update('flag_status', bool);
   },
 
-  getQuestionAndUser: function(id) {
+  getAllQuestionsAndUsers: function() {
     return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
       .join('users', {
         'questions.user_id': 'users.id'
-      })
-      .where({
-        'questions.id': id
       });
+  },
+
+  getQuestionAndUser: function(id) {
+    return this.getAllQuestionsAndUsers()
+    .where({
+      'questions.id': id
+    });
   },
 
   getQuestionScore: function(id) {
