@@ -42,6 +42,14 @@ module.exports = {
       .where({
         'questions.id': id
       });
+  },
+
+  getQuestionScore: function(id) {
+    return questions().select('score').where('id', id);
+  },
+
+  updateQuestionScore: function(id, score) {
+    return questions().where('id', id).update('score', score);
   }
 
 };
