@@ -22,7 +22,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   queries.getQuestions(assignmentID, scope)
   .then(function(questions){
       res.render('questions', {questions:questions,
-                              scope: scope})
+                              scope: scope});
   })
   .catch(function(err) {
     console.log(err);

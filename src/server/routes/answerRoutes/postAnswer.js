@@ -11,12 +11,12 @@ module.exports = function(req, res, next) {
   var userArray = [];
 
   return answerQueries.postAnswer(aData.title,
-                           aData.body,
-                           req.params.id,
-                           userId,
-                           0,
-                           false
-                           )
+     aData.body,
+     req.params.id,
+     userId,
+     0,
+     false
+    )
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question

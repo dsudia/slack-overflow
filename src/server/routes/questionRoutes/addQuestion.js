@@ -36,7 +36,7 @@ module.exports = function(req, res, next) {
       .then(function(data) {
         // if not, insert it and then put id into tagIds array
         if(data[0] === undefined) {
-          return tagQueries.insertTagsToTags
+          return tagQueries.insertTagsToTags()
           .then(function(id) {
             return tagIds.push(id);
           });

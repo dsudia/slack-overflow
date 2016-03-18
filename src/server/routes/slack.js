@@ -3,6 +3,8 @@ var router = express.Router();
 var knex = require('../../../db/knex');
 var request = require('request-promise');
 var Promise = require('bluebird');
+var quesQueries = require('../../../queries/questions');
+var tagQueries = require('../../../queries/tags');
 
 router.post('/question', function(req, res, next) {
   //parse object and store user_id, token, usernname, channel_id, text in variables
@@ -44,14 +46,14 @@ router.post('/question', function(req, res, next) {
       })
       .then(function() {
         // insert question data into questions table, get question's ID back
-        return knex('questions').insert({
-          title: title,
-          body: body,
-          group_id: groupId,
-          user_id: userId,
-          score: 0,
-          flag_status: false
-        }, 'id');
+        return quesQueries.addQuestion(
+            qData.title,
+            body,
+            qData.group_id,
+            req.user.id,
+            0,
+            false,
+            qData.assignment_id);
       })
       .then(function(id) {
         // store question ID in variable for later usage
@@ -62,15 +64,14 @@ router.post('/question', function(req, res, next) {
         // put tags into tags table and store ids in an array
         var promisesArray = tagArray.map(function(el, ind, arr) {
           // see if tag is already in table
-          return knex('tags').select('id').where('tag_name', el)
+          return tagQueries.searchTags(el)
           .then(function(data) {
             console.log('search returns', data);
             // if not, insert it and then put id into tagIds array
             if(data[0] === undefined) {
               console.log('into the undefined part of loop');
-              return knex('tags').insert({
-                tag_name: el
-              }, 'id').then(function(id) {
+              return tagQueries.insertTagsToTags()
+              .then(function(id) {
                 return tagIds.push(id);
               });
             // if so, put the id into the array.
@@ -85,10 +86,7 @@ router.post('/question', function(req, res, next) {
       .then(function() {
         // insert question/tag relationships into question_tags table
         var promisesArray = tagIds.map(function(el, ind, arr) {
-          return knex('question_tags').insert({
-            question_id: questionId,
-            tag_id: el
-          });
+          return tagQueries.insertTagsToQT(questionId, el);
         });
         return Promise.all(promisesArray);
       })
@@ -131,23 +129,18 @@ router.post('/answer', function(req, res, next) {
       userId = data[0];
     })
     .then(function() {
-      return knex('answers').insert({
-        title: title,
-        body: body,
-        question_id: qId,
-        user_id: userId.id,
-        score: 0,
-        flag_status: false
-      });
+      return answerQueries.postAnswer(aData.title,
+         aData.body,
+         req.params.id,
+         userId,
+         0,
+         false
+       );
     })
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
-      return knex('users').select('slack_id', 'slack_access_token')
-        .join('subscriptions', {
-          'users.id': 'subscriptions.user_id'
-        })
-        .where('subscriptions.question_id', req.params.id);
+      userQueries.getSlackInfo(req.params.id);
     })
     .then(function(users) {
       console.log('users', users);
