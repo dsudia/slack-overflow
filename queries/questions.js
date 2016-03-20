@@ -42,8 +42,11 @@ module.exports = {
   },
 
   getQuestionAndUser: function(id) {
-    return this.getAllQuestionsAndUsers()
-    .where({
+    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+      .join('users', {
+        'questions.user_id': 'users.id'
+      })
+      .where({
       'questions.id': id
     });
   },

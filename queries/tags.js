@@ -25,7 +25,7 @@ module.exports = {
   getAllQuestionTags: function() {
     return tags().select('tags.tag_name', 'question_tags.question_id')
       .join('question_tags', {'question_tags.tag_id': 'tags.id'});
-  }
+  },
 
   getQuestionTags: function(id) {
     return tags().select('tag_name').where('questions.id', id)
