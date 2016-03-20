@@ -1,7 +1,7 @@
 var knex = require('../../../../db/knex');
 var Promise = require('bluebird');
-var quesQueries = require('../../../queries/questions');
-var tagQueries = require('../../../queries/tags');
+var quesQueries = require('../../../../queries/questions');
+var tagQueries = require('../../../../queries/tags');
 
 module.exports = function(req, res, next) {
   // store form info in a variable
