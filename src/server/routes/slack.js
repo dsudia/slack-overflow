@@ -24,10 +24,8 @@ router.post('/question', function(req, res, next) {
   } else {
     // parse text into title, body and question.id and store in variables
     var messageArray = message.split('#');
-    messageArray.shift();
-    var title = messageArray[0];
-    var body = messageArray[1];
-    var tagList = messageArray[2];
+    var body = messageArray[0];
+    var tagList = messageArray[1];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
     var tagArray = tagList.split(',');
@@ -117,10 +115,8 @@ router.post('/answer', function(req, res, next) {
 
   // parse text into title, body and question.id and store in variables
   var messageArray = message.split('#');
-  messageArray.shift();
-  var title = messageArray[0];
-  var body = messageArray[1];
-  var qId = messageArray[2];
+  var body = messageArray[0];
+  var qId = messageArray[1];
   var channelArray = [];
   var userArray = [];
 
@@ -130,7 +126,7 @@ router.post('/answer', function(req, res, next) {
       userId = data[0];
     })
     .then(function() {
-      return answerQueries.postAnswer(aData.title,
+      return answerQueries.postAnswer(
          aData.body,
          req.params.id,
          userId,
