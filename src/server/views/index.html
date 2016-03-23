@@ -42,7 +42,9 @@
                 <h6>Posted by {{ question.username }}</h6>
                 <div class='tag-collection'>
                   {% for tag in tags %}
-                  <div class='btn btn-sm btn-info'></div>
+                    {% if question.id === tag.question_id %}
+                      <div class='btn btn-sm btn-info'>{{ tag.tag_name }}</div>
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>
