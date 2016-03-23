@@ -23,7 +23,7 @@ module.exports = function(req, res, next) {
     .then(function(data) {
         questionData = data;
       }).then(function() {
-        return tagsQueries.getQuestionTags(id);
+        return tagQueries.getQuestionTags(qId);
       }).then(function(tagData) {
         tagData.forEach(function(el, ind, arr) {
           return tagList.push(el.tag_name);
