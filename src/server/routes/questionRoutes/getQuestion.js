@@ -37,7 +37,7 @@ module.exports = function(req, res, next) {
         });
       }).then(function() {
         res.render('question', {
-          title: 'Slack Overflow - ' + questionData.title,
+          title: 'Slack Overflow - ' + qId,
           question: questionData[0],
           tags: tagList,
           answers: answerList,
