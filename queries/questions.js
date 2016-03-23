@@ -51,6 +51,7 @@ module.exports = {
   },
 
   getQuestionScore: function(id) {
+    console.log('got to first query');
     return questions().select('score').where('id', id);
   },
 
