@@ -93,7 +93,7 @@ router.post('/question', function(req, res, next) {
         //respond with text and question id
         res.status(200).header('Content-Type', 'application/json').send({
           'response_type': 'in_channel',
-          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/questions/' + questionId + '. To respond to this question, type /sflowa #title #body #' + questionId
+          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '!\n You can view this question at https://slackoverflowapp.herokuapp.com/questions/' + questionId + '.\n To respond to this question, type /sflowa bodyOfYourAnswer #' + questionId
         });
       });
   }
