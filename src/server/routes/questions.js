@@ -31,7 +31,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.get('/:id', helpers.ensureAuthenticated, function(req, res, next) {
-  getQuestion();
+  getQuestion(req, res, next);
 });
 
 
@@ -72,19 +72,19 @@ router.get('/:qid/answer/:aid/unflag', helpers.ensureAdmin, function(req, res, n
 });
 
 router.post('/:id/voteup', helpers.ensureAuthenticated, function(req, res, next) {
-  voteQuestion.voteUp();
+  voteQuestion.voteUp(req, res, next);
 });
 
 router.post('/:id/votedown', helpers.ensureAuthenticated, function(req, res, next) {
-  voteQuestion.voteDown();
+  voteQuestion.voteDown(req, res, next);
 });
 
 router.post('/subscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
-  subscribe.subscribe();
+  subscribe.subscribe(req, res, next);
 });
 
 router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, next) {
-  subscribe.unsubscribe();
+  subscribe.unsubscribe(req, res, next);
 });
 
 module.exports = router;

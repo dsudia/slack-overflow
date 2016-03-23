@@ -24,10 +24,8 @@ router.post('/question', function(req, res, next) {
   } else {
     // parse text into title, body and question.id and store in variables
     var messageArray = message.split('#');
-    messageArray.shift();
-    var title = messageArray[0];
-    var body = messageArray[1];
-    var tagList = messageArray[2];
+    var body = messageArray[0];
+    var tagList = messageArray[1];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
     var tagArray = tagList.split(',');
@@ -49,7 +47,6 @@ router.post('/question', function(req, res, next) {
       .then(function() {
         // insert question data into questions table, get question's ID back
         return quesQueries.addQuestion(
-            qData.title,
             body,
             qData.group_id,
             req.user.id,
@@ -96,7 +93,7 @@ router.post('/question', function(req, res, next) {
         //respond with text and question id
         res.status(200).header('Content-Type', 'application/json').send({
           'response_type': 'in_channel',
-          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '! You can view this question at https://slackoverflowapp.herokuapp.com/questions/' + questionId + '. To respond to this question, type /sflowa #title #body #' + questionId
+          'text': 'Thanks for posting a question to Slack Overflow ' + userSlackName + '!\n You can view this question at https://slackoverflowapp.herokuapp.com/questions/' + questionId + '.\n To respond to this question, type /sflowa bodyOfYourAnswer #' + questionId
         });
       });
   }
@@ -118,10 +115,8 @@ router.post('/answer', function(req, res, next) {
 
   // parse text into title, body and question.id and store in variables
   var messageArray = message.split('#');
-  messageArray.shift();
-  var title = messageArray[0];
-  var body = messageArray[1];
-  var qId = messageArray[2];
+  var body = messageArray[0];
+  var qId = messageArray[1];
   var channelArray = [];
   var userArray = [];
 
@@ -131,7 +126,7 @@ router.post('/answer', function(req, res, next) {
       userId = data[0];
     })
     .then(function() {
-      return answerQueries.postAnswer(aData.title,
+      return answerQueries.postAnswer(
          aData.body,
          req.params.id,
          userId,

@@ -38,11 +38,13 @@
                 <p>answers</p>
               </div>
               <div class='flex-item-size-3'>
-                <a href='questions/{{ question.id }}'><h4>{{ question.title }}</h4></a>
-                <h5>Posted by {{ question.username }}</h5>
+                <a href='questions/{{ question.id }}'><h5 class='truncate'>{{ question.body }}</h5></a>
+                <h6>Posted by {{ question.username }}</h6>
                 <div class='tag-collection'>
                   {% for tag in tags %}
-                  <div class='btn btn-sm btn-info'></div>
+                    {% if question.id === tag.question_id %}
+                      <div class='btn btn-sm btn-info'>{{ tag.tag_name }}</div>
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>

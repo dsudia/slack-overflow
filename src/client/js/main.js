@@ -100,3 +100,22 @@ $("#weeks option:selected", function() {
     console.log(cool);
   });
 });
+
+
+// truncate and expand question bodies on index page
+var truncated = $('.truncate');
+var truncLength = 75;
+
+truncated.each(function() {
+  var text = $(this).html();
+  if (text.length > truncLength) {
+    $(this).html(text.slice(0, truncLength) + '<a href="#" class="expand"><span>...</span></a>' +
+  '<span style="display: none;">' + text.slice(truncLength, text.length));
+  }
+});
+
+$('.expand').on('click', function() {
+  event.preventDefault();
+  $(this).hide();
+  $(this).next().show();
+});

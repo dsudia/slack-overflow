@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
   var channelArray = [];
   var userArray = [];
 
-  return answerQueries.postAnswer(aData.title,
+  return answerQueries.postAnswer(
      aData.body,
      req.params.id,
      userId,
