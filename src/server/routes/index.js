@@ -28,7 +28,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
     })
     .then(function(data) {
       tagArray = data;
-      console.log(tagArray);
     })
     .then(function() {
       console.log(answerCountArray);
