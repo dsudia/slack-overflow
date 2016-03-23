@@ -49,7 +49,6 @@ router.post('/question', function(req, res, next) {
       .then(function() {
         // insert question data into questions table, get question's ID back
         return quesQueries.addQuestion(
-            qData.title,
             body,
             qData.group_id,
             req.user.id,
