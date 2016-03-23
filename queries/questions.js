@@ -7,7 +7,6 @@ module.exports = {
 
   addQuestion: function(title, body, group_id, user_id, score, flag_status, assignment_id) {
     return questions().insert({
-      title: qData.title,
       body: body,
       group_id: qData.group_id,
       user_id: req.user.id,
