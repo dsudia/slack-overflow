@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+<div class='container-fluid'>
+    <h2>Staff portal</h2>
+    <h5>User Functions</h5>
+    <ul>
+      <a href='/staff/searchUsers'><li>Search Users</li></a>
+      <a href='/staff/addUser'><li>Add a User</li></a>
+    </ul>
+    <h5>Cohort Functions</h5>
+    <ul>
+      <a href='/staff/searchCohorts'><li>Search Cohorts</li></a>
+      <a href='/staff/addCohort'><li>Add a Cohort</li></a>
+    </ul>
+    <h5>Assignment Functions</h5>
+    <ul>
+      <a href='/staff/searchAssignments'><li>Search Assignments</li></a>
+      <a href='/staff/addAssignment'><li>Add an Assignment</li></a>
+    </ul>
+</div>
+
+
+
+{% endblock %}

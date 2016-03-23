@@ -30,6 +30,7 @@ var loginRoutes = require('./routes/login');
 var registerRoutes = require('./routes/register');
 var logoutRoute = require('./routes/logout');
 var answerRoutes = require('./routes/answers');
+var staffRoutes = require('./routes/staff');
 
 
 // *** express instance *** //
@@ -72,6 +73,7 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoute);
 app.use('/answers', answerRoutes);
+app.use('/staff', staffRoutes);
 
 
 // catch 404 and forward to error handler

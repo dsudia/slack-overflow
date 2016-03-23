@@ -53,12 +53,10 @@
         </li>
       </ul>
       {% endif %}
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+      {{ user.auth_level }}
+      {% if user.auth_id === 2 || user.auth_id === 3 %}
+        <li><a href="/staff">Staff Portal<span class="sr-only"></span></a></li>
+        {% endif %}
       {% if user && !slack %}
       <a href="/auth/slack/"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
       {% endif %}
