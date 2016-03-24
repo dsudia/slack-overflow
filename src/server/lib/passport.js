@@ -12,12 +12,9 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.HOST + "/auth/github/callback",
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    console.log('email ', profile.emails[0].value);
     return knex('users')
       .where('email', profile.emails[0].value)
       .then(function (user) {
-        console.log('user ', user);
 
         if (user[0] !== undefined) {
           var names = profile.displayName.split(' ');
@@ -32,6 +29,8 @@ passport.use(new GitHubStrategy({
             last_name: lastname}, 'id').then(function(id){
               return done(null, id);
           });
+        } else {
+          return done(null, user.id);
         }
       }), function(err, user) {
         return done(err, user);
@@ -77,6 +76,7 @@ passport.serializeUser(function(userID, done) {
 
 passport.deserializeUser(function(userID, done) {
 if (userID) {
+  console.log(userID);
     knex('users').where('id', userID).select()
       .then(function (user) {
         if ( !user ) {
