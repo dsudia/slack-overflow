@@ -29,7 +29,7 @@ router.get('/searchUsers/search', function(req, res, next) {
 router.post('/delUser/:id', function(req, res, next) {
   return knex('users').where('id', req.params.id).del()
   .then(function() {
-    res.redirect('/staff/searchUsers');
+    res.redirect('/staff');
   });
 });
 
@@ -45,9 +45,10 @@ router.post('/updateUser/:id', function(req, res, next) {
   ({'first_name': req.body.first_name,
   'last_name': req.body.last_name,
   'email': req.body.email,
+  'auth_id': req.body.auth_id
   })
   .then(function() {
-    res.redirect('/staff/searchUsers');
+    res.redirect('/staff');
   });
 });
 
@@ -56,7 +57,13 @@ router.get('/addUser', function(req, res, next) {
 });
 
 router.post('/addUser', function(req, res, next) {
-
+  return knex('users').insert
+  ({'email': req.body.email,
+  'auth_id': req.body.auth_id
+  })
+  .then(function() {
+    res.redirect('/staff');
+  });
 });
 
 
