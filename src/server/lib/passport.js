@@ -24,7 +24,7 @@ passport.use(new GitHubStrategy({
           var firstname = names[0];
           var lastname = names[names.length-1];
 
-          return knex('users').insert({
+          return knex('users').where('email', profile.emails[0].value).update({
             github_id: profile.id,
             github_login: profile.username,
             github_avatar: profile.photos[0].value,
