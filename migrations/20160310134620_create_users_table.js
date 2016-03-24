@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     table.string('last_name');
     table.integer('auth_id').references('id').inTable('auth_levels').notNullable();
     table.string('email').unique().notNullable();
-    table.integer('score');
+    table.integer('score').default(0);
     table.string('slack_id');
     table.string('slack_access_token');
   });
