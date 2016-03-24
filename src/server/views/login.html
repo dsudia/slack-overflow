@@ -1,6 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}{% endblock %}
+{% extends 'layout.html' %} {% block title %}{% endblock %}
 
 
 {% block content %}
@@ -10,15 +8,11 @@
     <h1>Login!</h1>
 
     <hr><br>
-
-    <form action="/login" method="post">
-      <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
-      <input type="password" name="password" class="form-control" placeholder="Password" required>
-      <br>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+<a class="btn-auth btn-github large" href="/auth/github">
+    Sign in with <b>GitHub</b>
+</a>
     <br><br>
-    <p>Register <a href="/register">here</a>.</p>
+    <p>Don't have a GitHub Account? Register for one <a href="https://github.com/join">here</a>.</p>
 
   </div>
 
