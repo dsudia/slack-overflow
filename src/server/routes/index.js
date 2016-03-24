@@ -9,7 +9,7 @@ var helpers = require('../lib/helpers');
 var Promise = require('bluebird');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   var questionData;
   var answerCountArray;
   var tagArray;
