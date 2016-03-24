@@ -12,6 +12,7 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.HOST + "/auth/github/callback",
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
     console.log('email ', profile.email);
     return knex('users')
       .where('email', profile.email)
