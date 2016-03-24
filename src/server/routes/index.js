@@ -10,6 +10,7 @@ var Promise = require('bluebird');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
+  console.log(req.user);
   var questionData;
   var answerCountArray;
   var tagArray;
