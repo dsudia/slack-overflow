@@ -14,14 +14,13 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.HOST + "/auth/github/callback",
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    knex('users')
-      .where({ github_id: profile.id })
-      .orWhere({ email: profile.email })
-      .first()
+    console.log(profile.email);
+    return knex('users')
+      .where('email', profile.email)
       .then(function (user) {
+        console.log(user);
 
-        if (!user) {
+        if (user[0] !== undefined) {
           var names = profile.displayName.split(' ');
           var firstname = names[0];
           var lastname = names[names.length-1];
@@ -30,13 +29,12 @@ passport.use(new GitHubStrategy({
             github_id: profile.id,
             github_login: profile.username,
             github_avatar: profile.photos[0].value,
-            email: profile.emails[0].value,
             first_name: firstname,
             last_name: lastname}, 'id').then(function(id){
-              return done(null, id[0]);
+              return done(null, id);
           });
         } else {
-          return done(null, user.id); // this comes from the db
+          return done(err, user); // this comes from the db
         }
       });
 }));
