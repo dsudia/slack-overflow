@@ -13,9 +13,9 @@ passport.use(new GitHubStrategy({
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
     console.log(profile);
-    console.log('email ', profile.email);
+    console.log('email ', profile.emails[0].value);
     return knex('users')
-      .where('email', profile.email)
+      .where('email', profile.emails[0].value)
       .then(function (user) {
         console.log('user ', user);
 
