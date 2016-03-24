@@ -53,9 +53,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(session({
-  secret: process.env.SECRET_KEY || 'change_me',
+  genid: function(req) {
+    return genuuid(); // use UUIDs for session IDs
+  },
+  secret: process.env.SECRET_KEY,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: true }
 }));
 app.use(flash());
 app.use(passport.initialize());
