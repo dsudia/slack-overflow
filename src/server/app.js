@@ -58,13 +58,9 @@ app.use(cookieSession({
 }));
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(session({
-  genid: function(req) {
-    return genuuid(); // use UUIDs for session IDs
-  },
   secret: process.env.SECRET_KEY,
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: true
 }));
 app.use(flash());
 app.use(passport.initialize());
