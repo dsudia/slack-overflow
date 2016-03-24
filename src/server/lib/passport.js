@@ -11,7 +11,8 @@ if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.HOST + "/auth/github/callback"
+    callbackURL: process.env.HOST + "/auth/github/callback",
+    redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
     console.log(profile);
     knex('users')
@@ -75,7 +76,7 @@ passport.use(new SlackStrategy({
 
 
 
-
+/*
 passport.use(new LocalStrategy({
   usernameField: 'email'
 }, function(email, password, done) {
@@ -105,6 +106,8 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+
+*/
 
 // *** configure passport *** //
 passport.serializeUser(function(userID, done) {

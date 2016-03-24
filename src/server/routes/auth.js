@@ -26,8 +26,12 @@ router.get('/slack/callback',
 
 
 router.get('/logout', function(req, res, next) {
-  req.session = null;
-  res.redirect('/');
+  console.log('hi');
+  //req.session = null;
+  req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
+ // res.redirect('/');
 });
 
 module.exports = router;
