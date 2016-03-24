@@ -8,72 +8,73 @@
     <link rel="stylesheet" type="text/css" href="/css/auth-buttons.css">
   </head>
   <body>
-  <div class="container">
+
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Slack Overflow - Galvanize</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          {% if user %}
+          <li><a href="/questions/new">Post a Question<span class="sr-only">(current)</span></a></li>
+          {% endif %}
+          {% if user %}
+          {% if user.github_id %}
+          <li><a href="/auth/logout">Logout</a></li>
+          {% else %}
+            <li><a href="/logout">Logout</a></li>
+          {% endif %}
+          {% endif %}
+          {% if !user%}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li role="separator" class="divider"></li>
+              <li><a href="/auth/github">Login w/ Github</a></li>
+            </ul>
+          </li>
+        </ul>
+        {% endif %}
+        {{ user.auth_level }}
+        {% if user.auth_id === 2 || user.auth_id === 3 %}
+          <li><a href="/staff">Staff Portal<span class="sr-only"></span></a></li>
+          {% endif %}
+        {% if user && !slack %}
+        <a href="/auth/slack/"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+        {% endif %}
+
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Galvanize<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="https://coursework.galvanize.com">Coursework</a></li>
+              <li><a href="https://students.galvanize.com">Students</a></li>
+              <li><a href="https://members.galvanize.com">Members</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="container-fluid">
       {% if message.length %}
         <div class="alert alert-{{message[0].status}}" role="alert">
           <p>{{ message[0].message }}</p>
         </div>
       {% endif %}
     </div>
-
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Slack Overflow - Galvanize</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        {% if user %}
-        <li><a href="/questions/new">Post a Question<span class="sr-only">(current)</span></a></li>
-        {% endif %}
-        {% if user %}
-        {% if user.github_id %}
-        <li><a href="/auth/logout">Logout</a></li>
-        {% else %}
-          <li><a href="/logout">Logout</a></li>
-        {% endif %}
-        {% endif %}
-        {% if !user%}
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li role="separator" class="divider"></li>
-            <li><a href="/auth/github">Login w/ Github</a></li>
-          </ul>
-        </li>
-      </ul>
-      {% endif %}
-      {{ user.auth_level }}
-      {% if user.auth_id === 2 || user.auth_id === 3 %}
-        <li><a href="/staff">Staff Portal<span class="sr-only"></span></a></li>
-        {% endif %}
-      {% if user && !slack %}
-      <a href="/auth/slack/"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
-      {% endif %}
-
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Galvanize<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="https://coursework.galvanize.com">Coursework</a></li>
-            <li><a href="https://students.galvanize.com">Students</a></li>
-            <li><a href="https://members.galvanize.com">Members</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
     {% block content %}
     {% endblock %}
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
