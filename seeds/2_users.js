@@ -7,6 +7,10 @@ exports.seed = function(knex, Promise) {
     // Inserts seed entries
     knex('users').insert({
       auth_id: knex.select('id').from('auth_levels').where('level', 'admin'),
-      email: 'dsudia@gmail.com'})
+      email: 'dsudia@gmail.com'}),
+    knex('users').insert({
+      auth_id: knex.select('id').from('auth_levels').where('level', 'admin'),
+      email: 'dbschwartz2@gmail.com'
+    })
   );
 };
