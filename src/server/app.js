@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var flash = require('connect-flash');
-var session = require('express-session');
 var Promise = require('bluebird');
 var passport = require('./lib/passport');
 var knex = require('../../db/knex');
@@ -53,15 +52,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cookieSession({
-  name: 'linkedin-oauth-session-example',
+  name: 'Slack Overflow',
   keys: [process.env.KEY1, process.env.KEY2, process.env.KEY3]
 }));
 app.use(express.static(path.join(__dirname, '../client')));
-app.use(session({
-  secret: process.env.SECRET_KEY,
-  resave: false,
-  saveUninitialized: true
-}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
