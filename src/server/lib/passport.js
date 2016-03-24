@@ -33,9 +33,7 @@ passport.use(new GitHubStrategy({
             last_name: lastname}, 'id').then(function(id){
               return done(null, id);
           });
-        } else {
-          return done(err, user); // this comes from the db
-        }
+        } 
       });
 }));
 
