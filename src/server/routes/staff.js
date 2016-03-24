@@ -40,8 +40,15 @@ router.get('/updateUser/:id', function(req, res, next) {
   });
 });
 
-router.post('/updateUser', function(req, res, next) {
-
+router.post('/updateUser/:id', function(req, res, next) {
+  return knex('users').where('id', req.params.id).update
+  ({'first_name': req.body.first_name,
+  'last_name': req.body.last_name,
+  'email': req.body.email,
+  })
+  .then(function() {
+    res.redirect('/staff/searchUsers');
+  });
 });
 
 router.get('/addUser', function(req, res, next) {
