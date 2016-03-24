@@ -1,0 +1,64 @@
+{% extends '../layout.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+<div class='container-fluid'>
+  <form method='post'>
+    <h5>Editing {{ user.first_name }} {{ user.last_name }}</h5>
+    <div class='form-group'>
+      <label for='id'>ID</label>
+      <input type='number' value='{{ user.id }}' name='id' readonly>
+    </div>
+    <div class='form-group'>
+      <label for='github_id'>Github ID</label>
+      <input type='text' value='{{ user.github_id }}' name='github_id' readonly>
+    </div>
+    <div class='form-group'>
+      <label for='first_name'>First Name</label>
+      <input type='text' value='{{ user.first_name }}' name='first_name'>
+    </div>
+    <div class='form-group'>
+      <label for='last_name'>Last Name</label>
+      <input type='text' value='{{ user.last_name }}' name='last_name'>
+    </div>
+    <div class='form-group'>
+      <label for='email'>Email</label>
+      <input type='email' value='{{ user.email }}' name='email'>
+    </div>
+    <div class='form-group'>
+      <label for='score'>Score</label>
+      <input type='number' value='{{ user.score }}' name='score' readonly>
+    </div>
+    <div class='form-group'>
+      <label for='score'>Authorization Level</label>
+      <select name='auth_id'>
+        {% if user.auth_id === 1 %}
+        <option value='1' selected>Admin</option>
+        <option value='2'>Instructor</option>
+        <option value='3'>Student</option>
+        {% endif %}
+        {% if user.auth_id === 2 %}
+        <option value='1'>Admin</option>
+        <option value='2' selected>Instructor</option>
+        <option value='3'>Student</option>
+        {% endif %}
+        {% if user.auth_id === 3 %}
+        <option value='1'>Admin</option>
+        <option value='2'>Instructor</option>
+        <option value='3' selected>Student</option>
+        {% endif %}
+      </select>
+    </div>
+    <div class='form-group'>
+      <label for='slack_id'>Slack ID</label>
+      <input type='text' value='{{ user.slack_id }}' name='slack_id' readonly>
+    </div>
+    <input type='submit' class='btn btn-md btn-success' value='Update User Info'>
+    <input type='submit' action='/staff/delUser/{{ user.id}}' class='btn btn-md btn-danger' value='Delete User'>
+  </form>
+</div>
+
+{% endblock %}

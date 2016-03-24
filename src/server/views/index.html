@@ -19,6 +19,11 @@
         <main>
           <div class='subheader'>
             <h2>Top Questions</h2>
+            <ul class='nav nav-tabs'>
+              <li role='presentation' id='newest' class='active'><a href='#'>Newest</a></li>
+              <li role='presentation' id='unanswered'><a href='#'>Unanswered</a></li>
+              <li role='presentation' id='highscore'><a href='#'>High Score</a></li>
+            </ul>
           </div>
           {% for question in questions %}
             <article class='question-summary flex-container'>
@@ -34,7 +39,7 @@
                   {% set count = 0 %}
                 {% endif %}
               {% endfor %}
-              <h4>{{ count }}</h4>
+              <h4 class='answer-count'>{{ count }}</h4>
                 <p>answers</p>
               </div>
               <div class='flex-item-size-3'>

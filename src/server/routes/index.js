@@ -30,7 +30,7 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
       tagArray = data;
     })
     .then(function() {
-      console.log(answerCountArray);
+      console.log(req.user);
       res.render('index', {
         title: 'Slack Overflow',
         user: req.user,

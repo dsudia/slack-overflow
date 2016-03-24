@@ -87,7 +87,6 @@ var converter = new showdown.Converter();
 // convert question and answer body text to markdown on render
 $(document).ready(function () {
   var markdownText = document.getElementsByClassName('markdown-text');
-  console.log(markdownText);
   for (i = 0; i < markdownText.length; i++) {
     console.log(i);
     var currentHTML = $(markdownText[i]).html();
@@ -97,7 +96,6 @@ $(document).ready(function () {
 
 $("#weeks option:selected", function() {
   var cool = $("#mySelectBox option:selected").text();
-    console.log(cool);
   });
 });
 
@@ -118,4 +116,50 @@ $('.expand').on('click', function() {
   event.preventDefault();
   $(this).hide();
   $(this).next().show();
+});
+
+
+// sort questions by unanswered
+$('#unanswered').on('click', function() {
+  // change look of tabs
+  $(this).toggleClass('active');
+  $(this).prev().removeClass('active');
+  $(this).next().removeClass('active');
+
+  // populate only questions with no answers
+  $.ajax(function() {
+
+  });
+});
+
+
+// retrieve users from database and place on page
+$('#name-search').on('keyup', function() {
+  var searchId = $(this).val();
+  var dataString = 'search=' + searchId;
+  $.ajax({
+    url: '/staff/searchUsers/search',
+    data: dataString,
+    cache: false,
+    method: 'GET',
+    success: function(data) {
+      $('#user-table-header').nextAll().remove();
+      data.forEach(function(el, ind, arr) {
+        var auth = '';
+        if (el.auth_id === 1) {
+          auth = 'Admin';
+        } else if (el.auth_id === 2) {
+          auth = 'Instructor';
+        } else if (el.auth_id === 3) {
+          auth = 'Student';
+        }
+        $('#user-table').append('<tr><td>' + el.id +
+          '</td><td>' + el.first_name +
+          '</td><td>' + el.last_name +
+          '</td><td>' + el.email +
+          '</td><td>' + auth +
+          '</td><td><a href="/staff/updateUser/' + el.id + '"><button class="btn btn-sm btn-info">Update</button></a></td></tr>');
+      });
+    }
+  });
 });
