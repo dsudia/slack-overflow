@@ -76,8 +76,7 @@ passport.serializeUser(function(userID, done) {
 
 passport.deserializeUser(function(userID, done) {
 if (userID) {
-  console.log(userID);
-    knex('users').where('id', userID).select()
+    knex('users').where('id', userID[0]).select()
       .then(function (user) {
         if ( !user ) {
           done();
