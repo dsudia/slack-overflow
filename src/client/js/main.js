@@ -119,3 +119,27 @@ $('.expand').on('click', function() {
   $(this).hide();
   $(this).next().show();
 });
+
+
+// sort questions by unanswered
+$('#unanswered').on('click', function() {
+  // change look of tabs
+  $(this).toggleClass('active');
+  $(this).prev().removeClass('active');
+  $(this).next().removeClass('active');
+
+  // populate only questions with no answers
+  $.ajax(function() {
+
+  });
+});
+
+
+// retrieve users from database and place on page
+$.ajax({
+  url: '/staff/searchUsers/search',
+  method: 'GET',
+  success: function(data) {
+    console.log(data);
+  }
+});
