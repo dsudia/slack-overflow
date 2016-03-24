@@ -13,9 +13,7 @@ router.get('/searchUsers', function(req, res, next) {
 });
 
 router.get('/searchUsers/search', function(req, res, next) {
-  console.log(req.query);
   var searchString = req.query.search;
-  console.log(searchString);
   return knex('users').select('id', 'first_name', 'last_name', 'email', 'auth_id')
     .where('first_name', 'like', '%' + searchString + '%')
     .orWhere('last_name', 'like', '%' + searchString + '%')
@@ -35,8 +33,11 @@ router.post('/delUser/:id', function(req, res, next) {
   });
 });
 
-router.get('/updateUser', function(req, res, next) {
-  res.render('staffFunctions/updateUser');
+router.get('/updateUser/:id', function(req, res, next) {
+  return knex('users').where('id', req.params.id)
+  .then(function(user) {
+    res.render('staffFunctions/updateUser', {user: user[0]});
+  });
 });
 
 router.post('/updateUser', function(req, res, next) {

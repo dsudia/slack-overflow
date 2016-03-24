@@ -87,7 +87,6 @@ var converter = new showdown.Converter();
 // convert question and answer body text to markdown on render
 $(document).ready(function () {
   var markdownText = document.getElementsByClassName('markdown-text');
-  console.log(markdownText);
   for (i = 0; i < markdownText.length; i++) {
     console.log(i);
     var currentHTML = $(markdownText[i]).html();
@@ -97,7 +96,6 @@ $(document).ready(function () {
 
 $("#weeks option:selected", function() {
   var cool = $("#mySelectBox option:selected").text();
-    console.log(cool);
   });
 });
 
@@ -146,7 +144,6 @@ $('#name-search').on('keyup', function() {
     method: 'GET',
     success: function(data) {
       $('#user-table-header').nextAll().remove();
-      console.log(data);
       data.forEach(function(el, ind, arr) {
         var auth = '';
         if (el.auth_id === 1) {
@@ -161,7 +158,7 @@ $('#name-search').on('keyup', function() {
           '</td><td>' + el.last_name +
           '</td><td>' + el.email +
           '</td><td>' + auth +
-          '</td><td><a href="/staff/delUser/' + el.id + '"><button class="btn btn-sm btn-danger">Delete</button></a></td><td><a href="/staff/updateUser/' + el.id + '"><button class="btn btn-sm btn-info">Update</button></a></td></tr>');
+          '</td><td><a href="/staff/updateUser/' + el.id + '"><button class="btn btn-sm btn-info">Update</button></a></td></tr>');
       });
     }
   });
