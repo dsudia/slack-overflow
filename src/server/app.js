@@ -13,6 +13,7 @@ var passport = require('./lib/passport');
 var knex = require('../../db/knex');
 var helpers = require('./lib/helpers');
 var bot = require('./bot');
+var cookieSession = require('cookie-session');
 if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
 
@@ -51,6 +52,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cookieSession({
+  name: 'linkedin-oauth-session-example',
+  keys: [process.env.KEY1, process.env.KEY2, process.env.KEY3]
+}));
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(session({
   genid: function(req) {
