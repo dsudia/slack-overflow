@@ -33,8 +33,10 @@ passport.use(new GitHubStrategy({
             last_name: lastname}, 'id').then(function(id){
               return done(null, id);
           });
-        } 
-      });
+        }
+      }), function(err, user) {
+        return done(err, user);
+      };
 }));
 
 passport.use(new SlackStrategy({
