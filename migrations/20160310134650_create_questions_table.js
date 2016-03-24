@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('questions', function(table) {
     table.increments();
-    table.string('text');
+    table.text('body');
     table.integer('group_id').references('groups.id');
     table.integer('user_id').references('users.id');
     table.integer('score');
