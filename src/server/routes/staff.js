@@ -29,7 +29,10 @@ router.get('/searchUsers/search', function(req, res, next) {
 });
 
 router.post('/delUser/:id', function(req, res, next) {
-  
+  return knex('users').where('id', req.params.id).del()
+  .then(function() {
+    res.redirect('/staff/searchUsers');
+  });
 });
 
 router.get('/updateUser', function(req, res, next) {
