@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var knex = require('../../../db/knex');
 
 router.get('/', function(req, res, next) {
   res.render('staffPortal');
@@ -11,8 +12,24 @@ router.get('/searchUsers', function(req, res, next) {
   res.render('staffFunctions/searchUsers');
 });
 
-router.post('/delUser', function(req, res, next) {
+router.get('/searchUsers/search', function(req, res, next) {
+  console.log(req.query);
+  var searchString = req.query.search;
+  console.log(searchString);
+  return knex('users').select('id', 'first_name', 'last_name', 'email', 'auth_id')
+    .where('first_name', 'like', '%' + searchString + '%')
+    .orWhere('last_name', 'like', '%' + searchString + '%')
+    .then(function(data) {
+      console.log('data ', data);
+      res.status(200).send(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
 
+router.post('/delUser/:id', function(req, res, next) {
+  
 });
 
 router.get('/updateUser', function(req, res, next) {

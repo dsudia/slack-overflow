@@ -6,11 +6,22 @@
 {% block content %}
 
 <div class='container-fluid'>
-  <h5>Search Users</h5>
-  <input type='text' id='user-search'>
+  <div class='form-group'>
+    <label for='first-search'>Search by Name (case-sensitive)</label>
+    <input type='text' name='name-search' id='name-search'>
+  </div>
 </div>
 
-<table id='user-table'>
-  
+<table class='table table-hover' id='user-table'>
+  <tr id='user-table-header'>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Authorization Level</th>
+    <th>Delete User</th>
+    <th>Update User</th>
+  </tr>
+
 </table>
 {% endblock %}
