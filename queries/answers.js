@@ -43,7 +43,7 @@ module.exports = {
   },
 
   getAnswers: function(id) {
-    return answers().select('answers.id', 'answers.title', 'answers.body', 'users.username')
+    return answers().select('answers.id', 'answers.title', 'answers.body', 'users.github_login')
       .join('users', {
         'answers.user_id': 'users.id'
       })

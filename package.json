@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@slack/client": "^2.2.1",
-    "bcrypt": "^0.8.5",
     "bluebird": "^3.3.3",
     "body-parser": "~1.15.0",
     "chai": "^3.5.0",

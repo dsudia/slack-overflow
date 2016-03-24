@@ -34,14 +34,14 @@ module.exports = {
   },
 
   getAllQuestionsAndUsers: function() {
-    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.github_login')
       .join('users', {
         'questions.user_id': 'users.id'
       });
   },
 
   getQuestionAndUser: function(id) {
-    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.username')
+    return questions().select('questions.id', 'questions.title', 'questions.body', 'questions.score', 'users.github_login')
       .join('users', {
         'questions.user_id': 'users.id'
       })

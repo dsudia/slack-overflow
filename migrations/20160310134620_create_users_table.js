@@ -5,11 +5,9 @@ exports.up = function(knex, Promise) {
     table.string('github_id').unique();
     table.string('github_login');
     table.string('github_avatar');
-    table.string('first_name').notNullable();
-    table.string('last_name').notNullable();
+    table.string('first_name');
+    table.string('last_name');
     table.integer('auth_id').references('id').inTable('auth_levels').notNullable();
-    table.string('username').unique().notNullable();
-    table.string('password').notNullable();
     table.string('email').unique().notNullable();
     table.integer('score');
     table.string('slack_id');

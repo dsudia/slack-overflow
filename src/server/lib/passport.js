@@ -17,7 +17,7 @@ passport.use(new GitHubStrategy({
     console.log(profile);
     knex('users')
       .where({ github_id: profile.id })
-      .orWhere({ email: profile.email }) // change this line to fix it for emails
+      .orWhere({ email: profile.email })
       .first()
       .then(function (user) {
 
@@ -31,11 +31,8 @@ passport.use(new GitHubStrategy({
             github_login: profile.username,
             github_avatar: profile.photos[0].value,
             email: profile.emails[0].value,
-            auth_id: 3,
             first_name: firstname,
-            last_name: lastname,
-            username: profile.username,
-            password: 'not_needed'}, 'id').then(function(id){
+            last_name: lastname}, 'id').then(function(id){
               return done(null, id[0]);
           });
         } else {
@@ -75,39 +72,6 @@ passport.use(new SlackStrategy({
 }));
 
 
-
-/*
-passport.use(new LocalStrategy({
-  usernameField: 'email'
-}, function(email, password, done) {
-    // does the email exist?
-    knex('users').where('email', email)
-    .then(function(data) {
-      // email does not exist. return error.
-      if (!data.length) {
-        return done('Incorrect email.');
-      }
-
-      var user = data[0];
-      // email found but do the passwords match?
-
-      if (helpers.comparePassword(password, user.password)) {
-        // passwords match! return user
-        console.log('id', user);
-        return done(null, user.id);
-      } else {
-        // passwords don't match! return error
-        return done('Incorrect password.');
-      }
-    })
-    .catch(function(err) {
-      // issue with SQL/nex query
-      return done('Incorrect email and/or password.');
-    });
-  }
-));
-
-*/
 
 // *** configure passport *** //
 passport.serializeUser(function(userID, done) {
