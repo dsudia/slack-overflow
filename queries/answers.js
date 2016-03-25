@@ -19,10 +19,9 @@ module.exports = {
            .where('id', answerID)
            .update('flag_status', false);
   },
-  postAnswer: function(title, body, question_id, user_id, score, flag_status) {
+  postAnswer: function(body, question_id, user_id, score, flag_status) {
     return answers()
-          .insert({ title: title,
-                    body: body,
+          .insert({body: body,
                     question_id: question_id,
                     user_id: user_id,
                     score: score,
@@ -43,7 +42,7 @@ module.exports = {
   },
 
   getAnswers: function(id) {
-    return answers().select('answers.id', 'answers.title', 'answers.body', 'users.github_login')
+    return answers().select('answers.id', 'answers.body', 'users.github_login')
       .join('users', {
         'answers.user_id': 'users.id'
       })
