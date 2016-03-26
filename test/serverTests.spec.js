@@ -87,7 +87,6 @@ describe('API Routes', function() {
         .end(function(err, res) {
           knex('questions').where('user_id', 1)
             .then(function(data) {
-              console.log(data);
               data[1].title.should.contain('I need help with passport!');
             });
           done();
@@ -183,7 +182,6 @@ describe('API Routes', function() {
         .end(function(err, res) {
           return knex('answers')
             .then(function(data) {
-              console.log(data);
               data.should.deep.equal([]);
             });
         });

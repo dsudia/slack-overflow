@@ -23,13 +23,11 @@ module.exports = function(req, res, next) {
       userQueries.getSlackInfo(req.params.id);
     })
     .then(function(users) {
-      console.log('users', users);
       // if there are subscribed users, open a channel with all subscribed users
       if (users[0] !== undefined) {
         for (i = 0; i < users.length; i++) {
           return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {})
             .then(function(response) {
-              console.log('response', response);
               var resBody = JSON.parse(response);
               return channelArray.push({
                 channel: resBody.channel.id,

@@ -65,17 +65,14 @@ router.post('/question', function(req, res, next) {
           // see if tag is already in table
           return tagQueries.searchTags(el)
           .then(function(data) {
-            console.log('search returns', data);
             // if not, insert it and then put id into tagIds array
             if(data[0] === undefined) {
-              console.log('into the undefined part of loop');
               return tagQueries.insertTagsToTags()
               .then(function(id) {
                 return tagIds.push(id);
               });
             // if so, put the id into the array.
             } else {
-              console.log('into tag exists part of loop');
               return tagIds.push(data[0].id);
             }
           });
@@ -140,13 +137,11 @@ router.post('/answer', function(req, res, next) {
       userQueries.getSlackInfo(req.params.id);
     })
     .then(function(users) {
-      console.log('users', users);
       // open a channel with all subscribed users
       if (users[0] !== undefined) {
         for (i = 0; i < users.length; i++) {
           return request('https://slack.com/api/im.open?token=' + users[i].slack_access_token + '&user=' + users[i].slack_id, function(err, res, body) {})
             .then(function(response) {
-              console.log('response', response);
               var resBody = JSON.parse(response);
               return channelArray.push({
                 channel: resBody.channel.id,

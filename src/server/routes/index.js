@@ -10,14 +10,12 @@ var Promise = require('bluebird');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  console.log(req.user);
   var questionData;
   var answerCountArray;
   var tagArray;
   return quesQueries.getAllQuestionsAndUsers()
     .then(function(data) {
       questionData = data;
-      console.log('quesitonData ', questionData);
     })
     .then(function() {
       return answerQueries.getAnswerCount();
@@ -32,7 +30,6 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
       tagArray = data;
     })
     .then(function() {
-      console.log(req.user);
       res.render('index', {
         title: 'Slack Overflow',
         user: req.user,

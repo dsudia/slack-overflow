@@ -41,7 +41,6 @@ module.exports = function(req, res, next) {
           });
         // if so, put the id into the array.
       } else {
-        console.log('into tag exists part of loop');
         return tagIds.push(data[0].id);
       }
       });

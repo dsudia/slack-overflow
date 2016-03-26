@@ -18,7 +18,6 @@ router.get('/searchUsers/search', function(req, res, next) {
     .where('first_name', 'like', '%' + searchString + '%')
     .orWhere('last_name', 'like', '%' + searchString + '%')
     .then(function(data) {
-      console.log('data ', data);
       res.status(200).send(data);
     })
     .catch(function(err) {

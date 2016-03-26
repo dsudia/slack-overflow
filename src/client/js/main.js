@@ -88,7 +88,6 @@ var converter = new showdown.Converter();
 $(document).ready(function () {
   var markdownText = document.getElementsByClassName('markdown-text');
   for (i = 0; i < markdownText.length; i++) {
-    console.log(i);
     var currentHTML = $(markdownText[i]).html();
     var markedText = converter.makeHtml(currentHTML);
     $(markdownText[i]).html(markedText);
