@@ -57,6 +57,25 @@ function runSlackBot () {
     });
   });
 
+
+   rtm.on(RTM_EVENTS.CHANNEL_CREATED, function(message) {
+    var text = message.text;
+    text = text.toLowerCase();
+    var channel = message.channel;
+    var introMessage = 'Hey there! You can type "Hey Slack Overflow" at any time to get more instructions on using the service!';
+    rtm.sendMessage(introMessage, channel, function messageSent() {
+      console.log('Intro message sent on new channel creation!');
+    });
+  });
+
+  rtm.on(RTM_EVENTS.FILE_SHARED, function(message) {
+    console.log("YO");
+    console.log(message);
+  });
+
+
+
+
   var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
 }
 
