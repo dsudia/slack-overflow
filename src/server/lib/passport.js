@@ -33,6 +33,7 @@ passport.use(new GitHubStrategy({
           return done(null, user.id);
         }
       }), function(err, user) {
+        console.log(err);
         return done(err, user);
       };
 }));
