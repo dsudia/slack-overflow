@@ -12,11 +12,9 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.HOST + "/auth/github/callback",
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
-    console.log(profile.emails[0].value);
     return knex('users')
       .where('email', profile.emails[0].value)
       .then(function (user) {
-        console.log(user);
         if (user[0] !== undefined) {
           var names = profile.displayName.split(' ');
           var firstname = names[0];
@@ -77,6 +75,8 @@ passport.serializeUser(function(userID, done) {
 });
 
 passport.deserializeUser(function(userID, done) {
+  console.log(userID);
+  userID = Number(userID);
   knex('users').where('id', userID)
       .then(function(data) {
         return done(null, data[0]);
