@@ -75,21 +75,12 @@ passport.serializeUser(function(userID, done) {
 });
 
 passport.deserializeUser(function(userID, done) {
-if (userID) {
-    knex('users').where('id', userID[0]).select()
-      .then(function (user) {
-        if ( !user ) {
-          done();
-        } else {
-          done(null, user[0]);
-        }
-      })
-      .catch(function (err) {
-        done(err, null);
+  knex('users').where('id', id)
+      .then(function(data) {
+        return done(null, data[0]);
+      }).catch(function(err) {
+        return done(err, null);
       });
-  } else {
-    done();
-  }
 });
 
 

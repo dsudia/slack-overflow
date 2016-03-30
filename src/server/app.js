@@ -12,6 +12,7 @@ var passport = require('./lib/passport');
 var knex = require('../../db/knex');
 var helpers = require('./lib/helpers');
 var bot = require('./bot');
+var session = require('express-session');
 var cookieSession = require('cookie-session');
 if ( !process.env.NODE_ENV ) { require('dotenv').config(); }
 
@@ -56,6 +57,11 @@ app.use(cookieSession({
   keys: [process.env.KEY1, process.env.KEY2, process.env.KEY3]
 }));
 app.use(express.static(path.join(__dirname, '../client')));
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

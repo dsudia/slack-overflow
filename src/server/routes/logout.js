@@ -3,7 +3,7 @@ var router = express.Router();
 var helpers = require('../lib/helpers');
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  req.logout();
+  req.session = null;
   res.redirect('/');
 });
 
