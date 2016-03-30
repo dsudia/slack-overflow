@@ -87,4 +87,20 @@ router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, 
   subscribe.unsubscribe(req, res, next);
 });
 
+router.get('/sort/newest', function(req, res, next) {
+
+});
+
+router.get('/sort/unanswered', function(req, res, next) {
+
+});
+
+router.get('/sort/score', function(req, res, next) {
+
+});
+
+router.get('/sort/tags', function(req, res, next) {
+
+});
+
 module.exports = router;
