@@ -68,11 +68,6 @@
   </nav>
 
   <div class="container-fluid">
-      {% if message.length %}
-        <div class="alert alert-{{message[0].status}}" role="alert">
-          <p>{{ message[0].message }}</p>
-        </div>
-      {% endif %}
     </div>
     {% block content %}
     {% endblock %}

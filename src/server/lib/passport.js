@@ -49,7 +49,7 @@ passport.use(new SlackStrategy({
     var slackId = profile._json.info.user.id;
      knex('users')
       .where({ email: slackEmail })
-      .andWhere({ slack_id: slackId }) // change this line to fix it for emails
+      .andWhere({ slack_id: slackId })
       .first()
       .then(function(hasSlackId) {
         if(!hasSlackId) {
