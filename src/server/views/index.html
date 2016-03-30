@@ -9,7 +9,7 @@
     <article>
       <h1>Welcome to Slack Overflow for Galvanize!</h1>
       <p>An archive for questions, answers, and resources posted here and in your Slack channel.</p>
-      <p>To get the most out of this site, sign up and authorize Slack acess.</p>
+      <p>To get the most out of this site, authorize Slack acess.</p>
     </article>
   </div>
 
@@ -21,8 +21,8 @@
             <h2>Top Questions</h2>
             <ul class='nav nav-tabs'>
               <li role='presentation' id='newest' class='active'><a href='javascript:void(0)'>Newest</a></li>
-              <li role='presentation' id='unanswered'><a href='javascript:void(0)'>'>Unanswered</a></li>
-              <li role='presentation' id='highscore'><a href='javascript:void(0)'>'>High Score</a></li>
+              <li role='presentation' id='unanswered'><a href='javascript:void(0)'>Unanswered</a></li>
+              <li role='presentation' id='highscore'><a href='javascript:void(0)'>High Score</a></li>
             </ul>
           </div>
           {% for question in questions %}
@@ -60,13 +60,11 @@
 
       <div class='col-md-2'>
         <aside>
-            <!-- sort by tag -->
-            <form action='sort/tags' method='post'>
-              <div class='form-group'>
-                <input type='text' name='sort_tags'>
-                <button type='submit' class='btn btn-sm btn-primary' placeholder='one tag at a time' id='sort_tags'>Search by Tag</button>
-              </div>
-            </form>
+          <!-- sort by tag -->
+            <div class='form-group'>
+              <input id='tag-list' placeholder='enter one tag, e.g. javascript' type='text' name='sort_tags'>
+              <button class='btn btn-sm btn-primary'  id='sort_tags'>Search by Tag</button>
+            </div>
 
             <!-- sort by week -->
               <!-- <form action='assignments' method='GET'>
@@ -111,8 +109,6 @@
                <input type=submit id='sort-unanswered' class='btn btn-sm btn-primary' value='Load Assignments'>
               </div>
            </form> -->
-
-
         </aside>
       </div>
       <div class='col-md-1'>

@@ -121,16 +121,72 @@ $('.expand').on('click', function() {
 // sort questions by unanswered
 $('#unanswered').on('click', function() {
   // change look of tabs
-  $(this).toggleClass('active');
-  $(this).prev().removeClass('active');
-  $(this).next().removeClass('active');
+  $(this).addClass('active');
+  $('#newest').removeClass('active');
+  $('#highscore').removeClass('active');
 
   // populate only questions with no answers
-  $.ajax(function() {
+  $.ajax({
+    url: '/questions/sort/unanswered',
+    method: 'GET',
+    success: function(data) {
 
+    }
   });
 });
 
+// sort questions by newest
+$('#newest').on('click', function() {
+  // change look of tabs
+  $(this).addClass('active');
+  $('#unanswered').removeClass('active');
+  $('#highscore').removeClass('active');
+
+  // populate only questions with no answers
+  $.ajax({
+    url: '/questions/sort/newest',
+    method: 'GET',
+    success: function(data) {
+
+    }
+  });
+});
+
+
+// sort questions by high score
+$('#highscore').on('click', function() {
+  // change look of tabs
+  $(this).addClass('active');
+  $('#newest').removeClass('active');
+  $('#unanswered').removeClass('active');
+
+  // populate only questions with no answers
+  $.ajax({
+    url: '/questions/sort/newest',
+    method: 'GET',
+    success: function(data) {
+
+    }
+  });
+});
+
+
+//sort questions by tag
+$('#sort-tags').on('click', function() {
+  // change look of tabs
+  $('#highscore').removeClass('active');
+  $('#newest').removeClass('active');
+  $('#unanswered').removeClass('active');
+
+  // populate only questions with no answers
+  $.ajax({
+    url: '/questions/sort/newest',
+    method: 'GET',
+    success: function(data) {
+
+    }
+  });
+});
 
 // retrieve users from database and place on page
 $('#name-search').on('keyup', function() {
