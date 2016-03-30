@@ -12,11 +12,11 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.HOST + "/auth/github/callback",
     redirect_uri: process.env.HOST
   }, function(accessToken, refreshToken, profile, done) {
+    console.log(profile.emails[0].value);
     return knex('users')
       .where('email', profile.emails[0].value)
       .then(function (user) {
         console.log(user);
-
         if (user[0] !== undefined) {
           var names = profile.displayName.split(' ');
           var firstname = names[0];
