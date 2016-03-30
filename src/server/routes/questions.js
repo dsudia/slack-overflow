@@ -89,7 +89,7 @@ router.post('/unsubscribe/:id', helpers.ensureAuthenticated, function(req, res, 
 });
 
 router.get('/sort/newest', function(req, res, next) {
-
+  return sortNewest(req, res, next);
 });
 
 router.get('/sort/unanswered', function(req, res, next) {
