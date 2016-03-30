@@ -172,7 +172,7 @@ $('#highscore').on('click', function() {
 
 
 //sort questions by tag
-$('#sort-tags').on('click', function() {
+$('#sort_tags').on('click', function() {
   // change look of tabs
   $('#highscore').removeClass('active');
   $('#newest').removeClass('active');
