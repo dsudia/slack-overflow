@@ -15,18 +15,21 @@ router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
   var tagArray;
   return quesQueries.getAllQuestionsAndUsers()
     .then(function(data) {
+      console.log(data);
       questionData = data;
     })
     .then(function() {
       return answerQueries.getAnswerCount();
     })
     .then(function(data) {
+      console.log(data);
       answerCountArray = data;
     })
     .then(function() {
       return tagQueries.getAllQuestionTags();
     })
     .then(function(data) {
+      console.log(data);
       tagArray = data;
     })
     .then(function() {
