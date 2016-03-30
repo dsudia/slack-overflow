@@ -14,6 +14,7 @@ var flagAnswer = require('./answerRoutes/flagAnswer');
 var voteQuestion = require('./questionRoutes/voteQuestion');
 var subscribe = require('./questionRoutes/subscribe');
 var getQuestion = require('./questionRoutes/getQuestion');
+var sortNewest = require('./questionRoutes/sortNewest');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {

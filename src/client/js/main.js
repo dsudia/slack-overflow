@@ -147,7 +147,7 @@ $('#newest').on('click', function() {
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
-
+      console.log(data);
     }
   });
 });

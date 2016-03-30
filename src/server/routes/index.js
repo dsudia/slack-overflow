@@ -10,38 +10,11 @@ var Promise = require('bluebird');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
-  var questionData;
-  var answerCountArray;
-  var tagArray;
-  return quesQueries.getAllQuestionsAndUsers()
-    .then(function(data) {
-      console.log(data);
-      questionData = data;
-    })
-    .then(function() {
-      return answerQueries.getAnswerCount();
-    })
-    .then(function(data) {
-      console.log(data);
-      answerCountArray = data;
-    })
-    .then(function() {
-      return tagQueries.getAllQuestionTags();
-    })
-    .then(function(data) {
-      console.log(data);
-      tagArray = data;
-    })
-    .then(function() {
-      res.render('index', {
-        title: 'Slack Overflow',
-        user: req.user,
-        questions: questionData,
-        slack: req.user.slack_id,
-        answerCount: answerCountArray,
-        tags: tagArray
-      });
-    });
+  res.render('index', {
+    title: 'Slack Overflow',
+    user: req.user,
+    slack: req.user.slack_id,
+  });
 });
 
 
