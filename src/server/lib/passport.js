@@ -15,6 +15,7 @@ passport.use(new GitHubStrategy({
     return knex('users')
       .where('email', profile.emails[0].value)
       .then(function (user) {
+        console.log(user);
 
         if (user[0] !== undefined) {
           var names = profile.displayName.split(' ');
