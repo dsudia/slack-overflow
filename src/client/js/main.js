@@ -180,7 +180,7 @@ $('#sort-tags').on('click', function() {
 
   // populate only questions with no answers
   $.ajax({
-    url: '/questions/sort/newest',
+    url: '/questions/sort/tags',
     method: 'GET',
     success: function(data) {
 
