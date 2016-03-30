@@ -75,7 +75,7 @@ passport.serializeUser(function(userID, done) {
 });
 
 passport.deserializeUser(function(userID, done) {
-  knex('users').where('id', id)
+  knex('users').where('id', userID)
       .then(function(data) {
         return done(null, data[0]);
       }).catch(function(err) {
