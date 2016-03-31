@@ -4,6 +4,7 @@ var answerQueries = require('../../../../queries/answers');
 var tagQueries = require('../../../../queries/tags');
 
 module.exports = function(req, res, next) {
+  console.log('into highscore function');
   var tableData = {
     questionData: [],
     answerCountArray: [],

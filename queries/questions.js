@@ -60,6 +60,7 @@ module.exports = {
   },
 
   getHighscoreQuestions: function() {
+    console.log('into highscore query');
     return questions().select('questions.id', 'questions.body', 'questions.score', 'users.github_login')
       .join('users', {
         'questions.user_id': 'users.id'

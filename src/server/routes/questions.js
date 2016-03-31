@@ -94,7 +94,8 @@ router.get('/sort/newest', function(req, res, next) {
   return sortNewest(req, res, next);
 });
 
-router.get('/sort/score', function(req, res, next) {
+router.get('/sort/highscore', function(req, res, next) {
+  console.log('into highscore router');
   return sortHighscore(req, res, next);
 });
 
