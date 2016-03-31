@@ -26,6 +26,14 @@
   visibility: hidden;
 }
 
+#page-list {
+  list-style: none;
+}
+
+#page-list li {
+  display: inline-block;
+}
+
 .qa-box {
   border: .2rem solid gray;
   margin: 3rem;
