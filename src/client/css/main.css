@@ -32,6 +32,7 @@
 
 #page-list li {
   display: inline-block;
+  font-size: 1.5rem;
 }
 
 .qa-box {
