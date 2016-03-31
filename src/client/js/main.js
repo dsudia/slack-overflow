@@ -148,7 +148,7 @@ function addAnswerCount (array, index) {
 function appendQuestionDiv(index, answerCountArray) {
   if (index) {
     var count = addAnswerCount(answerCountArray, index);
-    questionDiv = '<article class="question-summary flex-container"><div class="flex-item-size-1"><h4>' + index.score + '</h4><p>rating</p></div><div class="flex-item-size-1"><h4 class="answer-count">' + count + '</h4><p>answers</p></div><div class="flex-item-size-3"><a href="questions/' + index.id + '"><h5 class="truncate">' + index.body + '</h5></a><h6>Posted by' + index.github_login + '</h6><div class="tag-collection" id="question' + index.id + '"></div></div></article>';
+    questionDiv = '<article class="question-summary flex-container"><div class="flex-item-size-1"><h4>' + index.score + '</h4><p>rating</p></div><div class="flex-item-size-1"><h4 class="answer-count">' + count + '</h4><p>answers</p></div><div class="flex-item-size-3"><a href="questions/' + index.id + '"><h5 class="truncate">' + index.body + '</h5></a><h6>Posted by ' + index.github_login + '</h6><div class="tag-collection" id="question' + index.id + '"></div></div></article>';
     $('#question-list').append(questionDiv);
   }
 }
@@ -160,7 +160,7 @@ function addTags (array) {
       var divId = $(tagDivList[i]).attr('id');
       var questionId = 'question' + el.question_id;
       if (divId == questionId) {
-        tagDiv = '<div class="btn btn-sm btn-info">' + el.tag_name + '</div>';
+        tagDiv = '<div class="tag-btn btn btn-sm btn-info">' + el.tag_name + '</div>';
         return $(tagDivList[i]).append(tagDiv);
       }
     }

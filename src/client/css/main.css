@@ -6,6 +6,10 @@
   margin: 3rem;
 }
 
+.answer-count {
+  margin: 0 .5rem;
+}
+
 .flex-container {
   display: flex;
   justify-content: flex-start;
@@ -44,6 +48,10 @@
 
 .tag-row {
   margin-bottom: 1rem;
+}
+
+.tag-btn {
+  margin: 0, .2rem;
 }
 
 .vote {
