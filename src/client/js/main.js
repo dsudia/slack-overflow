@@ -14,8 +14,9 @@ $(document).ready(function () {
       var questionData = data.questionData;
       var tagArray = data.tagArray;
       var numOfPages = ceiling(questionData);
-      appendPages(numOfPages);
+      $('#page-list').empty();
       $('#question-list').empty();
+      appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
         appendQuestionDiv(questionData[i], answerCountArray);
       }
@@ -228,8 +229,9 @@ $('#unanswered').on('click', function() {
       var questionData = data.questionData;
       var tagArray = data.tagArray;
       var numOfPages = ceiling(questionData);
-      appendPages(numOfPages);
+      $('#page-list').empty();
       $('#question-list').empty();
+      appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
         appendQuestionDiv(questionData[i], answerCountArray);
       }
@@ -255,8 +257,9 @@ $('#newest').on('click', function() {
       var questionData = data.questionData;
       var tagArray = data.tagArray;
       var numOfPages = ceiling(questionData);
-      appendPages(numOfPages);
+      $('#page-list').empty();
       $('#question-list').empty();
+      appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
         appendQuestionDiv(questionData[i], answerCountArray);
       }
@@ -282,8 +285,9 @@ $('#highscore').on('click', function() {
       var questionData = data.questionData;
       var tagArray = data.tagArray;
       var numOfPages = ceiling(questionData);
-      appendPages(numOfPages);
+      $('#page-list').empty();
       $('#question-list').empty();
+      appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
         appendQuestionDiv(questionData[i], answerCountArray);
       }
@@ -318,8 +322,9 @@ $(document).on('click', '#sort-tags', function() {
       var questionData = data.questionData;
       var tagArray = data.tagArray;
       var numOfPages = ceiling(questionData);
-      appendPages(numOfPages);
+      $('#page-list').empty();
       $('#question-list').empty();
+      appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
         appendQuestionDiv(questionData[i], answerCountArray);
       }
