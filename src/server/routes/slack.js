@@ -123,6 +123,8 @@ router.post('/answer', function(req, res, next) {
   return userQueries.getUserBySlackId(userSlackId)
     .then(function(data) {
       userId = data[0];
+      console.log('user', userId);
+      console.log('qid', qId);
     })
     .then(function() {
       return answerQueries.postAnswer(
