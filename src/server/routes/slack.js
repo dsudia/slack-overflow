@@ -69,6 +69,7 @@ router.post('/question', function(req, res, next) {
             if(data[0] === undefined) {
               return tagQueries.insertTagsToTags()
               .then(function(id) {
+                id = Number(id);
                 return tagIds.push(id);
               });
             // if so, put the id into the array.
