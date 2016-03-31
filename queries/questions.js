@@ -5,14 +5,14 @@ var questions = function(){
 
 module.exports = {
 
-  addQuestion: function(title, body, group_id, user_id, score, flag_status, assignment_id) {
+  addQuestion: function(body, group_id, user_id, score, flag_status, assignment_id) {
     return questions().insert({
       body: body,
-      group_id: qData.group_id,
-      user_id: req.user.id,
+      group_id: group_id,
+      user_id: user_id,
       score: 0,
       flag_status: false,
-      assignment_id: qData.assignment_id
+      assignment_id: assignment_id
     }, 'id');
   },
 

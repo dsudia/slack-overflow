@@ -51,7 +51,8 @@ router.post('/question', function(req, res, next) {
             groupId,
             userId,
             0,
-            false), 'id';
+            false,
+            null);
       })
       .then(function(id) {
         // store question ID in variable for later usage
