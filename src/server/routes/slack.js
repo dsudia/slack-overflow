@@ -29,12 +29,7 @@ router.post('/question', function(req, res, next) {
     var tagList = messageArray[1];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
-    var tagArray;
-    if (tagList.indexOf(',') !== (-1)) {
-      tagArray = tagList.split(',');
-    } else {
-      tagArray = tagList;
-    }
+    var tagArray = tagList.split(',');
     var tagIds = [];
     var questionId;
 
@@ -73,7 +68,7 @@ router.post('/question', function(req, res, next) {
           .then(function(data) {
             // if not, insert it and then put id into tagIds array
             if(data[0] === undefined) {
-              return tagQueries.insertTagsToTags()
+              return tagQueries.insertTagsToTags(el)
               .then(function(id) {
                 id = Number(id);
                 return tagIds.push(id);
