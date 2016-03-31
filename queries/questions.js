@@ -57,6 +57,14 @@ module.exports = {
 
   updateQuestionScore: function(id, score) {
     return questions().where('id', id).update('score', score);
+  },
+
+  getHighscoreQuestions: function() {
+    return questions().select('questions.id', 'questions.body', 'questions.score', 'users.github_login')
+      .join('users', {
+        'questions.user_id': 'users.id'
+      })
+      .orderBy('questions.score', 'desc');
   }
 
 };
