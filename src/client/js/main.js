@@ -120,6 +120,7 @@ $('.expand').on('click', function() {
 // establish global variables for adding questions
 var pageLinkHTML;
 var questionDiv;
+var tagDiv;
 
 
 // helper functions
@@ -134,19 +135,54 @@ function appendPages(num) {
   }
 }
 
-function appendQuestionDiv(index) {
+function addAnswerCount (array, index) {
+  var count = 0;
+  array.forEach(function(el, ind, arr) {
+    if (el.question_id === index.id) {
+      return count += el.count;
+    }
+  });
+  return count;
+}
+
+function appendQuestionDiv(index, answerCountArray) {
   if (index) {
-    questionDiv = '<article class="question-summary flex-container"><div class="flex-item-size-1"><h4>' + index.score + '</h4><p>rating</p></div><div class="flex-item-size-1"><h4 class="answer-count">count</h4><p>answers</p></div><div class="flex-item-size-3"><a href="questions/' + index.id + '"><h5 class="truncate">' + index.body + '</h5></a><h6>Posted by' + index.github_login + '</h6><div class="tag-collection"><div class="btn btn-sm btn-info"></div></div></div></article>';
+    var count = addAnswerCount(answerCountArray, index);
+    questionDiv = '<article class="question-summary flex-container"><div class="flex-item-size-1"><h4>' + index.score + '</h4><p>rating</p></div><div class="flex-item-size-1"><h4 class="answer-count">' + count + '</h4><p>answers</p></div><div class="flex-item-size-3"><a href="questions/' + index.id + '"><h5 class="truncate">' + index.body + '</h5></a><h6>Posted by' + index.github_login + '</h6><div class="tag-collection" id="question' + index.id + '"></div></div></article>';
     $('#question-list').append(questionDiv);
   }
 }
 
-function addAnswerCount (array) {
+function addTags (array) {
+  var tagDivList = document.getElementsByClassName('tag-collection');
+  array.forEach(function(el, ind, arr) {
+    for(i = 0; i < tagDivList.length; i++) {
+      var divId = $(tagDivList[i]).attr('id');
+      var questionId = 'question' + el.question_id;
+      if (divId == questionId) {
+        tagDiv = '<div class="btn btn-sm btn-info">' + el.tag_name + '</div>';
+        return $(tagDivList[i]).append(tagDiv);
+      }
+    }
+  });
 
 }
 
-function addTags (array) {
-
+function enablePages (questionData, answerCountArray, tagArray) {
+  $(document).on('click', '.page-link', function() {
+    var num = $(this).attr('id');
+    $('#question-list').empty();
+    if (num === 1) {
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+    } else {
+      for (i = (num * 10 - 10); i < (num * 10); i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+    }
+    addTags(tagArray);
+  });
 }
 
 
@@ -162,7 +198,18 @@ $('#unanswered').on('click', function() {
     url: '/questions/sort/unanswered',
     method: 'GET',
     success: function(data) {
-
+      console.log(data);
+      var answerCountArray = data.answerCountArray;
+      var questionData = data.questionData;
+      var tagArray = data.tagArray;
+      var numOfPages = ceiling(questionData);
+      appendPages(numOfPages);
+      $('#question-list').empty();
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+      addTags(tagArray);
+      enablePages(questionData, answerCountArray, tagArray);
     }
   });
 });
@@ -175,14 +222,22 @@ $('#newest').on('click', function() {
   $('#unanswered').removeClass('active');
   $('#highscore').removeClass('active');
 
-  // populate only questions with no answers
   $.ajax({
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
       console.log(data);
+      var answerCountArray = data.answerCountArray;
+      var questionData = data.questionData;
+      var tagArray = data.tagArray;
+      var numOfPages = ceiling(questionData);
+      appendPages(numOfPages);
       $('#question-list').empty();
-
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+      addTags(tagArray);
+      enablePages(questionData, answerCountArray, tagArray);
     }
   });
 });
@@ -195,12 +250,22 @@ $('#highscore').on('click', function() {
   $('#newest').removeClass('active');
   $('#unanswered').removeClass('active');
 
-  // populate only questions with no answers
   $.ajax({
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
-
+      console.log(data);
+      var answerCountArray = data.answerCountArray;
+      var questionData = data.questionData;
+      var tagArray = data.tagArray;
+      var numOfPages = ceiling(questionData);
+      appendPages(numOfPages);
+      $('#question-list').empty();
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+      addTags(tagArray);
+      enablePages(questionData, answerCountArray, tagArray);
     }
   });
 });
@@ -213,12 +278,23 @@ $(document).on('click', '#sort-tags', function() {
   $('#newest').removeClass('active');
   $('#unanswered').removeClass('active');
 
-  // populate only questions with no answers
+  // populate only questions with passed tag
   $.ajax({
     url: '/questions/sort/tags',
     method: 'GET',
     success: function(data) {
-
+      console.log(data);
+      var answerCountArray = data.answerCountArray;
+      var questionData = data.questionData;
+      var tagArray = data.tagArray;
+      var numOfPages = ceiling(questionData);
+      appendPages(numOfPages);
+      $('#question-list').empty();
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+      addTags(tagArray);
+      enablePages(questionData, answerCountArray, tagArray);
     }
   });
 });
