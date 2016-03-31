@@ -136,7 +136,7 @@ router.post('/answer', function(req, res, next) {
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
-      userQueries.getSlackInfo(userId);
+      return userQueries.getSlackInfo(userId);
     })
     .then(function(users) {
       // open a channel with all subscribed users
