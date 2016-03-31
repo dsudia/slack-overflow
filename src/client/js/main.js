@@ -298,6 +298,13 @@ $('#highscore').on('click', function() {
 });
 
 
+$('#tags').on('click', function() {
+  $('#highscore').removeClass('active');
+  $('#newest').removeClass('active');
+  $('#unanswered').removeClass('active');
+  $('#tags').addClass('active');
+});
+
 //sort questions by tag
 $(document).on('click', '#sort-tags', function() {
   // change look of tabs
