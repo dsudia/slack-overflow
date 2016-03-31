@@ -321,7 +321,7 @@ $(document).on('click', '#sort-tags', function() {
   $('#highscore').removeClass('active');
   $('#newest').removeClass('active');
   $('#unanswered').removeClass('active');
-  var tag = $('$tag-list').val();
+  var tag = $('tag-list').val();
 
   // populate only questions with passed tag
   $.ajax({
