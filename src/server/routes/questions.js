@@ -16,6 +16,7 @@ var subscribe = require('./questionRoutes/subscribe');
 var getQuestion = require('./questionRoutes/getQuestion');
 var sortNewest = require('./questionRoutes/sortNewest');
 var sortHighscore = require('./questionRoutes/sortHighscore');
+var sortTags = require('./questionRoutes/sortTags');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -98,7 +99,7 @@ router.get('/sort/score', function(req, res, next) {
 });
 
 router.get('/sort/tags/', function(req, res, next) {
-
+  return sortTags(req, res, next);
 });
 
 module.exports = router;
