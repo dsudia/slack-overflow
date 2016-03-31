@@ -10,7 +10,6 @@ $(document).ready(function () {
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
-      console.log(data);
       var answerCountArray = data.answerCountArray;
       var questionData = data.questionData;
       var tagArray = data.tagArray;
@@ -225,7 +224,6 @@ $('#unanswered').on('click', function() {
     url: '/questions/sort/unanswered',
     method: 'GET',
     success: function(data) {
-      console.log(data);
       var answerCountArray = data.answerCountArray;
       var questionData = data.questionData;
       var tagArray = data.tagArray;
@@ -253,7 +251,6 @@ $('#newest').on('click', function() {
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
-      console.log(data);
       var answerCountArray = data.answerCountArray;
       var questionData = data.questionData;
       var tagArray = data.tagArray;
@@ -281,7 +278,6 @@ $('#highscore').on('click', function() {
     url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
-      console.log(data);
       var answerCountArray = data.answerCountArray;
       var questionData = data.questionData;
       var tagArray = data.tagArray;
@@ -318,7 +314,6 @@ $(document).on('click', '#sort-tags', function() {
     url: '/questions/sort/tags/?tag=' + tag,
     method: 'GET',
     success: function(data) {
-      console.log(data);
       var answerCountArray = data.answerCountArray;
       var questionData = data.questionData;
       var tagArray = data.tagArray;
