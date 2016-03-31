@@ -9,7 +9,6 @@ var userQueries = require('../../../queries/users');
 var groupQueries = require('../../../queries/groups');
 
 router.post('/question', function(req, res, next) {
-  console.log(req.body);
   //parse object and store user_id, token, usernname, channel_id, text in variables
   var token = req.body.token;
   var userSlackId = req.body.user_id;
@@ -49,11 +48,10 @@ router.post('/question', function(req, res, next) {
         // insert question data into questions table, get question's ID back
         return quesQueries.addQuestion(
             body,
-            qData.group_id,
-            req.user.id,
+            groupId,
+            userId,
             0,
-            false,
-            qData.assignment_id);
+            false), 'id';
       })
       .then(function(id) {
         // store question ID in variable for later usage
@@ -125,8 +123,8 @@ router.post('/answer', function(req, res, next) {
     })
     .then(function() {
       return answerQueries.postAnswer(
-         aData.body,
-         req.params.id,
+         body,
+         qId,
          userId,
          0,
          false
@@ -135,7 +133,7 @@ router.post('/answer', function(req, res, next) {
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
-      userQueries.getSlackInfo(req.params.id);
+      userQueries.getSlackInfo(userId);
     })
     .then(function(users) {
       // open a channel with all subscribed users
