@@ -35,6 +35,6 @@ module.exports = {
       .join('questions', {
         'questions.id': 'question_tags.question_id'
       });
-  }
+  },
 
 };

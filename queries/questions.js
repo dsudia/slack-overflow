@@ -65,6 +65,21 @@ module.exports = {
         'questions.user_id': 'users.id'
       })
       .orderBy('questions.score', 'desc');
+  },
+
+  getQuestionsByTag: function(tagName) {
+    return questions().select('questions.id', 'questions.body', 'questions.score', 'users.github_login')
+      .join('users', {
+        'questions.user_id': 'users.id'
+      })
+      .join('question_tags', {
+        'tags.id': 'question_tags.tag_id'
+      })
+      .join('tags', {
+        'tags.id': 'question_tags.tag_id'
+      })
+      .where('tags.tag_name', tagName)
+      .orderBy('questions.id', 'desc');
   }
 
 };
