@@ -5,6 +5,7 @@ var tagQueries = require('../../../../queries/tags');
 
 module.exports = function(req, res, next) {
   // store form info in a variable
+  console.log(req.body);
   var user = req.user;
   var qData = req.body;
   var tagList = req.body.tags;
