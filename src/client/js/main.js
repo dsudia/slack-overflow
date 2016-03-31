@@ -139,7 +139,7 @@ function addAnswerCount (array, index) {
   var count = 0;
   array.forEach(function(el, ind, arr) {
     if (el.question_id === index.id) {
-      return count += el.count;
+      return count += Number(el.count);
     }
   });
   return count;
