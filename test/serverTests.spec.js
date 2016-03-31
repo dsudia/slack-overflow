@@ -10,26 +10,9 @@ chai.use(chaiHttp);
 
 describe('API Routes', function() {
 
-  beforeEach(function(done) {
-      knex.migrate.rollback().then(function() {
-          knex.migrate.latest()
-          .then(function() {
-              return knex.seed.run().then(function() {
-                  done();
-              });
-          });
-      });
-  });
-
-  afterEach(function(done) {
-      knex.migrate.rollback().then(function() {
-          done();
-      });
-  });
-
   describe('Post Question to Slack', function() {
 
-    xit('should respond with a 200 and message if token is correct', function(done) {
+    it('should respond with a 200 and message if token is correct', function(done) {
       chai.request(server)
         .post('/slack/question')
         .send({token: process.env.SLACK_Q_TOKEN,
@@ -39,7 +22,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofq',
           text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -51,7 +34,7 @@ describe('API Routes', function() {
         });
     });
 
-    xit('should respond with 401 and message if token is incorrect', function(done) {
+    it('should respond with 401 and message if token is incorrect', function(done) {
       chai.request(server)
         .post('/slack/question')
         .send({token: process.env.SLACK_A_TOKEN,
@@ -61,7 +44,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofq',
           text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -71,7 +54,7 @@ describe('API Routes', function() {
         });
     });
 
-    xit('should insert a question into the database', function(done) {
+    it('should insert a question into the database', function(done) {
       chai.request(server)
         .post('/slack/question')
         .send({token: process.env.SLACK_Q_TOKEN,
@@ -81,7 +64,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofq',
           text: '#I need help with passport! #Guys, where do I put the middleware? I\'m really confused about this. #express,passport',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -96,7 +79,7 @@ describe('API Routes', function() {
 
   describe('Post Answer to Slack', function() {
 
-    xit('should respond with a 200 and message if token is correct', function(done) {
+    it('should respond with a 200 and message if token is correct', function(done) {
       chai.request(server)
         .post('/slack/answer')
         .send({token: process.env.SLACK_A_TOKEN,
@@ -106,7 +89,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofa',
           text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -118,7 +101,7 @@ describe('API Routes', function() {
         });
     });
 
-    xit('should respond with 401 and message if token is incorrect', function(done) {
+    it('should respond with 401 and message if token is incorrect', function(done) {
       chai.request(server)
         .post('/slack/answer')
         .send({token: process.env.SLACK_Q_TOKEN,
@@ -128,7 +111,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofa',
           text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -138,7 +121,7 @@ describe('API Routes', function() {
         });
     });
 
-    xit('should insert an answer into the database', function(done) {
+    it('should insert an answer into the database', function(done) {
       chai.request(server)
         .post('/slack/answer')
         .send({token: process.env.SLACK_A_TOKEN,
@@ -148,7 +131,7 @@ describe('API Routes', function() {
           channel_name: 'test',
           user_id: 'U2147483697',
           user_name: 'Dave Sudia',
-          command: '/sflowq',
+          command: '/ofa',
           text: '#Re: knex #Yeah, you didn\'t put the table in there like you need to. Knex(\'users\') or something similar. #1',
           response_url: 'https://hooks.slack.com/commands/1234/5678'})
         .end(function(err, res) {
@@ -176,7 +159,7 @@ describe('API Routes', function() {
         done();
     });
 
-    it('should delete an answer from the database', function(done) {
+    xit('should delete an answer from the database', function(done) {
       chai.request(server)
         .get('/questions/1/answer/1/delete')
         .end(function(err, res) {

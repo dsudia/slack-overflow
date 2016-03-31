@@ -9,6 +9,7 @@ var userQueries = require('../../../queries/users');
 var groupQueries = require('../../../queries/groups');
 
 router.post('/question', function(req, res, next) {
+  console.log(req.body);
   //parse object and store user_id, token, usernname, channel_id, text in variables
   var token = req.body.token;
   var userSlackId = req.body.user_id;
