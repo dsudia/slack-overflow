@@ -288,7 +288,7 @@ $('#highscore').on('click', function() {
   $('#unanswered').removeClass('active');
 
   $.ajax({
-    url: '/questions/sort/newest',
+    url: '/questions/sort/score',
     method: 'GET',
     success: function(data) {
       var answerCountArray = data.answerCountArray;
