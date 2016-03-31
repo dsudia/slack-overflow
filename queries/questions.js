@@ -74,13 +74,12 @@ module.exports = {
         'questions.user_id': 'users.id'
       })
       .join('question_tags', {
-        'tags.id': 'question_tags.tag_id'
+        'questions.id': 'question_tags.question_id'
       })
       .join('tags', {
         'tags.id': 'question_tags.tag_id'
       })
       .where('tags.tag_name', tagName)
-      .from('tags')
       .orderBy('questions.id', 'desc');
   }
 
