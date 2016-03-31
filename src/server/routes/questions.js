@@ -15,6 +15,9 @@ var voteQuestion = require('./questionRoutes/voteQuestion');
 var subscribe = require('./questionRoutes/subscribe');
 var getQuestion = require('./questionRoutes/getQuestion');
 var sortNewest = require('./questionRoutes/sortNewest');
+var sortUnanswered = require('./questionRoutes/sortUnanswered');
+var sortHighscore = require('./questionRoutes/sortHighScore');
+var sortTags = require('./sortTags');
 
 
 router.get('/', helpers.ensureAuthenticated, function(req, res, next) {
@@ -93,14 +96,14 @@ router.get('/sort/newest', function(req, res, next) {
 });
 
 router.get('/sort/unanswered', function(req, res, next) {
-
+  return sortUnanswered(req, res, next);
 });
 
 router.get('/sort/score', function(req, res, next) {
 
 });
 
-router.get('/sort/tags', function(req, res, next) {
+router.get('/sort/tags/', function(req, res, next) {
 
 });
 

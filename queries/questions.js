@@ -37,7 +37,8 @@ module.exports = {
     return questions().select('questions.id', 'questions.body', 'questions.score', 'users.github_login')
       .join('users', {
         'questions.user_id': 'users.id'
-      });
+      })
+      .orderBy('questions.id', 'desc');
   },
 
   getQuestionAndUser: function(id) {
