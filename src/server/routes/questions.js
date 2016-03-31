@@ -39,7 +39,7 @@ router.get('/:id', helpers.ensureAuthenticated, function(req, res, next) {
 
 
 router.post('/add', helpers.ensureAuthenticated, function(req, res, next) {
-  addQuestion(res, res, next);
+  addQuestion(req, res, next);
 });
 
 router.get('/:id/answer', helpers.ensureAuthenticated, function(req, res, next) {
