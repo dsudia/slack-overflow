@@ -29,7 +29,12 @@ router.post('/question', function(req, res, next) {
     var tagList = messageArray[1];
     tagList = tagList.replace(/ /g, '');
     tagList = tagList.toLowerCase();
-    var tagArray = tagList.split(',');
+    var tagArray;
+    if (tagList.indexOf(',') !== (-1)) {
+      tagArray = tagList.split(',');
+    } else {
+      tagArray = tagList;
+    }
     var tagIds = [];
     var questionId;
 
