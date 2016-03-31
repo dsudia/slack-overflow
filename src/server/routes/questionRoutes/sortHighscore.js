@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
     answerCountArray: [],
     tagArray: []
   };
-  return quesQueries.getHighScoreQuestions()
+  return quesQueries.getHighscoreQuestions()
     .then(function(data) {
       return data.forEach(function(el, ind, arr) {
         return tableData.questionData.push(el);
