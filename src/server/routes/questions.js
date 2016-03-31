@@ -92,10 +92,6 @@ router.get('/sort/newest', function(req, res, next) {
   return sortNewest(req, res, next);
 });
 
-router.get('/sort/unanswered', function(req, res, next) {
-  return sortUnanswered(req, res, next);
-});
-
 router.get('/sort/score', function(req, res, next) {
 
 });

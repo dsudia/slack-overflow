@@ -180,6 +180,16 @@ function appendQuestionDiv(index, answerCountArray) {
   }
 }
 
+function appendUnansweredQuestionDiv(index, answerCountArray) {
+  if (index) {
+    var count = addAnswerCount(answerCountArray, index);
+    if (count === 0) {
+      questionDiv = '<article class="question-summary flex-container"><div class="flex-item-size-1"><h4>' + index.score + '</h4><p>rating</p></div><div class="flex-item-size-1"><h4 class="answer-count">' + count + '</h4><p>answers</p></div><div class="flex-item-size-3"><a href="questions/' + index.id + '"><h5 class="truncate">' + index.body + '</h5></a><h6>Posted by ' + index.github_login + '</h6><div class="tag-collection" id="question' + index.id + '"></div></div></article>';
+      $('#question-list').append(questionDiv);
+    }
+  }
+}
+
 function addTags (array) {
   var tagDivList = document.getElementsByClassName('tag-collection');
   array.forEach(function(el, ind, arr) {
@@ -222,7 +232,7 @@ $('#unanswered').on('click', function() {
 
   // populate only questions with no answers
   $.ajax({
-    url: '/questions/sort/unanswered',
+    url: '/questions/sort/newest',
     method: 'GET',
     success: function(data) {
       var answerCountArray = data.answerCountArray;
@@ -233,7 +243,7 @@ $('#unanswered').on('click', function() {
       $('#question-list').empty();
       appendPages(numOfPages);
       for (i = 0; i < 10; i++) {
-        appendQuestionDiv(questionData[i], answerCountArray);
+        appendUnansweredQuestionDiv(questionData[i], answerCountArray);
       }
       addTags(tagArray);
       enablePages(questionData, answerCountArray, tagArray);
