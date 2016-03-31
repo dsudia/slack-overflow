@@ -20,7 +20,7 @@ module.exports = function(req, res, next) {
     .then(function() {
       // look through subscriptions table for this question id
       // look up slack user_ids for all users associated with this question
-      userQueries.getSlackInfo(req.params.id);
+      return userQueries.getSlackInfo(req.params.id);
     })
     .then(function(users) {
       // if there are subscribed users, open a channel with all subscribed users
