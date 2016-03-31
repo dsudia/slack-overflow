@@ -80,6 +80,7 @@ module.exports = {
         'tags.id': 'question_tags.tag_id'
       })
       .where('tags.tag_name', tagName)
+      .from('tags')
       .orderBy('questions.id', 'desc');
   }
 
