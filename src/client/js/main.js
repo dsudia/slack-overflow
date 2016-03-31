@@ -1,5 +1,32 @@
-// increment question score on page and in db on arrow click
+// on page load show newest questions
+$(document).ready(function () {
+  console.log('sanity check');
+  // change look of tabs
+  $(this).addClass('active');
+  $('#unanswered').removeClass('active');
+  $('#highscore').removeClass('active');
 
+  $.ajax({
+    url: '/questions/sort/newest',
+    method: 'GET',
+    success: function(data) {
+      console.log(data);
+      var answerCountArray = data.answerCountArray;
+      var questionData = data.questionData;
+      var tagArray = data.tagArray;
+      var numOfPages = ceiling(questionData);
+      appendPages(numOfPages);
+      $('#question-list').empty();
+      for (i = 0; i < 10; i++) {
+        appendQuestionDiv(questionData[i], answerCountArray);
+      }
+      addTags(tagArray);
+      enablePages(questionData, answerCountArray, tagArray);
+    }
+  });
+});
+
+// increment question score on page and in db on arrow click
 function changeCount (el, qOrA, dOrU) {
   // target vote number
   var count;
