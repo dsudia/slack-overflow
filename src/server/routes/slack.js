@@ -4,6 +4,7 @@ var knex = require('../../../db/knex');
 var request = require('request-promise');
 var Promise = require('bluebird');
 var quesQueries = require('../../../queries/questions');
+var answerQueries = require('../../../queries/answers');
 var tagQueries = require('../../../queries/tags');
 var userQueries = require('../../../queries/users');
 var groupQueries = require('../../../queries/groups');
