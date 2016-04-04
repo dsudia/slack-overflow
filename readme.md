@@ -1,6 +1,6 @@
-# Slack Overflow
 ## The G19 Davids' Group CRUD Project
 A collaborative Q/A forum for cohorts of coding bootcamps.
+# Slack Overflow
 
 ## Project Description
 Slack Overflow is an app that allows cohort members (instructors/students) to communicate better. Students can post questions and others can post answers. The app receives questions and answers two ways. First via traditional forum interfaces; second by pulling posts from Slack channels.
