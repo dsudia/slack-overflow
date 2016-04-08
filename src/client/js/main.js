@@ -193,17 +193,15 @@ function appendUnansweredQuestionDiv(index, answerCountArray) {
 function addTags (array) {
   var tagDivList = document.getElementsByClassName('tag-collection');
   array.forEach(function(el, ind, arr) {
-    for(i = 0; i < tagDivList.length; i++) {
       var divId = $(tagDivList[i]).attr('id');
       var questionId = 'question' + el.question_id;
       if (divId == questionId) {
         tagDiv = '<div class="tag-btn btn btn-sm btn-info">' + el.tag_name + '</div>';
         return $(tagDivList[i]).append(tagDiv);
       }
-    }
   });
-
 }
+
 
 function enablePages (questionData, answerCountArray, tagArray) {
   $(document).on('click', '.page-link', function() {
