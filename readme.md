@@ -1,9 +1,11 @@
 # Slack Overflow
-## The G19 Davids' Group CRUD Project
 A collaborative Q/A forum for cohorts of coding bootcamps.
 
+![Screenshot of Slack-Overflow site.](https://raw.githubusercontent.com/dsudia/slack-overflow/master/slack-overflow-forum-shot.png)
+![Screenshot of Slack chat using bot and / commands.](https://raw.githubusercontent.com/dsudia/slack-overflow/master/slack-overflow-slack-shot.png)
+
 ## Project Description
-Slack Overflow is an app that allows cohort members (instructors/students) to communicate better. Students can post questions and others can post answers. The app receives questions and answers two ways. First via traditional forum interfaces; second by pulling posts from Slack channels.
+Slack Overflow is an app that allows cohort members (instructors/students) to communicate better. Students can post questions and others can post answers. The app receives questions and answers two ways. First via traditional forum interfaces; second by pulling posts from Slack channels. Students can interact with a Slack bot to ask questions on how to use the service.
 
 
 ### Who uses it?
@@ -19,10 +21,8 @@ Users need to see pages that have a question and submitted answers that match th
 * keywords
 * error codes?
 * inner text
+Users can see which answers have been up-voted the most by other users.
 
-Users can see which answers have been up-voted the most by other users. (stretch goal?)
-
-Users can sort answers submitted by instructors.
 
 ### What inputs are needed to generate those outputs?
 The app needs the following inputs:
@@ -43,11 +43,9 @@ The app needs the following inputs:
 
 * User login information to authenticate users.
 
-  * User/pass
-
   * OAuth with Slack
 
-  * Authentication via Galvanize
+  * OAuth with Github
 
 * Method for posting questions through traditional interface
 
@@ -55,9 +53,9 @@ The app needs the following inputs:
 
 * Method for retrieving Q's and A's from Slack Channels
 
-  * via the Slack Real-Time-Messaging API
+  * via / commands
 
-  * System for writing Slack posts for the app to retrieve using # and @ symbols
+  * System for writing Slack posts for the app to retrieve using # symbols
 
 * Method for parsing retrieved Slack messages and treating them like traditional posts
 
@@ -72,6 +70,8 @@ Front-End:
 
 * CSS3
 
+* JQuery/AJAX
+
 Back-End:
 
 * Node.js
@@ -81,8 +81,6 @@ Back-End:
 * PostgreSQL
 
 * Passport
-
-* bcrypt
 
 * cookies
 
