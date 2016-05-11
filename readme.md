@@ -1,6 +1,8 @@
 # Slack Overflow
 A collaborative Q/A forum for cohorts of coding bootcamps.
 
+Deployed to http://slackoverflowapp.herokuapp.com but must be a Galvanize member to login.
+
 ![Screenshot of Slack-Overflow site.](https://raw.githubusercontent.com/dsudia/slack-overflow/master/slack-overflow-forum-shot.png)
 ![Screenshot of Slack chat using bot and / commands.](https://raw.githubusercontent.com/dsudia/slack-overflow/master/slack-overflow-slack-shot.png)
 
