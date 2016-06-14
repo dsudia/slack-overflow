@@ -10,6 +10,14 @@ Slack Overflow is an app that allows cohort members (instructors/students) to co
 Coding bootcamps run the app for their entire program. In the traditional interface Slack Overflow authenticates users as bootcamp members. The app detects users/cohorts on Slack and posts in the matching board.  Students use it to ask and answer questions about class topics. Instructors use it to check understanding, and answer questions when appropriate.
 
 
+### Screenshots
+
+![alt text](/screenshot1.png "Screenshot 1")
+![alt text](/screenshot2.png "Screenshot 2")
+![alt text](/screenshot3.png "Screenshot 3")
+![alt text](/screenshot4.png "Screenshot 4")
+
+
 ### What outputs do they need?
 Users need to see pages that have a question and submitted answers that match that question. Users need to be able to sort questions by:
 * cohort
